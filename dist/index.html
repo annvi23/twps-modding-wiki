@@ -53,12 +53,12 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .pop{position:absolute;right:-8px;top:calc(100% + 14px);width:min(380px,calc(100vw - 32px));background:var(--pop);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px -20px rgba(0,0,0,.35);padding:14px;
   /* 開啟：由上往下展開；關閉：由下往上收起。四周留負值，陰影才不會被裁掉 */
   clip-path:inset(-24px -48px 100% -48px);opacity:0;pointer-events:none;visibility:hidden;
-  transition:clip-path .5s var(--ease) .36s,opacity .2s var(--ease) .66s,visibility 0s .86s}
-.pop.open{clip-path:inset(-24px -48px -64px -48px);opacity:1;pointer-events:auto;visibility:visible;transition:clip-path .5s var(--ease),opacity .2s var(--ease),visibility 0s}
+  transition:clip-path .4s var(--ease) .2s,opacity .15s var(--ease) .45s,visibility 0s .6s}
+.pop.open{clip-path:inset(-24px -48px -64px -48px);opacity:1;pointer-events:auto;visibility:visible;transition:clip-path .4s var(--ease),opacity .15s var(--ease),visibility 0s}
 /* 內容分層：開啟時外框 → 提示文字 → 三個選項 → 輸入框 → 放大鏡 → 結果；關閉時反過來，最後外框才收起 */
-.pop .sq{opacity:0;transition:opacity .2s var(--ease) var(--c,0s)}
-.pop.open .sq{opacity:1;transition:opacity .5s var(--ease) var(--o,0s)}
-.pop .sq.s1{--o:.4s;--c:.3s}.pop .sq.s2{--o:.55s;--c:.24s}.pop .sq.s3{--o:.7s;--c:.18s}.pop .sq.s4{--o:.85s;--c:.12s}.pop .sq.s5{--o:1s;--c:0s}
+.pop .sq{opacity:0;transform:translateY(8px);transition:opacity .15s var(--ease) var(--c,0s),transform .15s var(--ease) var(--c,0s)}
+.pop.open .sq{opacity:1;transform:none;transition:opacity .45s var(--ease) var(--o,0s),transform .45s var(--ease) var(--o,0s)}
+.pop .sq.s1{--o:.1s;--c:.15s}.pop .sq.s2{--o:.18s;--c:.1s}.pop .sq.s3{--o:.26s;--c:.05s}.pop .sq.s4{--o:.34s;--c:0s}.pop .sq.s5{--o:.42s;--c:0s}
 .pop-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
 .pop label{display:block;font-size:12px;color:var(--muted);letter-spacing:.04em}
 .scope{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;flex:none}
@@ -141,7 +141,7 @@ html.lock{overflow:hidden}
 .chip:hover{color:var(--fg);border-color:var(--fg)}
 .chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
 .stagger>*{animation:item-in .8s var(--ease) both;animation-delay:calc(var(--i,0) * 80ms)}
-.results.stagger>*{animation-name:fade-in;animation-duration:.5s;animation-delay:calc(var(--base,0ms) + var(--i,0) * 70ms)}
+.results.stagger>*{animation-name:fade-in;animation-duration:.4s;animation-delay:calc(var(--base,0ms) + var(--i,0) * 45ms)}
 @keyframes item-in{from{opacity:0;transform:translateY(12px)}}
 /* 搜尋結果只淡入、不位移，避免動畫期間撐出捲軸 */
 @keyframes fade-in{from{opacity:0}}
@@ -240,7 +240,7 @@ html.theme-fade body,html.theme-fade body *,html.theme-fade body *::before,html.
 @keyframes pg-out{to{opacity:0;transform:translateY(-10px)}}
 @keyframes pg-in{from{opacity:0;transform:translateY(20px)}}
 /* 進場：標題 → 區塊 → 卡片／步驟，依層級一個一個浮現 */
-.rise{animation:rise .7s var(--ease) both;animation-delay:var(--d,0ms)}
+.rise{animation:rise .55s var(--ease) both;animation-delay:var(--d,0ms)}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
 @media (prefers-reduced-motion:reduce){.page-out,.page-in,.stagger>*,.rise{animation:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.nl:hover{transform:none}}
@@ -509,17 +509,19 @@ const LEVELS=[
   ['.card','.step','.mat','.fb-box','.btn','.data>div','.more']
 ];
 function enter(root){
-  let t=0;const seen=new Set();
+  // 標題層先依序出現；區塊與卡片緊接在標題之後開始，不等標題播完
+  const seen=new Set();let t=0;
   LEVELS.forEach((sels,lv)=>{
     let idx=0;const per=new Map();
     root.querySelectorAll(sels.join(',')).forEach(el=>{
       if(seen.has(el)) return;seen.add(el);
       let d;
-      if(lv<2){d=t+idx*60;idx++}
-      else{const par=el.parentElement;const j=per.get(par)||0;per.set(par,j+1);d=t+Math.min(j,9)*55}
+      if(lv===0){d=Math.min(idx,6)*45;idx++}
+      else if(lv===1){d=t+Math.min(idx,6)*40;idx++}
+      else{const par=el.parentElement;const j=per.get(par)||0;per.set(par,j+1);d=t+Math.min(j,9)*40}
       el.style.setProperty('--d',d+'ms');el.classList.add('rise');
     });
-    t+=lv<2?Math.min(idx,8)*60+100:0;
+    if(lv===0) t=Math.min(idx,6)*45+40;
   });
 }
 app.addEventListener('animationend',e=>{if(e.target.classList.contains('rise')){e.target.classList.remove('rise');e.target.style.removeProperty('--d')}});
@@ -575,11 +577,11 @@ function doSearch(animate,instant){
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const shrink=h1<h0-1,grow=h1>h0+1,rows=Math.min(res.children.length,14);
   // 切換類型：變少 → 文字先由下往上逐行淡入，接著外框往上縮；變多 → 外框先展開，再逐行淡入
-  if(animate&&!reduce&&k) stagger(res,{reverse:shrink,base:grow?450:0});
+  if(animate&&!reduce&&k) stagger(res,{reverse:shrink,base:grow?280:0});
   if(!instant&&!reduce&&pop.classList.contains('open')&&(shrink||grow)){
-    const wait=animate&&shrink?rows*70+500:0;
+    const wait=animate&&shrink?rows*45+160:0;
     res.style.overflowY='hidden';
-    const a=resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:500,delay:wait,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'});
+    const a=resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:380,delay:wait,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'});
     const done=()=>{if(resAnim===a){resAnim=null;a.cancel();res.style.overflowY=''}};
     a.onfinish=done;
     setTimeout(done,wait+1000);
