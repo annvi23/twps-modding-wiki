@@ -101,9 +101,12 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .page-head h1{font:600 clamp(28px,4vw,40px)/1.15 var(--sans);margin:0}
 .page-head p{color:var(--muted);margin:8px 0 0}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 28px}
-.chip{border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:13px;color:var(--muted);text-decoration:none;transition:border-color .2s,color .2s}
-.chip:hover{color:var(--fg)}
-.chip[aria-pressed="true"]{border-color:var(--fg);color:var(--fg)}
+.chip{border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:13px;color:var(--muted);text-decoration:none;transition:background .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease)}
+.chip:hover{color:var(--fg);border-color:var(--fg)}
+.chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.stagger>*{animation:item-in .45s var(--ease) both;animation-delay:calc(var(--i,0) * 40ms)}
+.results.stagger>*{animation-duration:.3s;animation-delay:calc(var(--i,0) * 25ms)}
+@keyframes item-in{from{opacity:0;transform:translateY(12px)}}
 .list-grid{padding-bottom:72px}
 
 /* 單篇 */
@@ -186,7 +189,7 @@ html.theme-fade,html.theme-fade *,html.theme-fade *::before,html.theme-fade *::a
 .page-in{animation:pg-in .5s var(--ease) both}
 @keyframes pg-out{to{opacity:0;transform:translateY(-8px)}}
 @keyframes pg-in{from{opacity:0;transform:translateY(16px)}}
-@media (prefers-reduced-motion:reduce){::view-transition-old(page),::view-transition-new(page),.page-in{animation:none}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(page),::view-transition-new(page),.page-in,.stagger>*{animation:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.nl:hover{transform:none}}
 </style>
 <!--/HEAD-->
@@ -255,6 +258,12 @@ function pageEnd(title){
   const mail=title?mailto(`[投稿照片] ${title}`,PHOTO_BODY.replace('筆名：',`筆名：${title}`)):mailto('[投稿照片] ',PHOTO_BODY);
   const q=title?'有這支筆的照片，或想看其他改筆的教學？':'想看的改筆還沒有教學？';
   return `<div class="page-end"><p>${q}</p><div class="acts"><a class="btn" href="${WISH_FORM}" target="_blank" rel="noopener">許願教學</a><a class="btn" href="${mail}">寄信投稿照片</a></div></div>`;
+}
+function stagger(el){
+  if(!el) return;
+  el.classList.remove('stagger');
+  [...el.children].forEach((c,i)=>c.style.setProperty('--i',Math.min(i,14)));
+  void el.offsetWidth;el.classList.add('stagger');
 }
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 
@@ -405,14 +414,18 @@ function feedback(){
   document.title='許願教學・投稿照片 | TWPS 改筆百科';
 }
 
-let firstRender=true;
+let firstRender=true,lastHash='';
+const pageKind=h=>h.startsWith('tutorials')?'tutorials':h.startsWith('q-')?'q:'+h.slice(2).replace(/^(all|mat|mod)-/,''):h;
 function route(){
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const h=location.hash.slice(1)||'home', same=!firstRender&&pageKind(h)===pageKind(lastHash);
+  lastHash=h;
+  if(same){const y=scrollY;render(true);scrollTo(0,y);if(!reduce)stagger(app.querySelector('.grid'));return}
   if(firstRender||reduce){firstRender=false;render();return}
   if(document.startViewTransition){document.startViewTransition(render);return}
   render();app.classList.remove('page-in');void app.offsetWidth;app.classList.add('page-in');
 }
-function render(){
+function render(keepScroll){
   if(carouselStop){carouselStop();carouselStop=null}
   openSearch(false);
   const h=location.hash.slice(1)||'home';
@@ -424,7 +437,7 @@ function render(){
   else if(h.startsWith('q-')){const m=h.slice(2).match(/^(all|mat|mod)-(.*)$/);listPage('search',decodeURIComponent(m?m[2]:h.slice(2)),m?m[1]:'all')}
   else if(h.startsWith('tutorials')) listPage('tutorials',h.includes('-')?decodeURIComponent(h.slice(10).replace(/_/g,'%')):'');
   else home();
-  window.scrollTo(0,0);
+  if(!keepScroll) window.scrollTo(0,0);
 }
 
 /* 搜尋小視窗 */
@@ -437,16 +450,17 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')openSearch(false)});
 let scope='all';
 const SCOPE_NAME={all:'全部',mat:'材料',mod:'改造'};
 const inScope=(n,s)=>s==='mat'?n.type==='material':s==='mod'?n.type==='tutorial':true;
-document.querySelectorAll('.scope button').forEach(b=>b.onclick=()=>{scope=b.dataset.scope;document.querySelectorAll('.scope button').forEach(x=>x.setAttribute('aria-checked',x===b));doSearch();q.focus()});
+document.querySelectorAll('.scope button').forEach(b=>b.onclick=()=>{scope=b.dataset.scope;document.querySelectorAll('.scope button').forEach(x=>x.setAttribute('aria-checked',x===b));doSearch(true);q.focus()});
 const findNotes=(k,s='all')=>{k=k.trim().toLowerCase();return k?NOTES.filter(n=>inScope(n,s)&&[n.title,n.specs.inventor,n.specs.alias,n.category,n.tags.join(' '),n.materials.map(m=>m.name).join(' ')].join(' ').toLowerCase().includes(k)):[]};
 document.getElementById('qform').onsubmit=e=>{e.preventDefault();const k=q.value.trim();if(!k)return;openSearch(false);location.hash='q-'+scope+'-'+encodeURIComponent(k)};
-function doSearch(){
+function doSearch(animate){
   const k=q.value.trim();
   if(!k){res.innerHTML='';return}
   const hits=findNotes(k,scope).slice(0,8);
   res.innerHTML=hits.length?hits.map(n=>`<a href="#n-${n.id}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join(''):'<div class="empty">找不到符合的筆記。</div>';
+  if(animate) stagger(res);
 }
-q.oninput=doSearch;
+q.oninput=()=>doSearch(false);
 res.onclick=e=>{if(e.target.closest('a'))openSearch(false)};
 
 /* 黑／白兩種主題：預設白色，使用者切換後記住選擇 */
