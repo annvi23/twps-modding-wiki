@@ -159,7 +159,9 @@ html.lock{overflow:hidden}
 .step h3{font:600 17px/1.4 var(--sans);margin:0 0 6px}
 .step .imgs{margin-top:16px}
 .step h3 span{color:var(--muted);font-weight:500;margin-right:10px}
-.md{max-width:68ch}
+/* 文字維持易讀寬度；含照片的段落撐滿內容欄，和步驟照片同寬 */
+.md>*{max-width:68ch}
+.md>p:has(img){max-width:none}
 .md p{margin:0 0 10px}.md p:last-child{margin:0}
 .md ul,.md ol{padding-left:1.2em;margin:6px 0}
 .md img{width:100%;height:auto;border-radius:var(--r);margin:10px 0;display:block}
