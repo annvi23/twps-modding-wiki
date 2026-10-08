@@ -53,7 +53,14 @@ def build_site():
     html = ('<!doctype html>\n<html lang="zh-Hant">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             f'{head}\n</head>\n<body>\n{body}\n</body>\n</html>\n')
-    (dist / 'index.html').write_text(html, encoding='utf-8')
+    import seo
+    (dist / 'index.html').write_text(seo.home_page(html, notes), encoding='utf-8')
+    for n in notes:  # 每篇筆記一份給搜尋引擎讀的靜態頁
+        d = dist / 'n' / n['id']
+        d.mkdir(parents=True, exist_ok=True)
+        (d / 'index.html').write_text(seo.note_page(html, n), encoding='utf-8')
+    (dist / 'sitemap.xml').write_text(seo.sitemap(notes), encoding='utf-8')
+    (dist / 'robots.txt').write_text(seo.robots(), encoding='utf-8')
     headers = ROOT / 'site' / '_headers'  # Cloudflare Pages：首頁與資料不快取，更新後馬上看到新版
     if headers.exists():
         shutil.copy(headers, dist / '_headers')

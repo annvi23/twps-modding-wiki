@@ -4,3 +4,9 @@
   Cache-Control: no-cache
 /data.json
   Cache-Control: no-cache
+
+/n/*
+  Cache-Control: no-cache
+
+/sitemap.xml
+  Cache-Control: no-cache
