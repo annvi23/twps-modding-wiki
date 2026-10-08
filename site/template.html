@@ -130,8 +130,10 @@ html.lock{overflow:hidden}
 .chip:hover{color:var(--fg);border-color:var(--fg)}
 .chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
 .stagger>*{animation:item-in .8s var(--ease) both;animation-delay:calc(var(--i,0) * 80ms)}
-.results.stagger>*{animation-duration:.45s;animation-delay:calc(var(--i,0) * 40ms)}
+.results.stagger>*{animation-name:fade-in;animation-duration:.45s;animation-delay:calc(var(--i,0) * 40ms)}
 @keyframes item-in{from{opacity:0;transform:translateY(12px)}}
+/* 搜尋結果只淡入、不位移，避免動畫期間撐出捲軸 */
+@keyframes fade-in{from{opacity:0}}
 .list-grid{padding-bottom:72px}
 
 /* 單篇 */
@@ -502,7 +504,10 @@ const pop=document.getElementById('searchPop'),q=document.getElementById('q'),re
 function openSearch(open){pop.classList.toggle('open',open);if(!open)document.documentElement.classList.remove('lock');sb.setAttribute('aria-expanded',open);if(open){requestAnimationFrame(()=>q.focus());doSearch()}}
 sb.onclick=e=>{e.stopPropagation();openSearch(!pop.classList.contains('open'))};
 pop.onclick=e=>e.stopPropagation();
-document.addEventListener('click',()=>openSearch(false));
+// 在搜尋框內按下滑鼠、拖曳選字後在框外放開，也會觸發 click；只有「按下」和「放開」都在框外才關閉
+let downInPop=false;
+document.addEventListener('pointerdown',e=>{downInPop=!!e.target.closest('#searchPop,#searchBtn')},true);
+document.addEventListener('click',()=>{if(downInPop){downInPop=false;return}openSearch(false)});
 document.addEventListener('click',()=>document.querySelectorAll('.dd.open').forEach(d=>{d.classList.remove('open');d.querySelector('.dd-btn').setAttribute('aria-expanded','false')}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')openSearch(false)});
 let scope='all';
