@@ -1,0 +1,375 @@
+<!--HEAD-->
+<title>TWPS 改筆百科</title>
+<meta name="description" content="臺灣轉筆論壇改筆百科：改筆教學、材料介紹與改筆小技巧。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<style>
+/* Layout: 黑白兩色的圖庫式百科。頁首、內頁、頁尾之間用內縮的細橫線分隔（psherenz）；
+   首頁先是緩慢輪播的「最近更新」，再依分類分帶，每帶 6 張 4:3 卡片；單篇教學為單欄長頁，大圖在上、文字在下。 */
+:root{
+  --bg:#fafafa; --band:#f1f1f0; --fg:#151515; --muted:#6c6c6c; --line:#d9d9d9; --hint:#a9a9a9; --ph:#e7e7e6; --pop:#ffffff;
+  --sans:"Geist","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"Geist Mono",ui-monospace,Consolas,monospace;
+  --r:4px; --max:1240px; --ease:cubic-bezier(.16,1,.3,1);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101010; --band:#171717; --fg:#ebebeb; --muted:#8c8c8c; --line:#2c2c2c; --hint:#5c5c5c; --ph:#1d1d1d; --pop:#1a1a1a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101010; --band:#171717; --fg:#ebebeb; --muted:#8c8c8c; --line:#2c2c2c; --hint:#5c5c5c; --ph:#1d1d1d; --pop:#1a1a1a; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.75 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+:focus-visible{outline:1.5px solid var(--fg);outline-offset:3px}
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+.rule{border:0;border-top:1px solid var(--line);margin:0}
+
+/* header：細線只畫在內容寬度內 */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.top-in{height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
+.logo{font-weight:600;font-size:15px;letter-spacing:.04em;text-decoration:none;white-space:nowrap}
+nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13px;letter-spacing:.08em}
+.nl{position:relative;display:inline-block;text-decoration:none;color:var(--muted);padding:6px 2px;transition:color .25s var(--ease),transform .25s var(--ease);transform-origin:center bottom}
+.nl::after{content:"";position:absolute;left:-6px;right:-6px;bottom:-2px;height:calc(100% + 4px);border:1px solid var(--hint);border-radius:3px;opacity:0;transform:translateY(3px);transition:opacity .3s var(--ease),transform .3s var(--ease);pointer-events:none}
+.nl:hover,.nl:focus-visible,.nl[aria-current="page"]{color:var(--fg)}
+.nl:hover{transform:scale(1.12)}
+.nl:hover::after,.nl:focus-visible::after{opacity:1;transform:none}
+.nl[aria-current="page"]::after{opacity:.55;transform:none}
+@media (max-width:600px){nav.main{gap:10px;font-size:12px;letter-spacing:.04em}.logo{font-size:13.5px}.nl::after{left:-3px;right:-3px}}
+
+/* 搜尋小視窗 */
+.search-wrap{position:relative}
+.pop{position:absolute;right:-8px;top:calc(100% + 14px);width:min(380px,calc(100vw - 32px));background:var(--pop);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px -20px rgba(0,0,0,.35);padding:14px;
+  opacity:0;transform:translateY(-8px) scale(.97);transform-origin:top right;pointer-events:none;transition:opacity .28s var(--ease),transform .28s var(--ease);visibility:hidden}
+.pop.open{opacity:1;transform:none;pointer-events:auto;visibility:visible}
+.pop label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:.04em}
+.pop input{width:100%;font:500 16px var(--sans);color:var(--fg);background:transparent;border:0;border-bottom:1px solid var(--fg);padding:6px 0;outline:none}
+.pop input::placeholder{color:var(--muted);font-weight:400}
+.results{margin-top:8px;max-height:min(52vh,380px);overflow:auto}
+.results a{display:flex;justify-content:space-between;gap:12px;padding:8px 4px;text-decoration:none;border-radius:4px;font-size:14px}
+.results a:hover,.results a:focus-visible{background:var(--band)}
+.results .k{color:var(--muted);font:12px var(--mono);white-space:nowrap}
+.results .empty{color:var(--muted);font-size:13px;padding:8px 4px}
+
+/* 最近更新輪播 */
+.recent{padding-block:clamp(36px,5vw,56px) clamp(40px,6vw,64px)}
+.recent h2,.band h2{font:600 clamp(20px,2.4vw,26px)/1.2 var(--sans);margin:0}
+.recent .band-head{margin-bottom:22px}
+.track{display:flex;gap:clamp(14px,2vw,22px);overflow-x:auto;scrollbar-width:none;padding-inline:clamp(16px,4vw,40px);cursor:grab}
+.track::-webkit-scrollbar{display:none}
+.track.drag{cursor:grabbing}
+.track .card{flex:0 0 clamp(240px,26vw,330px)}
+@media (min-width:1320px){.track{padding-inline:calc((100vw - var(--max))/2 + 40px)}}
+
+/* 分類帶 */
+.band{padding-block:clamp(40px,6vw,72px)}
+.band.alt{background:var(--band)}
+.band-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px}
+.more{font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.more:hover{color:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,24px) clamp(14px,2vw,24px)}
+@media (max-width:860px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.grid{grid-template-columns:minmax(0,1fr)}}
+
+/* 卡片：預設 4:3 填滿，滑過時改成完整顯示整支筆 */
+.card{display:block;text-decoration:none;min-width:0}
+.ph{position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:var(--ph);max-width:100%}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-position:center;display:block;transition:opacity .45s var(--ease),transform .6s var(--ease)}
+.ph .fill{object-fit:cover}
+.ph .full{object-fit:contain;opacity:0;transform:scale(.96)}
+.card:hover .ph .fill,.ph.reveal:hover .fill{opacity:0;transform:scale(1.03)}
+.card:hover .ph .full,.ph.reveal:hover .full{opacity:1;transform:none}
+.ph .none{position:absolute;inset:0;display:grid;place-items:center;padding:20px;text-align:center;font:600 clamp(22px,2.6vw,30px)/1.2 var(--sans);letter-spacing:.01em;color:var(--fg)}
+.card .nm{margin-top:12px;font-weight:500;font-size:16px;line-height:1.35}
+.card .mt{margin-top:2px;font:12.5px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* 列表頁 */
+.page-head{padding-block:clamp(36px,5vw,56px) 4px}
+.page-head h1{font:600 clamp(28px,4vw,40px)/1.15 var(--sans);margin:0}
+.page-head p{color:var(--muted);margin:8px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 28px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:13px;color:var(--muted);text-decoration:none;transition:border-color .2s,color .2s}
+.chip:hover{color:var(--fg)}
+.chip[aria-pressed="true"]{border-color:var(--fg);color:var(--fg)}
+.list-grid{padding-bottom:72px}
+
+/* 單篇 */
+.article{max-width:820px;margin:0 auto;padding-block:clamp(28px,4vw,48px) 72px}
+.crumb{font-size:13px;color:var(--muted)}
+.crumb a{text-decoration:none}.crumb a:hover{color:var(--fg)}
+.article h1{font:600 clamp(30px,5vw,48px)/1.12 var(--sans);margin:10px 0 24px;text-wrap:balance}
+.data{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:22px 28px;padding:24px 0 28px;border-bottom:1px solid var(--line);margin:0}
+.data dt{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.data dd{margin:2px 0 0;font-size:16px;font-weight:500;min-width:0;overflow-wrap:anywhere}
+.data dd.big{font:500 clamp(24px,3.2vw,32px)/1.1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.data .wide{grid-column:span 2}
+@media (max-width:520px){.data .wide{grid-column:auto}}
+.data dd.na{color:var(--muted);font-weight:400;font-size:15px}
+.sec{margin-top:clamp(40px,6vw,64px)}
+.sec>h2{font:600 20px/1.3 var(--sans);margin:0 0 18px}
+.mats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 40px}
+@media (max-width:620px){.mats{grid-template-columns:minmax(0,1fr)}}
+.mat{display:flex;justify-content:space-between;gap:16px;min-width:0}
+.mat .p{color:var(--muted)}
+.mat .q{font-family:var(--mono);white-space:nowrap}
+.mat small{display:block;color:var(--muted);font-size:12px}
+.steps{display:flex;flex-direction:column;gap:clamp(44px,6vw,64px)}
+.imgs{display:grid;gap:10px}
+.imgs img{width:100%;border-radius:var(--r);display:block;background:var(--ph)}
+.missing{aspect-ratio:16/9;border-radius:var(--r);background:var(--ph);display:grid;place-items:center;color:var(--muted);font-size:13px;text-decoration:none}
+.step h3{font:600 17px/1.4 var(--sans);margin:16px 0 6px}
+.step h3 span{color:var(--muted);font-weight:500;margin-right:10px}
+.md{max-width:68ch}
+.md p{margin:0 0 10px}.md p:last-child{margin:0}
+.md ul,.md ol{padding-left:1.2em;margin:6px 0}
+.md img{max-width:100%;border-radius:var(--r);margin:10px 0}
+.md table{border-collapse:collapse;margin:12px 0;font-size:14px}
+.md td,.md th{border:1px solid var(--line);padding:6px 12px;text-align:left}
+.video{position:relative;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:var(--ph);margin-top:10px}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vids{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.btn{display:inline-block;border:1px solid var(--fg);border-radius:999px;padding:7px 18px;text-decoration:none;font-size:14px;transition:background .2s,color .2s}
+.btn:hover{background:var(--fg);color:var(--bg)}
+.btn:active{transform:translateY(1px)}
+.art-foot{margin-top:56px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 24px}
+
+/* footer：與內頁之間同樣用內縮細線 */
+.foot-in{border-top:1px solid var(--line);padding-block:32px 44px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.foot-in small{color:var(--muted);font-size:13px}
+.preview-note{font-size:12px;color:var(--muted);text-align:center;padding:0 16px 24px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.nl:hover{transform:none}}
+</style>
+<!--/HEAD-->
+
+<header class="top">
+  <div class="wrap"><div class="top-in">
+    <a class="logo" href="#home">TWPS 改筆百科</a>
+    <nav class="main" aria-label="主選單">
+      <a class="nl" href="#tips" data-nav="tips">小技巧</a>
+      <a class="nl" href="#materials" data-nav="materials">材料介紹</a>
+      <a class="nl" href="#tutorials" data-nav="tutorials">教學</a>
+      <span class="search-wrap">
+        <button class="nl" id="searchBtn" aria-expanded="false" aria-controls="searchPop">搜尋</button>
+        <div class="pop" id="searchPop" role="dialog" aria-label="搜尋">
+          <label for="q">搜尋筆名、發明者或材料</label>
+          <input id="q" type="search" placeholder="例如 Comssa、Joey、HGG" autocomplete="off">
+          <div class="results" id="results"></div>
+        </div>
+      </span>
+      <button class="nl" id="themeBtn" aria-label="切換深淺色">深色</button>
+    </nav>
+  </div></div>
+</header>
+
+<main id="app"></main>
+
+<footer class="site">
+  <div class="wrap"><div class="foot-in">
+    <a class="logo" href="#home">TWPS 改筆百科</a>
+    <small>由 taco 整理更新 · 資料來源 HackMD TWPS改筆百科</small>
+  </div></div>
+</footer>
+<!--PREVIEW_NOTE-->
+
+<script>
+const DEFAULT_IMG='assets/default.jpg'; // 放一張預設圖到 site/assets/default.jpg，沒有封面的筆記就會自動使用
+let NOTES=[],IMGS={},RECENT=[],byId={},tutorials=[],hasDefault=false;
+const app=document.getElementById('app');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const groupOf=n=>(n.category==='VP'||n.category==='Mx')?'VP / Mx':n.category;
+const slug=k=>encodeURIComponent(k).replace(/%/g,'_');
+const src=u=>IMGS[u]||u;
+
+function measure(s,key,unit){
+  const r=s[key+'_range'],v=s[`${key}_${unit}`];
+  if(r) return `${r[0]}-${r[1]} ${unit}`;
+  if(v) return `${v} ${unit}`;
+  return '';
+}
+const metaLine=n=>{const a=[measure(n.specs,'length','cm'),measure(n.specs,'weight','g')].filter(Boolean);return a.length?a.join(' · '):'數據待補充'};
+function pic(n){
+  const u=n.cover||(hasDefault?DEFAULT_IMG:'');
+  const none=`<div class="none">${esc(n.title)}</div>`;
+  if(!u) return none;
+  // 圖片蓋在筆名上面；圖片失效時隱藏，底下的大字筆名就會露出來
+  return `${none}<img class="fill" src="${esc(src(u))}" alt="" loading="lazy" onerror="this.remove()"><img class="full" src="${esc(src(u))}" alt="${esc(n.title)}" loading="lazy" onerror="this.remove()">`;
+}
+function card(n){
+  const mt=n.type==='tutorial'?metaLine(n):(n.type==='material'?esc(n.specs.maker||'材料'):'小技巧');
+  return `<a class="card" href="#n-${n.id}"><div class="ph">${pic(n)}</div><div class="nm">${esc(n.title)}</div><div class="mt">${mt}</div></a>`;
+}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* 最近更新：慢速自動輪播，可拖曳或捲動，滑鼠停在上面時暫停 */
+let carouselStop=null;
+function carousel(track){
+  if(carouselStop) carouselStop();
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let paused=false,raf=0,last=0,acc=0;
+  const half=()=>track.scrollWidth/2;
+  const tick=t=>{
+    if(!last) last=t;
+    const dt=Math.min(64,t-last);last=t;
+    if(!paused&&!reduce){acc+=dt*0.028;const step=Math.floor(acc);if(step){track.scrollLeft+=step;acc-=step}if(track.scrollLeft>=half())track.scrollLeft-=half()}
+    raf=requestAnimationFrame(tick);
+  };
+  const on=()=>paused=true,off=()=>{paused=false;last=0};
+  track.addEventListener('pointerenter',on);track.addEventListener('pointerleave',off);
+  track.addEventListener('focusin',on);track.addEventListener('focusout',off);
+  let down=false,sx=0,sl=0,moved=false;
+  track.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;down=true;moved=false;sx=e.clientX;sl=track.scrollLeft;track.classList.add('drag')});
+  addEventListener('pointermove',e=>{if(!down)return;const d=e.clientX-sx;if(Math.abs(d)>4)moved=true;track.scrollLeft=sl-d});
+  addEventListener('pointerup',()=>{down=false;track.classList.remove('drag')});
+  track.addEventListener('click',e=>{if(moved){e.preventDefault();moved=false}},true);
+  raf=requestAnimationFrame(tick);
+  carouselStop=()=>cancelAnimationFrame(raf);
+}
+
+function home(){
+  const recent=RECENT.map(id=>byId[id]).filter(Boolean);
+  const band=(title,list,link,alt)=>`<section class="band${alt?' alt':''}"><div class="wrap"><div class="band-head"><h2>${title}</h2>${link}</div><div class="grid">${list.map(card).join('')}</div></div></section>`;
+  const g=k=>tutorials.filter(n=>groupOf(n)===k);
+  const more=k=>`<a class="more" href="#tutorials-${slug(k)}">全部 ${g(k).length} 篇</a>`;
+  app.innerHTML=
+    `<section class="recent"><div class="wrap"><div class="band-head"><h2>最近更新</h2><a class="more" href="#tutorials">全部教學</a></div></div><div class="track" id="track">${[...recent,...recent].map((n,i)=>card(n).replace('<a ',i>=recent.length?'<a tabindex="-1" aria-hidden="true" ':'<a ')).join('')}</div></section>`+
+    band('雙頭',shuffle(g('雙頭')).slice(0,6),more('雙頭'),true)+
+    band('G3',shuffle(g('G3')).slice(0,6),more('G3'),false)+
+    band('VP / Mx',shuffle(g('VP / Mx')).slice(0,6),more('VP / Mx'),true);
+  carousel(document.getElementById('track'));
+}
+
+function listPage(kind,cat){
+  let title,desc,list,chips='';
+  if(kind==='tips'){title='小技巧';desc='改筆常用名詞與資源。';list=NOTES.filter(n=>n.type==='knowledge')}
+  else if(kind==='materials'){title='材料介紹';desc='常被拿來改造的原廠筆。';list=NOTES.filter(n=>n.type==='material')}
+  else{
+    title='教學';desc=`${tutorials.length} 篇改筆教學。`;
+    cat=cat||'全部';
+    list=cat==='全部'?tutorials:tutorials.filter(n=>groupOf(n)===cat);
+    chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / Mx'].map(k=>`<a class="chip" href="#tutorials-${slug(k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
+  }
+  app.innerHTML=`<div class="wrap"><div class="page-head"><h1>${title}</h1><p>${desc}</p></div>${chips||'<div style="height:28px"></div>'}<div class="grid list-grid">${list.map(card).join('')}</div></div>`;
+}
+
+function mdText(t){
+  t=(t||'').replace(/\{%\s*youtube\s+([\w-]+)\s*%\}/g,'[YouTube 影片](https://www.youtube.com/watch?v=$1)');
+  t=t.replace(/\]\((?:https:\/\/hackmd\.io)?\/([A-Za-z0-9_-]{20,24})(?:\?\w*)?\)/g,(m,id)=>byId[id]?`](#n-${id})`:`](https://hackmd.io/${id})`);
+  const r=new marked.Renderer();
+  r.link=(href,title,txt)=>`<a href="${esc(href)}"${href.startsWith('#')?'':' target="_blank" rel="noopener"'}>${txt}</a>`;
+  r.image=(href,title,alt)=>`<img src="${esc(src(href))}" alt="${esc(alt)}" loading="lazy">`;
+  return marked.parse(t,{renderer:r,breaks:true});
+}
+function splitImages(md){
+  const imgs=[];const text=(md||'').replace(/!\[[^\]]*\]\(\s*([^)\s]+)\s*\)/g,(m,u)=>{imgs.push(u);return ''}).replace(/\n{3,}/g,'\n\n').trim();
+  return {imgs,text};
+}
+const brokenImg=`this.replaceWith(Object.assign(document.createElement('div'),{className:'missing',textContent:'圖片已失效'}))`;
+function stepImgs(urls,alt){
+  if(!urls.length) return '';
+  return `<div class="imgs">${urls.map(u=>(window.PREVIEW&&!IMGS[u])?`<a class="missing" href="${esc(u)}" target="_blank" rel="noopener">圖片在正式網站顯示</a>`:`<img src="${esc(src(u))}" alt="${esc(alt)}" loading="lazy" onerror="${brokenImg}">`).join('')}</div>`;
+}
+
+function article(n){
+  const s=n.specs;
+  const crumb=n.type==='tutorial'?`<a href="#tutorials">教學</a> / <a href="#tutorials-${slug(groupOf(n))}">${esc(groupOf(n))}</a>`:n.type==='material'?`<a href="#materials">材料介紹</a>`:`<a href="#tips">小技巧</a>`;
+  let h=`<div class="crumb">${crumb}</div><h1>${esc(n.title)}</h1>`;
+  if(n.cover||hasDefault) h+=`<div class="ph reveal">${pic(n)}</div>`;
+  const dl=[];
+  const add=(k,v,big,wide)=>dl.push(`<div${wide?' class="wide"':''}><dt>${k}</dt><dd class="${big?'big':''}${v?'':' na'}">${v||'待補充'}</dd></div>`);
+  if(n.type==='tutorial'){
+    add('長度',measure(s,'length','cm'),1);add('重量',measure(s,'weight','g'),1);
+    add('Insert',esc(s.insert_type==='Outsert'?'Outsert':(s.insert||'')));
+    add('發明者',esc(s.inventor||''));
+    if(s.balance) add('平衡',esc(s.balance));
+    Object.entries(s.other||{}).forEach(([k,v])=>add(esc(k),esc(v)));
+    const so=s.source||{};add('原教學',so.url?`<a href="${esc(so.url)}" target="_blank" rel="noopener">${esc(so.text||'連結')}</a>`:esc(so.text&&so.text!=='待補充'?so.text:''),0,1);
+  } else if(n.type==='material'){
+    add('販售公司',esc(s.maker||''));add('通稱',esc(s.alias||''));
+    if(s.length_cm) add('總長度',measure(s,'length','cm'),1);
+    if(s.weight_g) add('重量',measure(s,'weight','g'),1);
+  }
+  if(dl.length) h+=`<dl class="data">${dl.join('')}</dl>`;
+  if(n.type==='knowledge') h+=`<div class="sec md">${mdText(n.body)}</div>`;
+  if(n.intro) h+=`<div class="sec"><h2>簡介</h2><div class="md">${mdText(n.intro)}</div></div>`;
+  if(n.type==='material'){
+    const key=(s.alias||n.title).split(/[、,]/)[0].toLowerCase().trim();
+    const uses=[...n.examples.map(e=>byId[e.id]).filter(Boolean),...tutorials.filter(t=>t.materials.some(m=>m.name.toLowerCase().includes(key)))].filter((v,i,a)=>a.indexOf(v)===i);
+    h+=`<div class="sec"><h2>用到這個材料的改筆</h2>${uses.length?`<div class="grid">${uses.slice(0,6).map(card).join('')}</div>`:'<p class="md" style="color:var(--muted)">目前還沒有。</p>'}</div>`;
+  }
+  if(n.materials.length){
+    h+=`<div class="sec"><h2>所需材料</h2><div class="mats">${n.materials.map(m=>`<div class="mat"><div>${esc(m.name)}${m.part?` <span class="p">（${esc(m.part)}）</span>`:''}${m.note?`<small>${esc(m.note)}</small>`:''}</div><div class="q">${esc(m.qty)}</div></div>`).join('')}</div>${n.materials_image?`<div style="margin-top:20px">${stepImgs([n.materials_image],'材料合照')}</div>`:''}</div>`;
+  }
+  if(n.steps.length){
+    h+=`<div class="sec"><h2>教學</h2><div class="steps">${n.steps.map(st=>{
+      const {imgs,text}=splitImages(st.md);
+      const num=(st.title.match(/^步驟[一二三四五六七八九十百零\d]+/)||[st.title])[0];
+      const sub=st.title.slice(num.length).trim();
+      return `<div class="step">${stepImgs(imgs,st.title)}<h3><span>${esc(num)}</span>${esc(sub)}</h3>${text?`<div class="md">${mdText(text)}</div>`:''}</div>`;
+    }).join('')}</div></div>`;
+  }
+  const order=['補充','作者的話','編者心得'];
+  [...n.extras].sort((a,b)=>order.indexOf(a.title)-order.indexOf(b.title)).forEach(e=>{
+    h+=`<div class="sec"><h2>${esc(e.title)}</h2><div class="md">${mdText(e.md.replace(/^####\s*(.+)$/gm,'**$1**'))}</div></div>`;
+  });
+  const v=n.video;
+  if(v.youtube.length||v.links.length){
+    h+=`<div class="sec"><h2>影片</h2>${v.caption?`<p class="md" style="margin:0">${esc(v.caption)}</p>`:''}`;
+    h+=v.youtube.map(id=>window.PREVIEW?`<div class="vids"><a class="btn" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">在 YouTube 觀看</a></div>`:`<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="${esc(n.title)} 影片" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`).join('');
+    if(v.links.length) h+=`<div class="vids">${v.links.map(l=>`<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.text||'影片連結')}</a>`).join('')}</div>`;
+    h+='</div>';
+  }
+  h+=`<div class="art-foot">${n.credit?`<span>圖片所有者：${esc(n.credit)}</span>`:''}<a href="${n.hackmd}" target="_blank" rel="noopener">在 HackMD 編輯</a></div>`;
+  app.innerHTML=`<div class="wrap"><article class="article">${h}</article></div>`;
+  document.title=`${n.title} | TWPS 改筆百科`;
+}
+
+function route(){
+  if(carouselStop){carouselStop();carouselStop=null}
+  openSearch(false);
+  const h=location.hash.slice(1)||'home';
+  document.title='TWPS 改筆百科';
+  document.querySelectorAll('[data-nav]').forEach(a=>{h.startsWith(a.dataset.nav)?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
+  if(h.startsWith('n-')&&byId[h.slice(2)]) article(byId[h.slice(2)]);
+  else if(h==='tips'||h==='materials') listPage(h);
+  else if(h.startsWith('tutorials')) listPage('tutorials',h.includes('-')?decodeURIComponent(h.slice(10).replace(/_/g,'%')):'');
+  else home();
+  window.scrollTo(0,0);
+}
+
+/* 搜尋小視窗 */
+const pop=document.getElementById('searchPop'),q=document.getElementById('q'),res=document.getElementById('results'),sb=document.getElementById('searchBtn');
+function openSearch(open){pop.classList.toggle('open',open);sb.setAttribute('aria-expanded',open);if(open){requestAnimationFrame(()=>q.focus());doSearch()}}
+sb.onclick=e=>{e.stopPropagation();openSearch(!pop.classList.contains('open'))};
+pop.onclick=e=>e.stopPropagation();
+document.addEventListener('click',()=>openSearch(false));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')openSearch(false)});
+function doSearch(){
+  const k=q.value.trim().toLowerCase();
+  if(!k){res.innerHTML='';return}
+  const hits=NOTES.filter(n=>[n.title,n.specs.inventor,n.specs.alias,n.materials.map(m=>m.name).join(' ')].join(' ').toLowerCase().includes(k)).slice(0,12);
+  res.innerHTML=hits.length?hits.map(n=>`<a href="#n-${n.id}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join(''):'<div class="empty">找不到符合的筆記。</div>';
+}
+q.oninput=doSearch;
+res.onclick=e=>{if(e.target.closest('a'))openSearch(false)};
+
+/* 黑／白兩種主題，預設跟隨系統 */
+const tb=document.getElementById('themeBtn');
+const isDark=()=>{const t=document.documentElement.dataset.theme;return t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches};
+const paint=()=>tb.textContent=isDark()?'淺色':'深色';
+try{const t=localStorage.getItem('twps-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+tb.onclick=()=>{const t=isDark()?'light':'dark';document.documentElement.dataset.theme=t;try{localStorage.setItem('twps-theme',t)}catch(e){}paint()};
+paint();
+
+async function boot(){
+  const D=window.INLINE_DATA||await (await fetch('data.json',{cache:'no-cache'})).json();
+  NOTES=D.notes;IMGS=D.imgs||{};RECENT=D.recent;
+  byId=Object.fromEntries(NOTES.map(n=>[n.id,n]));
+  tutorials=NOTES.filter(n=>n.type==='tutorial');
+  if(!window.PREVIEW){try{hasDefault=(await fetch(DEFAULT_IMG,{method:'HEAD'})).ok}catch(e){}}
+  window.addEventListener('hashchange',route);
+  route();
+}
+boot();
+</script>
