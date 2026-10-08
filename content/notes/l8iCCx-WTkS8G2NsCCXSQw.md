@@ -106,7 +106,8 @@ TWC就是個供人發揮的平台,可以自己選擇喜歡的配重/配嘴
 
 ### 影片
 [Joey X post](https://x.com/TWPSJoey/status/2079864512799449178?s=20)
-![](https://hackmd.io/_uploads/rJg8ZjuOfl.png)
+![](https://hackmd.io/_uploads/HJ-_0SSiGg.jpg)
+
 
 ###### tags: `雙頭` `改筆教學` `tutorials`
 > 圖片所有者：Joey

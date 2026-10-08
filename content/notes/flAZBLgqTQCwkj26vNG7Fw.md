@@ -74,7 +74,8 @@ NANO筆芯與雄獅筆身如圖對接
 
 ### 影片
 [Joey X post](https://x.com/TWPSJoey/status/2063940775306727651?s=20)
-![](https://hackmd.io/_uploads/By3p8hrbMg.png)
+![](https://hackmd.io/_uploads/BJO5RSSoMe.jpg)
+
 
 ###### tags: `雙頭` `改筆教學` `tutorials`
 > 圖片所有者：Joey
