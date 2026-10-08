@@ -195,11 +195,11 @@ html.theme-fade,html.theme-fade *,html.theme-fade *::before,html.theme-fade *::a
 /* 換頁動畫：舊頁面往上淡出，新頁面從下方淡入；頁首不動 */
 #app{view-transition-name:page}
 ::view-transition-old(root),::view-transition-new(root){animation:none}
-::view-transition-old(page){animation:pg-out .2s var(--ease) both}
-::view-transition-new(page){animation:pg-in .5s var(--ease) .05s both}
-.page-in{animation:pg-in .5s var(--ease) both}
-@keyframes pg-out{to{opacity:0;transform:translateY(-8px)}}
-@keyframes pg-in{from{opacity:0;transform:translateY(16px)}}
+::view-transition-old(page){animation:pg-out .35s var(--ease) both}
+::view-transition-new(page){animation:pg-in .85s var(--ease) .1s both}
+.page-in{animation:pg-in .85s var(--ease) both}
+@keyframes pg-out{to{opacity:0;transform:translateY(-10px)}}
+@keyframes pg-in{from{opacity:0;transform:translateY(20px)}}
 @media (prefers-reduced-motion:reduce){::view-transition-old(page),::view-transition-new(page),.page-in,.stagger>*{animation:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.nl:hover{transform:none}}
 </style>
