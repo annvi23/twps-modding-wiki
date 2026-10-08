@@ -160,8 +160,9 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .foot-in{padding-block:32px 44px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
 .foot-in small{color:var(--muted);font-size:13px}
 .foot-r{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.foot-link{font-size:13px;text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:1px;transition:border-color .2s}
-.foot-link:hover{border-color:var(--fg)}
+.foot-r>*{font-size:13px;line-height:20px}
+.foot-link{text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:5px;text-decoration-thickness:1px;transition:text-decoration-color .2s}
+.foot-link:hover{text-decoration-color:var(--fg)}
 .fb{max-width:820px;margin:0 auto;padding-block:clamp(36px,5vw,56px) 80px}
 .fb h1{font:600 clamp(28px,4vw,40px)/1.15 var(--sans);margin:0 0 10px}
 .fb>p{color:var(--muted);margin:0 0 36px}
