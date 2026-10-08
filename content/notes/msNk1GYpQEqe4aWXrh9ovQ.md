@@ -39,7 +39,7 @@ Pilot Hi-Tec C（嘴）：1
 依個人喜好加入 insert，或把筆芯反裝
 
 ### 補充
-長度會依筆蓋推入的深度而不同，約 18.7 cm。
+長度會依筆蓋推入的深度而不同，18.7 cm。
 
 Sunburst 有三個版本：一般版 Sunburst、舊版 Sunburst Metallic（筆桿上的線條是金屬色的，例如金屬紫、金屬綠、金屬藍）、新版 Sunburst Metallic（筆桿上只有銀色線條）。
 
