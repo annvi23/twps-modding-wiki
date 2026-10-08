@@ -46,7 +46,12 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .pop{position:absolute;right:-8px;top:calc(100% + 14px);width:min(380px,calc(100vw - 32px));background:var(--pop);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px -20px rgba(0,0,0,.35);padding:14px;
   opacity:0;transform:translateY(-8px) scale(.97);transform-origin:top right;pointer-events:none;transition:opacity .28s var(--ease),transform .28s var(--ease);visibility:hidden}
 .pop.open{opacity:1;transform:none;pointer-events:auto;visibility:visible}
-.pop label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:.04em}
+.pop-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.pop label{display:block;font-size:12px;color:var(--muted);letter-spacing:.04em}
+.scope{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;flex:none}
+.scope button{font-size:12px;padding:3px 10px;border-radius:999px;color:var(--muted);transition:background .25s var(--ease),color .25s var(--ease)}
+.scope button:hover{color:var(--fg)}
+.scope button[aria-checked="true"]{background:var(--fg);color:var(--bg)}
 .qrow{display:flex;gap:10px;align-items:center}
 .qgo{flex:none;width:34px;height:34px;border:1px solid var(--fg);border-radius:999px;display:grid;place-items:center;transition:background .2s,color .2s}
 .qgo:hover{background:var(--fg);color:var(--bg)}
@@ -167,7 +172,7 @@ html.theme-fade,html.theme-fade *,html.theme-fade *::before,html.theme-fade *::a
       <span class="search-wrap">
         <button class="nl" id="searchBtn" aria-expanded="false" aria-controls="searchPop" aria-label="搜尋" title="搜尋"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button>
         <div class="pop" id="searchPop" role="dialog" aria-label="搜尋">
-          <label for="q">搜尋筆名、發明者或材料</label>
+          <div class="pop-head"><label for="q">搜尋筆名、發明者或材料</label><div class="scope" role="radiogroup" aria-label="搜尋範圍"><button type="button" role="radio" data-scope="all" aria-checked="true">全部</button><button type="button" role="radio" data-scope="mat" aria-checked="false">材料</button><button type="button" role="radio" data-scope="mod" aria-checked="false">改造</button></div></div>
           <form id="qform" class="qrow" role="search"><input id="q" type="search" placeholder="例如 Comssa、Joey、HGG" autocomplete="off" enterkeyhint="search"><button type="submit" class="qgo" aria-label="搜尋全站" title="搜尋全站"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button></form>
           <div class="results" id="results"></div>
         </div>
@@ -251,9 +256,10 @@ function home(){
   carousel(document.getElementById('recent'),recent.length);
 }
 
-function listPage(kind,cat){
+function listPage(kind,cat,sc='all'){
   let title,desc,list,chips='';
-  if(kind==='search'){title=`搜尋「${esc(cat)}」`;list=findNotes(cat);desc=list.length?`找到 ${list.length} 篇。`:'找不到符合的筆記，試試筆名或材料名稱的一部分。';}
+  if(kind==='search'){title=`搜尋「${esc(cat)}」`;list=findNotes(cat,sc);
+    chips=`<div class="chips" role="group" aria-label="搜尋範圍">${['all','mat','mod'].map(k=>`<a class="chip" href="#q-${k}-${encodeURIComponent(cat)}" aria-pressed="${k===sc}">${SCOPE_NAME[k]}</a>`).join('')}</div>`;desc=list.length?`找到 ${list.length} 篇。`:'找不到符合的筆記，試試筆名或材料名稱的一部分。';}
   else if(kind==='tips'){title='小技巧';desc='改筆常用名詞與資源。';list=NOTES.filter(n=>n.type==='knowledge')}
   else if(kind==='materials'){title='材料介紹';desc='常被拿來改造的原廠筆。';list=NOTES.filter(n=>n.type==='material')}
   else{
@@ -345,7 +351,7 @@ function route(){
   document.querySelectorAll('[data-nav]').forEach(a=>{h.startsWith(a.dataset.nav)?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
   if(h.startsWith('n-')&&byId[h.slice(2)]) article(byId[h.slice(2)]);
   else if(h==='tips'||h==='materials') listPage(h);
-  else if(h.startsWith('q-')) listPage('search',decodeURIComponent(h.slice(2)));
+  else if(h.startsWith('q-')){const m=h.slice(2).match(/^(all|mat|mod)-(.*)$/);listPage('search',decodeURIComponent(m?m[2]:h.slice(2)),m?m[1]:'all')}
   else if(h.startsWith('tutorials')) listPage('tutorials',h.includes('-')?decodeURIComponent(h.slice(10).replace(/_/g,'%')):'');
   else home();
   window.scrollTo(0,0);
@@ -358,12 +364,16 @@ sb.onclick=e=>{e.stopPropagation();openSearch(!pop.classList.contains('open'))};
 pop.onclick=e=>e.stopPropagation();
 document.addEventListener('click',()=>openSearch(false));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')openSearch(false)});
-const findNotes=k=>{k=k.trim().toLowerCase();return k?NOTES.filter(n=>[n.title,n.specs.inventor,n.specs.alias,n.category,n.tags.join(' '),n.materials.map(m=>m.name).join(' ')].join(' ').toLowerCase().includes(k)):[]};
-document.getElementById('qform').onsubmit=e=>{e.preventDefault();const k=q.value.trim();if(!k)return;openSearch(false);location.hash='q-'+encodeURIComponent(k)};
+let scope='all';
+const SCOPE_NAME={all:'全部',mat:'材料',mod:'改造'};
+const inScope=(n,s)=>s==='mat'?n.type==='material':s==='mod'?n.type==='tutorial':true;
+document.querySelectorAll('.scope button').forEach(b=>b.onclick=()=>{scope=b.dataset.scope;document.querySelectorAll('.scope button').forEach(x=>x.setAttribute('aria-checked',x===b));doSearch();q.focus()});
+const findNotes=(k,s='all')=>{k=k.trim().toLowerCase();return k?NOTES.filter(n=>inScope(n,s)&&[n.title,n.specs.inventor,n.specs.alias,n.category,n.tags.join(' '),n.materials.map(m=>m.name).join(' ')].join(' ').toLowerCase().includes(k)):[]};
+document.getElementById('qform').onsubmit=e=>{e.preventDefault();const k=q.value.trim();if(!k)return;openSearch(false);location.hash='q-'+scope+'-'+encodeURIComponent(k)};
 function doSearch(){
   const k=q.value.trim();
   if(!k){res.innerHTML='';return}
-  const hits=findNotes(k).slice(0,8);
+  const hits=findNotes(k,scope).slice(0,8);
   res.innerHTML=hits.length?hits.map(n=>`<a href="#n-${n.id}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join(''):'<div class="empty">找不到符合的筆記。</div>';
 }
 q.oninput=doSearch;
