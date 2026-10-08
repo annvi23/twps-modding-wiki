@@ -54,8 +54,8 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .pop .sq{opacity:0;transform:translateY(8px);transition:opacity .15s var(--ease) var(--c,0s),transform .15s var(--ease) var(--c,0s)}
 .pop.open .sq{opacity:1;transform:none;transition:opacity .45s var(--ease) var(--o,0s),transform .45s var(--ease) var(--o,0s)}
 /* 放大鏡按鈕：進場用的 transition 不能蓋掉顏色變化，hover 時底色與文字要淡入淡出 */
-.pop .qgo.sq{transition:opacity .15s var(--ease) var(--c,0s),transform .15s var(--ease) var(--c,0s),background .3s var(--ease),color .3s var(--ease)}
-.pop.open .qgo.sq{transition:opacity .45s var(--ease) var(--o,0s),transform .45s var(--ease) var(--o,0s),background .3s var(--ease),color .3s var(--ease)}
+.pop .qgo.sq{transition:opacity .15s var(--ease) var(--c,0s),transform .15s var(--ease) var(--c,0s),background .8s var(--ease),color .8s var(--ease)}
+.pop.open .qgo.sq{transition:opacity .45s var(--ease) var(--o,0s),transform .45s var(--ease) var(--o,0s),background .8s var(--ease),color .8s var(--ease)}
 .pop .sq.s1{--o:.1s;--c:.15s}.pop .sq.s2{--o:.18s;--c:.1s}.pop .sq.s3{--o:.26s;--c:.05s}.pop .sq.s4{--o:.34s;--c:0s}.pop .sq.s5{--o:.42s;--c:0s}
 .pop-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
 .pop label{display:block;font-size:12px;color:var(--muted);letter-spacing:.04em}
@@ -72,8 +72,9 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .results::-webkit-scrollbar{display:none}
 /* 自製捲軸：內容先出現，捲軸再從右側往左小幅移入並淡入 */
 .rwrap{position:relative}
-.rsb{position:absolute;right:-10px;width:4px;opacity:0;transform:translateX(10px);pointer-events:none;transition:opacity .4s var(--ease),transform .4s var(--ease)}
-.rsb.on{opacity:1;transform:none}
+/* 淡出時留在原地，淡完才把位置重設回右側；進場時才有由右往左的位移 */
+.rsb{position:absolute;right:-10px;width:4px;opacity:0;transform:translateX(10px);pointer-events:none;transition:opacity .35s var(--ease),transform 0s .35s}
+.rsb.on{opacity:1;transform:none;transition:opacity .4s var(--ease),transform .4s var(--ease)}
 .rsb i{display:block;width:100%;border-radius:3px;background:var(--hint)}
 html{scrollbar-gutter:stable}
 html.lock{overflow:hidden}
@@ -591,8 +592,11 @@ function doSearch(animate,instant){
     const msg=res.innerHTML;res.innerHTML='';fitResults();
     res.style.overflowY='hidden';
     const a=resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:380,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'});
-    let fin=false;const done=()=>{if(fin||resAnim!==a)return;fin=true;resAnim=null;a.cancel();res.innerHTML=msg;res.style.overflowY='';fitResults();stagger(res)};
-    a.onfinish=done;setTimeout(done,1200);
+    // 文字比外框收完的時間早 0.2 秒開始淡入
+    let fin=false,shown=false;
+    const show=()=>{if(shown||resAnim!==a)return;shown=true;res.innerHTML=msg;stagger(res)};
+    const done=()=>{if(fin||resAnim!==a)return;show();fin=true;resAnim=null;a.cancel();res.style.overflowY='';fitResults()};
+    setTimeout(show,180);a.onfinish=done;setTimeout(done,1200);
     scheduleSb(0,true);
     return;
   }
