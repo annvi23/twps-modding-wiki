@@ -199,7 +199,16 @@ html.lock{overflow:hidden}
 .theme:hover{color:var(--bg);background:var(--fg);border-color:var(--fg)}
 .theme .ic{width:17px;height:17px}
 /* 切換深淺色：先變背景（0.45 秒），0.2 秒後文字接著變色 */
-html.theme-fade,html.theme-fade *,html.theme-fade *::before,html.theme-fade *::after{transition:background-color .45s ease,border-color .45s ease,box-shadow .45s ease,color .3s ease .2s,fill .3s ease .2s!important}
+@property --bg{syntax:'<color>';inherits:true;initial-value:#fafafa}
+@property --band{syntax:'<color>';inherits:true;initial-value:#f1f1f0}
+@property --ph{syntax:'<color>';inherits:true;initial-value:#e7e7e6}
+@property --pop{syntax:'<color>';inherits:true;initial-value:#ffffff}
+@property --line{syntax:'<color>';inherits:true;initial-value:#d9d9d9}
+@property --hint{syntax:'<color>';inherits:true;initial-value:#a9a9a9}
+@property --fg{syntax:'<color>';inherits:true;initial-value:#151515}
+@property --muted{syntax:'<color>';inherits:true;initial-value:#6c6c6c}
+html.theme-fade{transition:--bg .45s ease,--band .45s ease,--ph .45s ease,--pop .45s ease,--line .45s ease,--hint .45s ease,--fg .3s ease .2s,--muted .3s ease .2s}
+html.theme-fade body,html.theme-fade body *,html.theme-fade body *::before,html.theme-fade body *::after{transition:none!important}
 .preview-note{font-size:12px;color:var(--muted);text-align:center;padding:0 16px 24px}
 /* 換頁動畫：舊頁面往上淡出，新頁面從下方淡入；頁首不動 */
 #app{view-transition-name:page}
@@ -370,7 +379,7 @@ let listSort='updated';
 try{const s=localStorage.getItem('twps-sort');if(SORT_NAME[s])listSort=s}catch(e){}
 const collator=new Intl.Collator('zh-Hant',{numeric:true,sensitivity:'base'});
 function sortList(list){
-  const latin=s=>/^[ -]/.test(s)?0:1; // 英數筆名排在中文前面
+  const latin=s=>/^[\x00-\x7f]/.test(s)?0:1; // 英數筆名排在中文前面
   return [...list].sort(listSort==='name'?(a,b)=>latin(a.title)-latin(b.title)||collator.compare(a.title,b.title):(a,b)=>(b.updated||b.created||0)-(a.updated||a.created||0));
 }
 
