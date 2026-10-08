@@ -152,6 +152,21 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .foot-in{padding-block:32px 44px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
 .foot-in small{color:var(--muted);font-size:13px}
 .foot-r{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.foot-link{font-size:13px;text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:1px;transition:border-color .2s}
+.foot-link:hover{border-color:var(--fg)}
+.fb{max-width:820px;margin:0 auto;padding-block:clamp(36px,5vw,56px) 80px}
+.fb h1{font:600 clamp(28px,4vw,40px)/1.15 var(--sans);margin:0 0 10px}
+.fb>p{color:var(--muted);margin:0 0 36px}
+.fb-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:640px){.fb-grid{grid-template-columns:minmax(0,1fr)}}
+.fb-box{border:1px solid var(--line);border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.fb-box h2{font:600 19px/1.3 var(--sans);margin:0}
+.fb-box p,.fb-box li{color:var(--muted);font-size:14px;margin:0}
+.fb-box ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+.fb-box .btn{align-self:flex-start;margin-top:auto}
+.mail{font-family:var(--mono);font-size:13px;user-select:all;overflow-wrap:anywhere}
+.contrib{margin-top:56px;padding:20px 22px;border:1px solid var(--line);border-radius:8px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.contrib p{margin:0;font-size:14px;color:var(--muted)}
 .theme{width:36px;height:36px;border:1px solid var(--line);border-radius:999px;display:grid;place-items:center;color:var(--muted);transition:color .25s,border-color .25s,background .25s}
 .theme:hover{color:var(--bg);background:var(--fg);border-color:var(--fg)}
 .theme .ic{width:17px;height:17px}
@@ -186,12 +201,16 @@ html.theme-fade,html.theme-fade *,html.theme-fade *::before,html.theme-fade *::a
 <footer class="site">
   <div class="wrap"><div class="foot-in">
     <a class="logo" href="#home">TWPS 改筆百科</a>
-    <div class="foot-r"><small>由 taco 整理更新 · 資料來源 HackMD TWPS改筆百科</small><button class="theme" id="themeBtn" aria-label="切換為深色模式" title="切換深淺色"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d=""></path></svg></button></div>
+    <div class="foot-r"><a class="foot-link" href="#feedback">許願教學・投稿照片</a><small>由 taco 整理更新 · 資料來源 HackMD TWPS改筆百科</small><button class="theme" id="themeBtn" aria-label="切換為深色模式" title="切換深淺色"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d=""></path></svg></button></div>
   </div></div>
 </footer>
 <!--PREVIEW_NOTE-->
 
 <script>
+const WISH_FORM='https://docs.google.com/forms/d/e/1FAIpQLSdhOYlV0A6aklc5xuOcDVcETCh7rAbMlsa3gQDfQDbqO0iuXA/viewform';
+const PHOTO_MAIL='tacotwps@gmail.com';
+const mailto=(subject,body)=>`mailto:${PHOTO_MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const PHOTO_BODY='筆名：\n圖片所有者（要標註的名字）：\n\n我同意 TWPS 改筆百科使用這些照片，並標註我為圖片所有者。\n\n（請把照片加在附件）';
 const DEFAULT_IMG='assets/default.jpg'; // 放一張預設圖到 site/assets/default.jpg，沒有封面的筆記就會自動使用
 let NOTES=[],IMGS={},RECENT=[],byId={},tutorials=[],hasDefault=false;
 const app=document.getElementById('app');
@@ -252,7 +271,8 @@ function home(){
     `<section class="recent" id="recent"><div class="wrap"><div class="band-head"><h2>最近更新</h2><div class="arrows"><button class="arrow prev" aria-label="上一篇"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg></button><button class="arrow next" aria-label="下一篇"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg></button></div></div><div class="viewport"><div class="rail">${[...recent,...recent.slice(0,3)].map((n,i)=>card(n).replace('<a ',i>=recent.length?'<a tabindex="-1" aria-hidden="true" ':'<a ')).join('')}</div></div></div></section>`+
     band('雙頭',shuffle(g('雙頭')).slice(0,6),more('雙頭'),true)+
     band('G3',shuffle(g('G3')).slice(0,6),more('G3'),false)+
-    band('VP / Mx',shuffle(g('VP / Mx')).slice(0,6),more('VP / Mx'),true);
+    band('VP / Mx',shuffle(g('VP / Mx')).slice(0,6),more('VP / Mx'),true)+
+    `<section class="band"><div class="wrap"><div class="contrib" style="margin-top:0"><p>想看的改筆還沒有教學？</p><a class="btn" href="#feedback">許願教學・投稿照片</a></div></div></section>`;
   carousel(document.getElementById('recent'),recent.length);
 }
 
@@ -338,9 +358,19 @@ function article(n){
     if(v.links.length) h+=`<div class="vids">${v.links.map(l=>`<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.text||'影片連結')}</a>`).join('')}</div>`;
     h+='</div>';
   }
+  if(n.type!=='knowledge') h+=`<div class="contrib"><p>有這支筆的照片，或發現資料有誤？</p><a class="btn" href="${mailto(`[投稿照片] ${n.title}`,PHOTO_BODY.replace('筆名：',`筆名：${n.title}`))}">寄信投稿</a></div>`;
   h+=`<div class="art-foot">${n.credit?`<span>圖片所有者：${esc(n.credit)}</span>`:''}<a href="${n.hackmd}" target="_blank" rel="noopener">在 HackMD 編輯</a></div>`;
   app.innerHTML=`<div class="wrap"><article class="article">${h}</article></div>`;
   document.title=`${n.title} | TWPS 改筆百科`;
+}
+
+function feedback(){
+  app.innerHTML=`<div class="wrap"><div class="fb"><h1>許願教學・投稿照片</h1><p>想看哪支筆的教學，或手上有改筆照片可以分享，都歡迎告訴我們。</p>
+  <div class="fb-grid">
+    <div class="fb-box"><h2>許願教學</h2><p>填寫想看的筆名和參考資料，不需要登入。</p><ul><li>筆名（必填）</li><li>分類與參考影片、貼文或原作者</li></ul><a class="btn" href="${WISH_FORM}" target="_blank" rel="noopener">填寫許願表單</a></div>
+    <div class="fb-box"><h2>投稿照片</h2><p>把照片寄到下面的信箱，信裡寫上筆名和要標註的圖片所有者。</p><div class="mail">${PHOTO_MAIL}</div><ul><li>照片會在整理後放上對應的教學頁</li><li>寄出即表示同意 TWPS 改筆百科使用並標註你為圖片所有者</li></ul><a class="btn" href="${mailto('[投稿照片] ',PHOTO_BODY)}">寄信投稿</a></div>
+  </div></div></div>`;
+  document.title='許願教學・投稿照片 | TWPS 改筆百科';
 }
 
 function route(){
@@ -351,6 +381,7 @@ function route(){
   document.querySelectorAll('[data-nav]').forEach(a=>{h.startsWith(a.dataset.nav)?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
   if(h.startsWith('n-')&&byId[h.slice(2)]) article(byId[h.slice(2)]);
   else if(h==='tips'||h==='materials') listPage(h);
+  else if(h==='feedback') feedback();
   else if(h.startsWith('q-')){const m=h.slice(2).match(/^(all|mat|mod)-(.*)$/);listPage('search',decodeURIComponent(m?m[2]:h.slice(2)),m?m[1]:'all')}
   else if(h.startsWith('tutorials')) listPage('tutorials',h.includes('-')?decodeURIComponent(h.slice(10).replace(/_/g,'%')):'');
   else home();
