@@ -109,7 +109,9 @@ html.lock{overflow:hidden}
 .page-head{padding-block:clamp(36px,5vw,56px) 4px}
 .page-head h1{font:600 clamp(28px,4vw,40px)/1.15 var(--sans);margin:0}
 .page-head p{color:var(--muted);margin:8px 0 0}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 28px}
+.list-tools{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin:22px 0 28px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.sort button{font-size:13px;padding:4px 12px}
 .chip{border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:13px;color:var(--muted);text-decoration:none;transition:background .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease)}
 .chip:hover{color:var(--fg);border-color:var(--fg)}
 .chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
@@ -344,7 +346,21 @@ function listPage(kind,cat,sc='all'){
     list=cat==='全部'?tutorials:tutorials.filter(n=>groupOf(n)===cat);
     chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / Mx'].map(k=>`<a class="chip" href="#tutorials-${slug(k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
   }
-  app.innerHTML=`<div class="wrap"><div class="page-head"><h1>${title}</h1><p>${desc}</p></div>${chips||'<div style="height:28px"></div>'}<div class="grid">${list.map(card).join('')}</div>${pageEnd('')}<div style="height:72px"></div></div>`;
+  const sortBar=`<div class="scope sort" role="radiogroup" aria-label="排序">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" role="radio" data-sort="${k}" aria-checked="${k===listSort}">${v}</button>`).join('')}</div>`;
+  app.innerHTML=`<div class="wrap"><div class="page-head"><h1>${title}</h1><p>${desc}</p></div><div class="list-tools">${chips||'<div></div>'}${sortBar}</div><div class="grid" id="listGrid">${sortList(list).map(card).join('')}</div>${pageEnd('')}<div style="height:72px"></div></div>`;
+  app.querySelectorAll('.sort button').forEach(b=>b.onclick=()=>{
+    listSort=b.dataset.sort;try{localStorage.setItem('twps-sort',listSort)}catch(e){}
+    app.querySelectorAll('.sort button').forEach(x=>x.setAttribute('aria-checked',x===b));
+    const g=document.getElementById('listGrid');g.innerHTML=sortList(list).map(card).join('');
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches) stagger(g);
+  });
+}
+const SORT_NAME={updated:'更新時間',name:'名稱'};
+let listSort='updated';
+try{const s=localStorage.getItem('twps-sort');if(SORT_NAME[s])listSort=s}catch(e){}
+const collator=new Intl.Collator('zh-Hant',{numeric:true,sensitivity:'base'});
+function sortList(list){
+  return [...list].sort(listSort==='name'?(a,b)=>collator.compare(a.title,b.title):(a,b)=>(b.updated||b.created||0)-(a.updated||a.created||0));
 }
 
 function mdText(t){
