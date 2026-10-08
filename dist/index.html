@@ -570,7 +570,7 @@ function fitResults(){
   res.style.maxHeight=c.length>8?(c[8].offsetTop-c[0].offsetTop)+'px':'';
   document.documentElement.classList.toggle('lock',pop.classList.contains('open')&&res.scrollHeight>res.clientHeight+1);
 }
-let resAnim=null;
+let resAnim=null,emptyPending=false;
 const EMPTY_HTML='<div class="empty">找不到符合的筆記</div>';
 const sbar=document.getElementById('rsb'),sbThumb=sbar.firstElementChild;let sbTimer=0;
 function updateSb(){
@@ -585,13 +585,17 @@ res.addEventListener('scroll',updateSb);
 const hitsHtml=hits=>hits.map(n=>`<a href="#n-${n.id}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join('');
 function doSearch(animate,instant){
   const k=q.value.trim();
+  const hits=k?findNotes(k,scope):[];
+  // 結果跟畫面上一樣（例如一直輸入都找不到）就不要重新播動畫，避免文字閃爍
+  const nextHTML=!k?'':hits.length?hitsHtml(hits):EMPTY_HTML;
+  if(!instant&&((emptyPending&&!hits.length&&k)||(!resAnim&&nextHTML===res.innerHTML))) return;
+  emptyPending=false;
   const h0=res.getBoundingClientRect().height;
   if(resAnim){resAnim.cancel();resAnim=null}
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const can=!instant&&!reduce&&pop.classList.contains('open');
-  const hits=k?findNotes(k,scope):[];
   const oldHTML=res.innerHTML;
-  res.innerHTML=!k?'':hits.length?hitsHtml(hits):EMPTY_HTML;
+  res.innerHTML=nextHTML;
   fitResults();
   const h1=res.getBoundingClientRect().height;
   const shrink=h1<h0-1,grow=h1>h0+1,rows=Math.min(res.children.length,14);
@@ -601,9 +605,9 @@ function doSearch(animate,instant){
     res.style.overflowY='hidden';
     const a=resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:380,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'});
     // 文字比外框收完的時間早 0.2 秒開始淡入
-    let fin=false,shown=false;
+    let fin=false,shown=false;emptyPending=true;
     const show=()=>{if(shown||resAnim!==a)return;shown=true;res.innerHTML=msg;stagger(res)};
-    const done=()=>{if(fin||resAnim!==a)return;show();fin=true;resAnim=null;a.cancel();res.style.overflowY='';fitResults()};
+    const done=()=>{if(fin||resAnim!==a)return;show();emptyPending=false;fin=true;resAnim=null;a.cancel();res.style.overflowY='';fitResults()};
     setTimeout(show,180);a.onfinish=done;setTimeout(done,1200);
     scheduleSb(0,true);
     return;
@@ -620,7 +624,7 @@ function doSearch(animate,instant){
   }
   // 捲軸最後才出現：等高度動畫與文字淡入都完成
   const rowsShown=Math.min(res.children.length,8);
-  scheduleSb(instant?850:animate?(grow?280:0)+(shrink?rows*45+160:0)+rowsShown*45+450:450,animate||instant);
+  scheduleSb(instant?550:animate?(grow?280:0)+(shrink?rows*45+160:0)+rowsShown*45+150:150,animate||instant);
 }
 q.oninput=()=>doSearch(false);
 res.onclick=e=>{if(e.target.closest('a'))openSearch(false)};
