@@ -620,8 +620,8 @@ function doSearch(animate,instant){
     scheduleSb(0,true);
     return;
   }
-  // 其他切換：變少 → 文字先由下往上逐行淡入，接著外框往上縮；變多 → 外框先展開，再逐行淡入
-  if(animate&&!reduce&&k) stagger(res,{reverse:shrink,base:grow?280:0});
+  // 其他切換：變少 → 文字先由上往下逐行淡入，接著外框往上縮；變多 → 外框先展開，再逐行淡入
+  if(animate&&!reduce&&k) stagger(res,{base:grow?280:0});
   if(can&&(shrink||grow)){
     const wait=animate&&shrink?rows*45+160:0;
     res.style.overflowY='hidden';
