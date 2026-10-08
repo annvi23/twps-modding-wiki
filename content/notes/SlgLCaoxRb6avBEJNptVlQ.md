@@ -46,11 +46,11 @@ ___
 <br>
 
 #### VP
-[AITU's Mx Extend](/Nd3LRHe4SV2579qMCedkrg)
+[AITU's MX Extend](/Nd3LRHe4SV2579qMCedkrg)
 <br>
 
-#### Mx
-[Goat flexible mx](/Ecah6OufRUK74npanFvByg)
+#### MX
+[Goat flexible MX](/Ecah6OufRUK74npanFvByg)
 [F.G.S.](/r-5MVBUjSESILF7l2mkNDw)
 [Sunburst MX](/msNk1GYpQEqe4aWXrh9ovQ)
 [Moonz MX](/W0bqWExnQ9OHei6JVO2-tg)

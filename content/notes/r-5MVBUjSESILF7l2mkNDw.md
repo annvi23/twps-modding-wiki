@@ -1,6 +1,6 @@
 ---
 title: F.G.S.
-tags: Mx, 改筆教學, mx, tutorials
+tags: MX, 改筆教學, tutorials
 ---
 
 # F.G.S.
@@ -156,5 +156,5 @@ G2鐵芯 < Frixion蓋中物件 < frixion比頭 < Signo鐵芯組裝
 ### 影片
 [Joey試轉影片](https://www.facebook.com/100001974425269/videos/444308297153252/)
 
-###### tags: `Mx` `改筆教學` `mx` `tutorials`
+###### tags: `MX` `改筆教學` `tutorials`
 > 圖片所有者：Joey

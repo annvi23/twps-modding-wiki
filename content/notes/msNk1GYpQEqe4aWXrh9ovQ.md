@@ -1,6 +1,6 @@
 ---
 title: Sunburst MX
-tags: Mx, 改筆教學, tutorials
+tags: MX, 改筆教學, tutorials
 ---
 
 # Sunburst MX
@@ -58,5 +58,5 @@ Sunburst（其實所有 RSVP 都是）分成 Fine 和 Med 兩種。Fine 比 Med 
 ### 影片
 待補充
 
-###### tags: `Mx` `改筆教學` `tutorials`
+###### tags: `MX` `改筆教學` `tutorials`
 > 圖片所有者：Coffeelucky

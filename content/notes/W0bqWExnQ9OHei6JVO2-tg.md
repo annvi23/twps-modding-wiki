@@ -1,6 +1,6 @@
 ---
 title: Moonz MX
-tags: Mx, 改筆教學, tutorials
+tags: MX, 改筆教學, tutorials
 ---
 
 # Moonz MX
@@ -51,5 +51,5 @@ Moonz MX 最常見的配法是用 HGR 的膠和嘴，也有人用銀色 HGG 的�
 ### 影片
 待補充
 
-###### tags: `Mx` `改筆教學` `tutorials`
+###### tags: `MX` `改筆教學` `tutorials`
 > 圖片所有者：taco

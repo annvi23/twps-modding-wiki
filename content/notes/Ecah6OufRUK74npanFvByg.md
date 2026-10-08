@@ -1,13 +1,13 @@
 ---
-title: Goat flexible mx
-tags: Mx, 改筆教學, mx, tutorials
+title: Goat flexible MX
+tags: MX, 改筆教學, tutorials
 ---
 
-# Goat flexible mx
+# Goat flexible MX
 ![](https://i.imgur.com/ysGmYvy.jpg)
 
 ### 相關數據
-名稱：Goat flexible mx
+名稱：Goat flexible MX
 發明者：Goat
 長度：20.2 cm
 重量：14.6 g
@@ -47,5 +47,5 @@ Needpoint > Gline
 0+ the Final Goat
 {%youtube dnb735aS1no %}
 
-###### tags: `Mx` `改筆教學` `mx` `tutorials`
+###### tags: `MX` `改筆教學` `tutorials`
 > 圖片所有者：taco

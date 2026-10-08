@@ -1,6 +1,6 @@
 ---
 title: Coffeelucky MX
-tags: Mx, 改筆教學, tutorials
+tags: MX, 改筆教學, tutorials
 ---
 
 # Coffeelucky MX
@@ -50,5 +50,5 @@ Pilot G3 金屬版（嘴）：1
 ### 影片
 [Coffeelucky 的 Instagram](https://www.instagram.com/p/BvjQb-sBUGX/)
 
-###### tags: `Mx` `改筆教學` `tutorials`
+###### tags: `MX` `改筆教學` `tutorials`
 > 圖片所有者：Coffeelucky

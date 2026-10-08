@@ -1,13 +1,13 @@
 ---
-title: AITU's Mx Extend
+title: AITU's MX Extend
 tags: VP, 改筆教學, tutorials
 ---
 
-# AITU's Mx Extend
+# AITU's MX Extend
 ![](https://i.imgur.com/clwgLFC.jpg)
 
 ### 相關數據
-名稱：AITU’s Mx Extend
+名稱：AITU’s MX Extend
 發明者：未知
 長度：19 cm
 重量：12 g

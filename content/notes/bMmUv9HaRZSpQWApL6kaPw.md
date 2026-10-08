@@ -1,6 +1,6 @@
 ---
 title: Colorgel MX
-tags: Mx, 改筆教學, tutorials
+tags: MX, 改筆教學, tutorials
 ---
 
 # Colorgel MX
@@ -45,5 +45,5 @@ Pentel RSVP Colors（蓋、膠）：1
 Kay 的 Colorgel 影片
 {%youtube r5Vt2LflxHc %}
 
-###### tags: `Mx` `改筆教學` `tutorials`
+###### tags: `MX` `改筆教學` `tutorials`
 > 圖片所有者：Coffeelucky
