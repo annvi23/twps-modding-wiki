@@ -68,6 +68,14 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .qgo:hover{background:var(--fg);color:var(--bg)}
 .pop input{flex:1;min-width:0;width:100%;font:500 16px var(--sans);color:var(--fg);background:transparent;border:0;border-bottom:1px solid var(--fg);padding:6px 0;outline:none}
 .pop input::placeholder{color:var(--muted);font-weight:400}
+/* 清除鈕：隱藏瀏覽器內建的叉叉，改用和搜尋、主題切換同款的中性色線條 icon，有文字時才淡入 */
+.pop input[type=search]::-webkit-search-cancel-button,.pop input[type=search]::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
+.qin{position:relative;flex:1;min-width:0;display:block}
+.qin input{padding-right:26px}
+.qclear{position:absolute;right:0;top:50%;width:22px;height:22px;margin-top:-11px;display:grid;place-items:center;color:var(--muted);opacity:0;pointer-events:none;transition:opacity .25s var(--ease),color .25s var(--ease)}
+.qclear .ic{width:15px;height:15px}
+.qclear:hover{color:var(--fg)}
+.qrow.has .qclear{opacity:1;pointer-events:auto}
 .results{margin-top:8px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
 .results::-webkit-scrollbar{display:none}
 /* 自製捲軸：內容先出現，捲軸再從右側往左小幅移入並淡入 */
@@ -262,7 +270,7 @@ html.theme-fade body,html.theme-fade body *,html.theme-fade body *::before,html.
         <button class="nl" id="searchBtn" aria-expanded="false" aria-controls="searchPop" aria-label="搜尋" title="搜尋"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button>
         <div class="pop" id="searchPop" role="dialog" aria-label="搜尋">
           <div class="pop-head"><label class="sq s1" for="q">搜尋筆名、發明者或材料</label><div class="scope sq s2" role="radiogroup" aria-label="搜尋範圍"><button type="button" role="radio" data-scope="all" aria-checked="true">全部</button><button type="button" role="radio" data-scope="mat" aria-checked="false">材料</button><button type="button" role="radio" data-scope="mod" aria-checked="false">改造</button></div></div>
-          <form id="qform" class="qrow" role="search"><input class="sq s3" id="q" type="search" placeholder="例如 Comssa、Joey、HGG" autocomplete="off" enterkeyhint="search"><button type="submit" class="qgo sq s4" aria-label="搜尋全站" title="搜尋全站"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button></form>
+          <form id="qform" class="qrow" role="search"><span class="qin sq s3"><input id="q" type="search" placeholder="例如 Comssa、Joey、HGG" autocomplete="off" enterkeyhint="search"><button type="button" class="qclear" id="qclear" aria-label="清除" title="清除" tabindex="-1"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg></button></span><button type="submit" class="qgo sq s4" aria-label="搜尋全站" title="搜尋全站"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button></form>
           <div class="rwrap sq s5"><div class="results" id="results"></div><div class="rsb" id="rsb" aria-hidden="true"><i></i></div></div>
         </div>
       </span>
@@ -618,6 +626,10 @@ function doSearch(animate,instant){
   const rowsShown=Math.min(res.children.length,8);
   scheduleSb(instant?550:animate?(grow?280:0)+(shrink?rows*45+160:0)+rowsShown*45+150:150,animate||instant);
 }
+const qrow=document.getElementById('qform');
+const syncClear=()=>qrow.classList.toggle('has',q.value.length>0);
+q.addEventListener('input',syncClear);
+document.getElementById('qclear').onclick=()=>{q.value='';syncClear();doSearch(false);q.focus()};
 q.oninput=()=>doSearch(false);
 res.onclick=e=>{if(e.target.closest('a'))openSearch(false)};
 
