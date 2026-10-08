@@ -151,7 +151,9 @@ html.lock{overflow:hidden}
 .page-head h1{font:600 clamp(28px,4vw,40px)/1.15 var(--sans);margin:0}
 .page-head p{color:var(--muted);margin:8px 0 0}
 .list-tools{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin:22px 0 28px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.chips{position:relative;display:inline-flex;max-width:100%;border:1px solid var(--line);border-radius:999px;padding:2px;margin:0}
+.chips-bg{position:absolute;left:0;top:2px;bottom:2px;width:0;border-radius:999px;background:var(--pill);transition:transform .45s var(--ease),width .45s var(--ease);pointer-events:none}
+.chips.noanim .chips-bg{transition:none}
 /* 排序下拉選單 */
 .dd{position:relative}
 .dd-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 14px;transition:color .25s,border-color .25s}
@@ -165,9 +167,9 @@ html.lock{overflow:hidden}
 .dd-menu button{text-align:left;font-size:13px;padding:7px 10px;border-radius:5px;color:var(--muted)}
 .dd-menu button:hover{background:var(--band);color:var(--fg)}
 .dd-menu button[aria-selected="true"]{color:var(--fg);font-weight:500}
-.chip{border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:13px;color:var(--muted);text-decoration:none;transition:background .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease)}
-.chip:hover{color:var(--fg);border-color:var(--fg)}
-.chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.chip{position:relative;z-index:1;border-radius:999px;padding:4px 14px;font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .3s var(--ease)}
+.chip:hover{color:var(--fg)}
+.chip[aria-pressed="true"]{color:var(--bg)}
 .stagger>*{animation:item-in .8s var(--ease) both;animation-delay:calc(var(--i,0) * 80ms)}
 .results.stagger>*{animation-name:fade-in;animation-duration:.4s;animation-delay:calc(var(--base,0ms) + var(--i,0) * 45ms)}
 @keyframes item-in{from{opacity:0;transform:translateY(12px)}}
@@ -552,6 +554,24 @@ function enter(root){
   });
 }
 app.addEventListener('animationend',e=>{if(e.target.classList.contains('rise')){e.target.classList.remove('rise');e.target.style.removeProperty('--d')}});
+// 分類按鈕：和搜尋框的範圍選項一樣，深灰底色在選項之間滑動（換頁重繪時從上一次的位置滑過去）
+let chipPrev=null;
+function setupChips(){
+  const box=app.querySelector('.chips');
+  if(!box){chipPrev=null;return}
+  const on=box.querySelector('[aria-pressed="true"]');if(!on) return;
+  const bg=document.createElement('i');bg.className='chips-bg';bg.setAttribute('aria-hidden','true');box.prepend(bg);
+  const key=location.hash.startsWith('#q-')?'q':'t';
+  const place=()=>{bg.style.width=on.offsetWidth+'px';bg.style.transform=`translateX(${on.offsetLeft}px)`};
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(chipPrev&&chipPrev.key===key&&!reduce){
+    box.classList.add('noanim');bg.style.width=chipPrev.w+'px';bg.style.transform=`translateX(${chipPrev.x}px)`;
+    void bg.offsetWidth;box.classList.remove('noanim');
+    requestAnimationFrame(()=>requestAnimationFrame(place));
+  } else place();
+  chipPrev={key,x:on.offsetLeft,w:on.offsetWidth};
+  if(document.fonts&&document.fonts.status==='loading') document.fonts.ready.then(()=>{if(bg.isConnected){box.classList.add('noanim');place();void bg.offsetWidth;box.classList.remove('noanim')}});
+}
 function render(keepScroll){
   if(carouselStop){carouselStop();carouselStop=null}
   openSearch(false);
@@ -564,6 +584,7 @@ function render(keepScroll){
   else if(h.startsWith('q-')){const m=h.slice(2).match(/^(all|mat|mod)-(.*)$/);listPage('search',decodeURIComponent(m?m[2]:h.slice(2)),m?m[1]:'all')}
   else if(h.startsWith('tutorials')) listPage('tutorials',h.includes('-')?decodeURIComponent(h.slice(10).replace(/_/g,'%')):'');
   else home();
+  setupChips();
   if(!keepScroll){window.scrollTo(0,0);if(!matchMedia('(prefers-reduced-motion: reduce)').matches) enter(app)}
 }
 
