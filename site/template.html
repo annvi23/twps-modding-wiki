@@ -391,7 +391,7 @@ function article(n){
     if(v.links.length) h+=`<div class="vids">${v.links.map(l=>`<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.text||'影片連結')}</a>`).join('')}</div>`;
     h+='</div>';
   }
-  h+=`<div class="art-foot">${n.credit?`<span>圖片所有者：${esc(n.credit)}</span>`:''}<a href="${n.hackmd}" target="_blank" rel="noopener">在 HackMD 編輯</a></div>`;
+  h+=`<div class="art-foot">${n.credit?`<span>圖片所有者：${esc(n.credit)}</span>`:''}</div>`;
   h+=pageEnd(n.type==='knowledge'?'':n.title);
   app.innerHTML=`<div class="wrap"><article class="article">${h}</article></div>`;
   document.title=`${n.title} | TWPS 改筆百科`;
