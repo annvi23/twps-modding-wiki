@@ -32,6 +32,9 @@ def main():
     token = os.environ.get('HACKMD_TOKEN', '').strip() or None
     (OUT / 'notes').mkdir(parents=True, exist_ok=True)
 
+    # API 失敗或沒有 token 時，沿用上一次的時間資料，避免「最近更新」排序被清空
+    meta_path = OUT / 'meta.json'
+    old_meta = json.loads(meta_path.read_text(encoding='utf-8')) if meta_path.exists() else {}
     meta = {}
     if token:
         status, body = get(f'https://api.hackmd.io/v1/teams/{TEAM}/notes', token)
@@ -60,8 +63,9 @@ def main():
         if p.stem not in ids and p.stem != TOC_ID:
             p.unlink()
 
-    (OUT / 'meta.json').write_text(json.dumps({i: meta.get(i, {}) for i in ids}, ensure_ascii=False, indent=1), encoding='utf-8')
-    print(f'{ok} notes downloaded, {missing} unavailable, dates: {"yes" if meta else "no"}')
+    merged = {i: (meta.get(i) or old_meta.get(i) or {}) for i in ids}
+    meta_path.write_text(json.dumps(merged, ensure_ascii=False, indent=1), encoding='utf-8')
+    print(f'{ok} notes downloaded, {missing} unavailable, dates: {"fresh" if meta else "kept from last run"}')
 
 if __name__ == '__main__':
     main()
