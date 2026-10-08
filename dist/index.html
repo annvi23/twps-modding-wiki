@@ -61,7 +61,10 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .qgo:hover{background:var(--fg);color:var(--bg)}
 .pop input{flex:1;min-width:0;width:100%;font:500 16px var(--sans);color:var(--fg);background:transparent;border:0;border-bottom:1px solid var(--fg);padding:6px 0;outline:none}
 .pop input::placeholder{color:var(--muted);font-weight:400}
-.results{margin-top:8px;max-height:min(52vh,380px);overflow:auto}
+.results{margin-top:8px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.results::-webkit-scrollbar{width:6px}.results::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+html{scrollbar-gutter:stable}
+html.lock{overflow:hidden}
 .results a{display:flex;justify-content:space-between;gap:12px;padding:8px 4px;text-decoration:none;border-radius:4px;font-size:14px}
 .results a:hover,.results a:focus-visible{background:var(--band)}
 .results .k{color:var(--muted);font:12px var(--mono);white-space:nowrap}
@@ -452,7 +455,7 @@ function render(keepScroll){
 
 /* 搜尋小視窗 */
 const pop=document.getElementById('searchPop'),q=document.getElementById('q'),res=document.getElementById('results'),sb=document.getElementById('searchBtn');
-function openSearch(open){pop.classList.toggle('open',open);sb.setAttribute('aria-expanded',open);if(open){requestAnimationFrame(()=>q.focus());doSearch()}}
+function openSearch(open){pop.classList.toggle('open',open);if(!open)document.documentElement.classList.remove('lock');sb.setAttribute('aria-expanded',open);if(open){requestAnimationFrame(()=>q.focus());doSearch()}}
 sb.onclick=e=>{e.stopPropagation();openSearch(!pop.classList.contains('open'))};
 pop.onclick=e=>e.stopPropagation();
 document.addEventListener('click',()=>openSearch(false));
@@ -463,12 +466,18 @@ const inScope=(n,s)=>s==='mat'?n.type==='material':s==='mod'?n.type==='tutorial'
 document.querySelectorAll('.scope button').forEach(b=>b.onclick=()=>{scope=b.dataset.scope;document.querySelectorAll('.scope button').forEach(x=>x.setAttribute('aria-checked',x===b));doSearch(true);q.focus()});
 const findNotes=(k,s='all')=>{k=k.trim().toLowerCase();return k?NOTES.filter(n=>inScope(n,s)&&[n.title,n.specs.inventor,n.specs.alias,n.category,n.tags.join(' '),n.materials.map(m=>m.name).join(' ')].join(' ').toLowerCase().includes(k)):[]};
 document.getElementById('qform').onsubmit=e=>{e.preventDefault();const k=q.value.trim();if(!k)return;openSearch(false);location.hash='q-'+scope+'-'+encodeURIComponent(k)};
+function fitResults(){
+  const c=res.children;
+  res.style.maxHeight=c.length>8?(c[8].offsetTop-c[0].offsetTop)+'px':'';
+  document.documentElement.classList.toggle('lock',pop.classList.contains('open')&&res.scrollHeight>res.clientHeight+1);
+}
 function doSearch(animate){
   const k=q.value.trim();
-  if(!k){res.innerHTML='';return}
-  const hits=findNotes(k,scope).slice(0,8);
+  if(!k){res.innerHTML='';fitResults();return}
+  const hits=findNotes(k,scope);
   res.innerHTML=hits.length?hits.map(n=>`<a href="#n-${n.id}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join(''):'<div class="empty">找不到符合的筆記。</div>';
   if(animate) stagger(res);
+  fitResults();
 }
 q.oninput=()=>doSearch(false);
 res.onclick=e=>{if(e.target.closest('a'))openSearch(false)};
