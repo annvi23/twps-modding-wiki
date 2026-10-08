@@ -541,7 +541,7 @@ function doSearch(animate,instant){
     res.style.overflowY='hidden';
     resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:450,easing:'cubic-bezier(.2,.7,.2,1)'});
     const done=()=>{if(resAnim===a){resAnim=null;res.style.overflowY=''}};const a=resAnim;
-    a.onfinish=done;a.oncancel=()=>{if(resAnim===null||resAnim===a)res.style.overflowY=''};
+    a.onfinish=done;a.oncancel=()=>{if(resAnim===null||resAnim===a)res.style.overflowY=''};setTimeout(()=>{if(resAnim===a){a.cancel();resAnim=null;res.style.overflowY=''}},800);
   }
 }
 q.oninput=()=>doSearch(false);
