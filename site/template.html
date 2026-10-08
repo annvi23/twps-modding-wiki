@@ -136,7 +136,8 @@ html.lock{overflow:hidden}
 .mat small{display:block;color:var(--muted);font-size:12px}
 .steps{display:flex;flex-direction:column;gap:clamp(44px,6vw,64px)}
 .imgs{display:grid;gap:10px}
-.imgs img{width:100%;border-radius:var(--r);display:block;background:var(--ph)}
+/* 內頁照片：寬度撐滿內容欄，高度依原比例，整張完整顯示 */
+.hero img,.imgs img{width:100%;height:auto;border-radius:var(--r);display:block;background:var(--ph)}
 .missing{aspect-ratio:16/9;border-radius:var(--r);background:var(--ph);display:grid;place-items:center;color:var(--muted);font-size:13px;text-decoration:none}
 .step h3{font:600 17px/1.4 var(--sans);margin:0 0 6px}
 .step .imgs{margin-top:16px}
@@ -144,7 +145,7 @@ html.lock{overflow:hidden}
 .md{max-width:68ch}
 .md p{margin:0 0 10px}.md p:last-child{margin:0}
 .md ul,.md ol{padding-left:1.2em;margin:6px 0}
-.md img{max-width:100%;border-radius:var(--r);margin:10px 0}
+.md img{width:100%;height:auto;border-radius:var(--r);margin:10px 0;display:block}
 .md table{border-collapse:collapse;margin:12px 0;font-size:14px}
 .md td,.md th{border:1px solid var(--line);padding:6px 12px;text-align:left}
 .video{position:relative;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:var(--ph);margin-top:10px}
@@ -360,7 +361,7 @@ function article(n){
   const s=n.specs;
   const crumb=n.type==='tutorial'?`<a href="#tutorials">改筆教學</a> / <a href="#tutorials-${slug(groupOf(n))}">${esc(groupOf(n))}</a>`:n.type==='material'?`<a href="#materials">材料介紹</a>`:`<a href="#tips">小技巧</a>`;
   let h=`<div class="crumb">${crumb}</div><h1>${esc(n.title)}</h1>`;
-  if(n.cover||hasDefault) h+=`<div class="ph">${pic(n)}</div>`;
+  if(n.cover||hasDefault){const u=n.cover||DEFAULT_IMG;h+=`<div class="hero"><img src="${esc(src(u))}" alt="${esc(n.title)}" onerror="this.parentNode.remove()"></div>`;}
   const dl=[];
   const add=(k,v,big,wide)=>dl.push(`<div${wide?' class="wide"':''}><dt>${k}</dt><dd class="${big?'big':''}${v?'':' na'}">${v||'待補充'}</dd></div>`);
   if(n.type==='tutorial'){
