@@ -317,7 +317,7 @@ const PHOTO_BODY='筆名：\n圖片所有者（要標註的名字）：\n\n我�
 let NOTES=[],IMGS={},RECENT=[],byId={},tutorials=[];
 const app=document.getElementById('app');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const groupOf=n=>(n.category==='VP'||n.category==='Mx')?'VP / Mx':n.category;
+const groupOf=n=>(n.category==='VP'||/^mx$/i.test(n.category))?'VP / MX':n.category;
 const slug=k=>encodeURIComponent(k).replace(/%/g,'_');
 const src=u=>IMGS[u]||u;
 
@@ -379,7 +379,7 @@ function carousel(root,count){
 function home(){
   const recent=RECENT.map(id=>byId[id]).filter(Boolean);
   const band=(title,list,link,alt)=>`<section class="band${alt?' alt':''}"><div class="wrap"><div class="band-head"><h2>${title}</h2>${link}</div><div class="grid">${list.map(card).join('')}</div></div></section>`;
-  const related={'VP / Mx':n=>n.tags.some(t=>/^(vp|mx)$/i.test(t))||/r\.?s\.?v\.?p/i.test(n.title),'G3':n=>n.tags.includes('G3'),'雙頭':n=>n.tags.includes('雙頭')};
+  const related={'VP / MX':n=>n.tags.some(t=>/^(vp|mx)$/i.test(t))||/r\.?s\.?v\.?p/i.test(n.title),'G3':n=>n.tags.includes('G3'),'雙頭':n=>n.tags.includes('雙頭')};
   const usedBy=k=>{
     const names=tutorials.filter(n=>groupOf(n)===k).flatMap(n=>n.materials.map(m=>m.name.toLowerCase()));
     return m=>[m.title,m.specs.alias||'',m.specs.name||''].flatMap(s=>s.split(/[、,]/)).map(s=>s.trim().toLowerCase().replace(/[-\s]/g,'')).filter(s=>s.length>2).some(s=>names.some(x=>x.replace(/[-\s]/g,'').includes(s)));
@@ -399,7 +399,7 @@ function home(){
     `<section class="recent" id="recent"><div class="wrap"><div class="band-head"><h2>最近更新</h2><div class="arrows"><button class="arrow prev" aria-label="上一篇"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg></button><button class="arrow next" aria-label="下一篇"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg></button></div></div><div class="viewport"><div class="rail">${[...recent,...recent.slice(0,3)].map((n,i)=>card(n).replace('<a ',i>=recent.length?'<a tabindex="-1" aria-hidden="true" ':'<a ')).join('')}</div></div></div></section>`+
     band('雙頭',fill6('雙頭'),more('雙頭'),true)+
     band('G3',fill6('G3'),more('G3'),false)+
-    band('VP / Mx',fill6('VP / Mx'),more('VP / Mx'),true)+
+    band('VP / MX',fill6('VP / MX'),more('VP / MX'),true)+
     `<section class="band"><div class="wrap"><div class="band-head"><h2>許願教學</h2></div><div class="wish"><p>想看的改筆還沒有教學？填表單告訴我們筆名和參考資料<br>有改筆照片也歡迎寄信投稿。</p><div class="acts"><a class="btn" href="${WISH_FORM}" target="_blank" rel="noopener">許願教學</a><a class="btn" href="${mailto('[投稿照片] ',PHOTO_BODY)}">寄信投稿照片</a></div></div></div></section>`;
   carousel(document.getElementById('recent'),recent.length);
 }
@@ -412,9 +412,9 @@ function listPage(kind,cat,sc='all'){
   else if(kind==='materials'){title='材料介紹';desc='常被拿來改造的原廠筆';list=NOTES.filter(n=>n.type==='material')}
   else{
     title='改筆教學';desc=`共 ${tutorials.length} 篇`;
-    cat=cat||'全部';
+    cat=(cat||'全部').replace(/mx/i,'MX'); // 舊連結的 Mx 也能對應到 MX
     list=cat==='全部'?tutorials:tutorials.filter(n=>groupOf(n)===cat);
-    chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / Mx'].map(k=>`<a class="chip" href="#tutorials-${slug(k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
+    chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / MX'].map(k=>`<a class="chip" href="#tutorials-${slug(k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
   }
   const ARROW='<svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M205.66,149.66l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L120,196.69V40a8,8,0,0,1,16,0V196.69l58.34-58.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
   const sortBar=`<div class="sorter"><div class="chips sortseg" id="sortSeg" role="group" aria-label="排序方式">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" class="chip" data-sort="${k}" aria-pressed="${k===listSort}">${v}</button>`).join('')}</div><button type="button" class="dir-btn" id="dirBtn" data-dir="${sortDir[listSort]}">${ARROW}<span class="lab">${labelHtml(DIR_NAME[listSort][sortDir[listSort]])}</span></button></div>`;
@@ -614,6 +614,20 @@ function setupChips(){
   chipPrev={key,x:on.offsetLeft,w:on.offsetWidth};
   if(document.fonts&&document.fonts.status==='loading') document.fonts.ready.then(()=>{if(bg.isConnected){box.classList.add('noanim');place();void bg.offsetWidth;box.classList.remove('noanim')}});
 }
+// 網站上所有「MX」寫法統一成兩個大寫：只處理畫面上的文字節點，不動網址與屬性
+const MX_RE=/\bmx\b/gi;
+function fixMX(root){
+  if(!root) return;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement&&/^(SCRIPT|STYLE|TEXTAREA)$/.test(n.parentElement.tagName)?NodeFilter.FILTER_REJECT:(MX_RE.lastIndex=0,MX_RE.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT});
+  const list=[];while(w.nextNode())list.push(w.currentNode);
+  list.forEach(n=>{n.nodeValue=n.nodeValue.replace(MX_RE,'MX')});
+}
+const mxObs=new MutationObserver(ms=>{
+  ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)fixMX(n);else if(n.nodeType===3&&n.parentElement){fixMX(n.parentElement)}}));
+  if(/\bmx\b/i.test(document.title)) document.title=document.title.replace(MX_RE,'MX');
+});
+mxObs.observe(document.getElementById('app'),{childList:true,subtree:true});
+mxObs.observe(document.getElementById('searchPop'),{childList:true,subtree:true});
 function render(keepScroll){
   if(carouselStop){carouselStop();carouselStop=null}
   openSearch(false);
