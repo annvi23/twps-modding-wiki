@@ -160,6 +160,10 @@ html.lock{overflow:hidden}
 .dir-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 14px 5px 12px;transition:color .25s var(--ease),border-color .25s var(--ease)}
 .dir-btn:hover{color:var(--fg);border-color:var(--fg)}
 .dir-btn .ic{width:13px;height:13px;transition:transform .4s var(--ease)}
+.lab{display:inline-flex}
+.lab .ch{position:relative;display:inline-block;white-space:pre}
+.lab .ch .o{display:inline-block}
+.lab .ch .ab{position:absolute;left:0;top:0;display:inline-block}
 .dir-btn[data-dir="asc"] .ic{transform:rotate(180deg)}
 .chip{position:relative;z-index:1;border-radius:999px;padding:4px 14px;font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .3s var(--ease)}
 .chip:hover{color:var(--fg)}
@@ -401,17 +405,17 @@ function home(){
 function listPage(kind,cat,sc='all'){
   let title,desc,list,chips='';
   if(kind==='search'){title=`搜尋「${esc(cat)}」`;list=findNotes(cat,sc);
-    chips=`<div class="chips" role="group" aria-label="搜尋範圍">${['all','mat','mod'].map(k=>`<a class="chip" href="#q-${k}-${encodeURIComponent(cat)}" aria-pressed="${k===sc}">${SCOPE_NAME[k]}</a>`).join('')}</div>`;desc=list.length?`找到 ${list.length} 篇。`:'找不到符合的筆記，試試筆名或材料名稱的一部分。';}
-  else if(kind==='tips'){title='小技巧';desc='改筆常用名詞與資源。';list=NOTES.filter(n=>n.type==='knowledge')}
-  else if(kind==='materials'){title='材料介紹';desc='常被拿來改造的原廠筆。';list=NOTES.filter(n=>n.type==='material')}
+    chips=`<div class="chips" role="group" aria-label="搜尋範圍">${['all','mat','mod'].map(k=>`<a class="chip" href="#q-${k}-${encodeURIComponent(cat)}" aria-pressed="${k===sc}">${SCOPE_NAME[k]}</a>`).join('')}</div>`;desc=list.length?`找到 ${list.length} 篇`:'找不到符合的筆記，試試筆名或材料名稱的一部分';}
+  else if(kind==='tips'){title='小技巧';desc='改筆常用名詞與資源';list=NOTES.filter(n=>n.type==='knowledge')}
+  else if(kind==='materials'){title='材料介紹';desc='常被拿來改造的原廠筆';list=NOTES.filter(n=>n.type==='material')}
   else{
-    title='改筆教學';desc=`共 ${tutorials.length} 篇。`;
+    title='改筆教學';desc=`共 ${tutorials.length} 篇`;
     cat=cat||'全部';
     list=cat==='全部'?tutorials:tutorials.filter(n=>groupOf(n)===cat);
     chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / Mx'].map(k=>`<a class="chip" href="#tutorials-${slug(k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
   }
   const ARROW='<svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M205.66,149.66l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L120,196.69V40a8,8,0,0,1,16,0V196.69l58.34-58.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
-  const sortBar=`<div class="sorter"><div class="chips sortseg" id="sortSeg" role="group" aria-label="排序方式">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" class="chip" data-sort="${k}" aria-pressed="${k===listSort}">${v}</button>`).join('')}</div><button type="button" class="dir-btn" id="dirBtn" data-dir="${sortDir[listSort]}">${ARROW}<span>${DIR_NAME[listSort][sortDir[listSort]]}</span></button></div>`;
+  const sortBar=`<div class="sorter"><div class="chips sortseg" id="sortSeg" role="group" aria-label="排序方式">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" class="chip" data-sort="${k}" aria-pressed="${k===listSort}">${v}</button>`).join('')}</div><button type="button" class="dir-btn" id="dirBtn" data-dir="${sortDir[listSort]}">${ARROW}<span class="lab">${labelHtml(DIR_NAME[listSort][sortDir[listSort]])}</span></button></div>`;
   app.innerHTML=`<div class="wrap"><div class="page-head"><h1>${title}</h1><p>${desc}</p></div><div class="list-tools">${chips||'<div></div>'}${sortBar}</div><div class="grid" id="listGrid">${sortList(list).map(card).join('')}</div>${pageEnd('')}<div style="height:72px"></div></div>`;
   const seg=document.getElementById('sortSeg'),dirBtn=document.getElementById('dirBtn');
   const fillSeg=()=>{
@@ -426,7 +430,7 @@ function listPage(kind,cat,sc='all'){
   };
   placeSeg(true);
   const repaint=()=>{
-    dirBtn.dataset.dir=sortDir[listSort];dirBtn.querySelector('span').textContent=DIR_NAME[listSort][sortDir[listSort]];
+    dirBtn.dataset.dir=sortDir[listSort];swapLabel(dirBtn.querySelector('.lab'),DIR_NAME[listSort][sortDir[listSort]]);
     const g=document.getElementById('listGrid');g.innerHTML=sortList(list).map(card).join('');
     if(!matchMedia('(prefers-reduced-motion: reduce)').matches) stagger(g);
   };
@@ -444,6 +448,24 @@ function listPage(kind,cat,sc='all'){
 }
 const SORT_NAME={updated:'時間',name:'名稱'};
 // 按鈕直接顯示目前的排列：時間「新到舊／舊到新」、名稱「A-Z／Z-A」。時間預設新到舊，名稱預設 A-Z
+const labelHtml=t=>[...t].map(c=>`<span class="ch"><span class="o">${esc(c)}</span></span>`).join('');
+// 方向按鈕的文字切換：第一個字往下淡出、新字從上往下淡入；最後一個字往上淡出、新字從下往上淡入，中間不動
+function swapLabel(lab,text){
+  const chars=[...text],cur=[...lab.querySelectorAll('.ch')];
+  // 上一輪動畫還沒結束就直接定格到它的目標文字
+  cur.forEach(el=>{if(el.dataset.t){el.getAnimations({subtree:true}).forEach(a=>a.cancel());el.innerHTML=`<span class="o">${esc(el.dataset.t)}</span>`;delete el.dataset.t}});
+  if(cur.length!==chars.length||matchMedia('(prefers-reduced-motion:reduce)').matches){lab.innerHTML=labelHtml(text);return}
+  cur.forEach((el,i)=>{
+    const next=chars[i],old=el.querySelector('.o');if(old.textContent===next) return;
+    const dy=i===chars.length-1?-1:1; // 最後一個字往上，其餘往下
+    const nw=document.createElement('span');nw.className='ab';nw.textContent=next;el.appendChild(nw);el.dataset.t=next;
+    const ease='cubic-bezier(.16,1,.3,1)';
+    const o=old.animate([{opacity:1,transform:'none'},{opacity:0,transform:`translateY(${dy*8}px)`}],{duration:350,easing:ease,fill:'forwards'});
+    nw.animate([{opacity:0,transform:`translateY(${-dy*8}px)`},{opacity:1,transform:'none'}],{duration:350,easing:ease,fill:'forwards'});
+    const fin=()=>{if(el.dataset.t===next){el.getAnimations({subtree:true}).forEach(a=>a.cancel());el.innerHTML=`<span class="o">${esc(next)}</span>`;delete el.dataset.t}};
+    o.onfinish=fin;setTimeout(fin,450);
+  });
+}
 const DIR_NAME={updated:{asc:'舊到新',desc:'新到舊'},name:{asc:'A-Z',desc:'Z-A'}};
 const sortDir={updated:'desc',name:'asc'};
 try{const d=JSON.parse(localStorage.getItem('twps-sortdir')||'{}');['updated','name'].forEach(k=>{if(d[k]==='asc'||d[k]==='desc')sortDir[k]=d[k]})}catch(e){}
