@@ -147,9 +147,11 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .foot-in{padding-block:32px 44px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
 .foot-in small{color:var(--muted);font-size:13px}
 .foot-r{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.theme{border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:12.5px;color:var(--muted);transition:color .25s,border-color .25s}
-.theme:hover{color:var(--fg);border-color:var(--fg)}
-html.theme-fade,html.theme-fade *,html.theme-fade *::before,html.theme-fade *::after{transition:background-color .6s ease,color .6s ease,border-color .6s ease,box-shadow .6s ease,fill .6s ease!important}
+.theme{width:36px;height:36px;border:1px solid var(--line);border-radius:999px;display:grid;place-items:center;color:var(--muted);transition:color .25s,border-color .25s,background .25s}
+.theme:hover{color:var(--bg);background:var(--fg);border-color:var(--fg)}
+.theme .ic{width:17px;height:17px}
+/* 切換深淺色：先變背景（0.5 秒），背景變完再變文字 */
+html.theme-fade,html.theme-fade *,html.theme-fade *::before,html.theme-fade *::after{transition:background-color .5s ease,border-color .5s ease,box-shadow .5s ease,color .35s ease .5s,fill .35s ease .5s!important}
 .preview-note{font-size:12px;color:var(--muted);text-align:center;padding:0 16px 24px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.nl:hover{transform:none}}
 </style>
@@ -179,7 +181,7 @@ html.theme-fade,html.theme-fade *,html.theme-fade *::before,html.theme-fade *::a
 <footer class="site">
   <div class="wrap"><div class="foot-in">
     <a class="logo" href="#home">TWPS 改筆百科</a>
-    <div class="foot-r"><small>由 taco 整理更新 · 資料來源 HackMD TWPS改筆百科</small><button class="theme" id="themeBtn" aria-label="切換深淺色">深色模式</button></div>
+    <div class="foot-r"><small>由 taco 整理更新 · 資料來源 HackMD TWPS改筆百科</small><button class="theme" id="themeBtn" aria-label="切換為深色模式" title="切換深淺色"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d=""></path></svg></button></div>
   </div></div>
 </footer>
 <!--PREVIEW_NOTE-->
@@ -370,9 +372,10 @@ res.onclick=e=>{if(e.target.closest('a'))openSearch(false)};
 /* 黑／白兩種主題，預設跟隨系統 */
 const tb=document.getElementById('themeBtn');
 const isDark=()=>{const t=document.documentElement.dataset.theme;return t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches};
-const paint=()=>tb.textContent=isDark()?'淺色模式':'深色模式';
+const ICON={moon:'M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z',sun:'M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z'};
+const paint=()=>{const d=isDark();tb.querySelector('path').setAttribute('d',d?ICON.sun:ICON.moon);tb.setAttribute('aria-label',d?'切換為淺色模式':'切換為深色模式')};
 try{const t=localStorage.getItem('twps-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
-tb.onclick=()=>{const t=isDark()?'light':'dark';const el=document.documentElement;el.classList.add('theme-fade');clearTimeout(window.__tf);window.__tf=setTimeout(()=>el.classList.remove('theme-fade'),700);el.dataset.theme=t;try{localStorage.setItem('twps-theme',t)}catch(e){}paint()};
+tb.onclick=()=>{const t=isDark()?'light':'dark';const el=document.documentElement;el.classList.add('theme-fade');clearTimeout(window.__tf);window.__tf=setTimeout(()=>el.classList.remove('theme-fade'),950);el.dataset.theme=t;try{localStorage.setItem('twps-theme',t)}catch(e){}paint()};
 paint();
 
 async function boot(){
