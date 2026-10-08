@@ -197,7 +197,7 @@ html.theme-fade,html.theme-fade *,html.theme-fade *::before,html.theme-fade *::a
     <nav class="main" aria-label="主選單">
       <a class="nl" href="#tips" data-nav="tips">小技巧</a>
       <a class="nl" href="#materials" data-nav="materials">材料介紹</a>
-      <a class="nl" href="#tutorials" data-nav="tutorials">教學</a>
+      <a class="nl" href="#tutorials" data-nav="tutorials">改筆教學</a>
       <span class="search-wrap">
         <button class="nl" id="searchBtn" aria-expanded="false" aria-controls="searchPop" aria-label="搜尋" title="搜尋"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button>
         <div class="pop" id="searchPop" role="dialog" aria-label="搜尋">
@@ -316,7 +316,7 @@ function listPage(kind,cat,sc='all'){
   else if(kind==='tips'){title='小技巧';desc='改筆常用名詞與資源。';list=NOTES.filter(n=>n.type==='knowledge')}
   else if(kind==='materials'){title='材料介紹';desc='常被拿來改造的原廠筆。';list=NOTES.filter(n=>n.type==='material')}
   else{
-    title='教學';desc=`${tutorials.length} 篇改筆教學。`;
+    title='改筆教學';desc=`共 ${tutorials.length} 篇。`;
     cat=cat||'全部';
     list=cat==='全部'?tutorials:tutorials.filter(n=>groupOf(n)===cat);
     chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / Mx'].map(k=>`<a class="chip" href="#tutorials-${slug(k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
@@ -344,7 +344,7 @@ function stepImgs(urls,alt){
 
 function article(n){
   const s=n.specs;
-  const crumb=n.type==='tutorial'?`<a href="#tutorials">教學</a> / <a href="#tutorials-${slug(groupOf(n))}">${esc(groupOf(n))}</a>`:n.type==='material'?`<a href="#materials">材料介紹</a>`:`<a href="#tips">小技巧</a>`;
+  const crumb=n.type==='tutorial'?`<a href="#tutorials">改筆教學</a> / <a href="#tutorials-${slug(groupOf(n))}">${esc(groupOf(n))}</a>`:n.type==='material'?`<a href="#materials">材料介紹</a>`:`<a href="#tips">小技巧</a>`;
   let h=`<div class="crumb">${crumb}</div><h1>${esc(n.title)}</h1>`;
   if(n.cover||hasDefault) h+=`<div class="ph">${pic(n)}</div>`;
   const dl=[];
