@@ -400,7 +400,6 @@ function article(n){
     h+='</div>';
   }
   h+=`<div class="art-foot">${n.credit?`<span>圖片所有者：${esc(n.credit)}</span>`:''}</div>`;
-  h+=pageEnd(n.type==='knowledge'?'':n.title);
   app.innerHTML=`<div class="wrap"><article class="article">${h}</article></div>`;
   document.title=`${n.title} | TWPS 改筆百科`;
 }
