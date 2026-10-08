@@ -41,6 +41,8 @@ ___
 [Lemon G3](/bIfXVNVpRBmf6QPbKTy1Xg)
 [esaya G3](/JpUie3a3Qaqn1tVDJSZLXA)
 [Shadix g3](/FDsfWe3eQNGpzr0gqLLT7Q)
+[Reamtea G3 V2](/VCUzncTbT9m_ALve3DHLfA)
+[under"Mebius"](/Z27-UX6OTTCwnD2QGMncSA)
 <br>
 
 #### VP
@@ -75,6 +77,10 @@ ___
 [JoeyStic](/flAZBLgqTQCwkj26vNG7Fw)
 [Taiwan Comssa 2023 ver.](/l8iCCx-WTkS8G2NsCCXSQw)
 [Joey's 700N mod](/X36-g6PTSl2jSp9omAnQDA)
+[Nanafushi BT](/aNeaU3GwS5WL8DNmJp6NGw)
+[Charcoal Latte](/VrRgKwQuSKGP0YVMXpKhNg)
+[GioGear](/sm0orxIgS7mD61Ehbw6LWA)
+[Neptunus](/3bM2vSk9QwuXDcgefpKqJQ)
 <br>
 
 ###### tags: `目錄`
