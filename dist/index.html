@@ -15,14 +15,14 @@
 /* Layout: 黑白兩色的圖庫式百科。頁首、內頁、頁尾之間用內縮的細橫線分隔（psherenz）；
    首頁先是緩慢輪播的「最近更新」，再依分類分帶，每帶 6 張 4:3 卡片；單篇教學為單欄長頁，大圖在上、文字在下。 */
 :root{
-  --bg:#fafafa; --band:#f1f1f0; --fg:#151515; --muted:#6c6c6c; --line:#d9d9d9; --hint:#a9a9a9; --ph:#e7e7e6; --pop:#ffffff; --pill:#333333; --dk:0;
+  --bg:#fafafa; --band:#f1f1f0; --fg:#151515; --muted:#6c6c6c; --line:#d9d9d9; --hint:#a9a9a9; --ph:#e7e7e6; --pop:#ffffff; --dk:0;
   --sans:"Roboto","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   --mono:"Roboto","Noto Sans TC",system-ui,sans-serif;
   --sans-ja:"Roboto","Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif; /* 數字也用 Roboto，靠 tabular-nums 對齊 */
   --r:4px; --max:1240px; --ease:cubic-bezier(.16,1,.3,1);
 }
 :root[data-theme="dark"]{
-  --bg:#101010; --band:#171717; --fg:#ebebeb; --muted:#8c8c8c; --line:#2c2c2c; --hint:#5c5c5c; --ph:#1d1d1d; --pop:#1a1a1a; --pill:#cccccc; --dk:1; color-scheme:dark}
+  --bg:#101010; --band:#171717; --fg:#ebebeb; --muted:#8c8c8c; --line:#2c2c2c; --hint:#5c5c5c; --ph:#1d1d1d; --pop:#1a1a1a; --dk:1; color-scheme:dark}
 *{box-sizing:border-box}
 /* 日文內容（lang="ja"）改用 Zen Kaku Gothic New */
 :lang(ja){font-family:var(--sans-ja)}
@@ -66,7 +66,7 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .pop-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
 .pop label{display:block;font-size:12px;color:var(--muted);letter-spacing:.04em}
 .scope{position:relative;display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;flex:none}
-.scope-bg{position:absolute;left:0;top:2px;bottom:2px;width:0;border-radius:999px;background:var(--pill);transition:transform .45s var(--ease),width .45s var(--ease);pointer-events:none}
+.scope-bg{position:absolute;left:0;top:2px;bottom:2px;width:0;border-radius:999px;background:var(--fg);transition:transform .45s var(--ease),width .45s var(--ease);pointer-events:none}
 .scope.ready .scope-bg{will-change:transform,width}
 .scope.noanim .scope-bg{transition:none}
 .scope button{position:relative;z-index:1;font-size:12px;padding:3px 10px;border-radius:999px;color:var(--muted);transition:color .3s var(--ease)}
@@ -152,7 +152,7 @@ html.lock{overflow:hidden}
 .page-head p{color:var(--muted);margin:8px 0 0}
 .list-tools{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin:22px 0 28px}
 .chips{position:relative;display:inline-flex;max-width:100%;border:1px solid var(--line);border-radius:999px;padding:2px;margin:0}
-.chips-bg{position:absolute;left:0;top:2px;bottom:2px;width:0;border-radius:999px;background:var(--pill);transition:transform .45s var(--ease),width .45s var(--ease);pointer-events:none}
+.chips-bg{position:absolute;left:0;top:2px;bottom:2px;width:0;border-radius:999px;background:var(--fg);transition:transform .45s var(--ease),width .45s var(--ease);pointer-events:none}
 .chips.noanim .chips-bg{transition:none}
 /* 排序下拉選單 */
 .sorter{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -411,7 +411,7 @@ function listPage(kind,cat,sc='all'){
     chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / Mx'].map(k=>`<a class="chip" href="#tutorials-${slug(k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
   }
   const ARROW='<svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M205.66,149.66l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L120,196.69V40a8,8,0,0,1,16,0V196.69l58.34-58.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
-  const sortBar=`<div class="sorter"><div class="chips sortseg" id="sortSeg" role="group" aria-label="排序方式">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" class="chip" data-sort="${k}" aria-pressed="${k===listSort}">${v}</button>`).join('')}</div><button type="button" class="dir-btn" id="dirBtn" data-dir="${sortDir[listSort]}">${ARROW}<span>${DIR_NAME[sortDir[listSort]]}</span></button></div>`;
+  const sortBar=`<div class="sorter"><div class="chips sortseg" id="sortSeg" role="group" aria-label="排序方式">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" class="chip" data-sort="${k}" aria-pressed="${k===listSort}">${v}</button>`).join('')}</div><button type="button" class="dir-btn" id="dirBtn" data-dir="${sortDir[listSort]}">${ARROW}<span>${DIR_NAME[listSort][sortDir[listSort]]}</span></button></div>`;
   app.innerHTML=`<div class="wrap"><div class="page-head"><h1>${title}</h1><p>${desc}</p></div><div class="list-tools">${chips||'<div></div>'}${sortBar}</div><div class="grid" id="listGrid">${sortList(list).map(card).join('')}</div>${pageEnd('')}<div style="height:72px"></div></div>`;
   const seg=document.getElementById('sortSeg'),dirBtn=document.getElementById('dirBtn');
   const fillSeg=()=>{
@@ -426,7 +426,7 @@ function listPage(kind,cat,sc='all'){
   };
   placeSeg(true);
   const repaint=()=>{
-    dirBtn.dataset.dir=sortDir[listSort];dirBtn.querySelector('span').textContent=DIR_NAME[sortDir[listSort]];
+    dirBtn.dataset.dir=sortDir[listSort];dirBtn.querySelector('span').textContent=DIR_NAME[listSort][sortDir[listSort]];
     const g=document.getElementById('listGrid');g.innerHTML=sortList(list).map(card).join('');
     if(!matchMedia('(prefers-reduced-motion: reduce)').matches) stagger(g);
   };
@@ -443,8 +443,8 @@ function listPage(kind,cat,sc='all'){
   };
 }
 const SORT_NAME={updated:'時間',name:'名稱'};
-// 正序＝由小到大（舊到新、A 到 Z）；倒序＝由大到小（新到舊、Z 到 A）。時間預設倒序（最新在前），名稱預設正序
-const DIR_NAME={asc:'正序',desc:'倒序'};
+// 按鈕直接顯示目前的排列：時間「新到舊／舊到新」、名稱「A-Z／Z-A」。時間預設新到舊，名稱預設 A-Z
+const DIR_NAME={updated:{asc:'舊到新',desc:'新到舊'},name:{asc:'A-Z',desc:'Z-A'}};
 const sortDir={updated:'desc',name:'asc'};
 try{const d=JSON.parse(localStorage.getItem('twps-sortdir')||'{}');['updated','name'].forEach(k=>{if(d[k]==='asc'||d[k]==='desc')sortDir[k]=d[k]})}catch(e){}
 let listSort='updated';
