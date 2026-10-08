@@ -106,7 +106,19 @@ html.lock{overflow:hidden}
 .page-head p{color:var(--muted);margin:8px 0 0}
 .list-tools{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin:22px 0 28px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
-.sort button{font-size:13px;padding:4px 12px}
+/* 排序下拉選單 */
+.dd{position:relative}
+.dd-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 14px;transition:color .25s,border-color .25s}
+.dd-btn b{font-weight:500;color:var(--fg)}
+.dd-btn:hover,.dd.open .dd-btn{color:var(--fg);border-color:var(--fg)}
+.dd-btn .caret{width:12px;height:12px;transition:transform .3s var(--ease)}
+.dd.open .caret{transform:rotate(180deg)}
+.dd-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:20;min-width:140px;background:var(--pop);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px -20px rgba(0,0,0,.35);padding:6px;display:grid;
+  opacity:0;transform:translateY(-6px) scale(.97);transform-origin:top right;pointer-events:none;visibility:hidden;transition:opacity .25s var(--ease),transform .25s var(--ease),visibility .25s}
+.dd.open .dd-menu{opacity:1;transform:none;pointer-events:auto;visibility:visible}
+.dd-menu button{text-align:left;font-size:13px;padding:7px 10px;border-radius:5px;color:var(--muted)}
+.dd-menu button:hover{background:var(--band);color:var(--fg)}
+.dd-menu button[aria-selected="true"]{color:var(--fg);font-weight:500}
 .chip{border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:13px;color:var(--muted);text-decoration:none;transition:background .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease)}
 .chip:hover{color:var(--fg);border-color:var(--fg)}
 .chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
@@ -338,11 +350,17 @@ function listPage(kind,cat,sc='all'){
     list=cat==='全部'?tutorials:tutorials.filter(n=>groupOf(n)===cat);
     chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / Mx'].map(k=>`<a class="chip" href="#tutorials-${slug(k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
   }
-  const sortBar=`<div class="scope sort" role="radiogroup" aria-label="排序">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" role="radio" data-sort="${k}" aria-checked="${k===listSort}">${v}</button>`).join('')}</div>`;
+  const sortBar=`<div class="dd" id="sortDd"><button type="button" class="dd-btn" aria-haspopup="listbox" aria-expanded="false">排序：<b>${SORT_NAME[listSort]}</b><svg class="ic caret" viewBox="0 0 256 256" aria-hidden="true"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg></button><div class="dd-menu" role="listbox" aria-label="排序">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" role="option" data-sort="${k}" aria-selected="${k===listSort}">${v}</button>`).join('')}</div></div>`;
   app.innerHTML=`<div class="wrap"><div class="page-head"><h1>${title}</h1><p>${desc}</p></div><div class="list-tools">${chips||'<div></div>'}${sortBar}</div><div class="grid" id="listGrid">${sortList(list).map(card).join('')}</div>${pageEnd('')}<div style="height:72px"></div></div>`;
-  app.querySelectorAll('.sort button').forEach(b=>b.onclick=()=>{
+  const dd=document.getElementById('sortDd'),ddBtn=dd.querySelector('.dd-btn');
+  const ddOpen=o=>{dd.classList.toggle('open',o);ddBtn.setAttribute('aria-expanded',o)};
+  ddBtn.onclick=e=>{e.stopPropagation();ddOpen(!dd.classList.contains('open'))};
+  dd.querySelectorAll('[data-sort]').forEach(b=>b.onclick=e=>{
+    e.stopPropagation();ddOpen(false);
+    if(b.dataset.sort===listSort) return;
     listSort=b.dataset.sort;try{localStorage.setItem('twps-sort',listSort)}catch(e){}
-    app.querySelectorAll('.sort button').forEach(x=>x.setAttribute('aria-checked',x===b));
+    dd.querySelectorAll('[data-sort]').forEach(x=>x.setAttribute('aria-selected',x===b));
+    ddBtn.querySelector('b').textContent=SORT_NAME[listSort];
     const g=document.getElementById('listGrid');g.innerHTML=sortList(list).map(card).join('');
     if(!matchMedia('(prefers-reduced-motion: reduce)').matches) stagger(g);
   });
@@ -352,7 +370,8 @@ let listSort='updated';
 try{const s=localStorage.getItem('twps-sort');if(SORT_NAME[s])listSort=s}catch(e){}
 const collator=new Intl.Collator('zh-Hant',{numeric:true,sensitivity:'base'});
 function sortList(list){
-  return [...list].sort(listSort==='name'?(a,b)=>collator.compare(a.title,b.title):(a,b)=>(b.updated||b.created||0)-(a.updated||a.created||0));
+  const latin=s=>/^[ -]/.test(s)?0:1; // 英數筆名排在中文前面
+  return [...list].sort(listSort==='name'?(a,b)=>latin(a.title)-latin(b.title)||collator.compare(a.title,b.title):(a,b)=>(b.updated||b.created||0)-(a.updated||a.created||0));
 }
 
 function mdText(t){
@@ -468,6 +487,7 @@ function openSearch(open){pop.classList.toggle('open',open);if(!open)document.do
 sb.onclick=e=>{e.stopPropagation();openSearch(!pop.classList.contains('open'))};
 pop.onclick=e=>e.stopPropagation();
 document.addEventListener('click',()=>openSearch(false));
+document.addEventListener('click',()=>document.querySelectorAll('.dd.open').forEach(d=>{d.classList.remove('open');d.querySelector('.dd-btn').setAttribute('aria-expanded','false')}));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')openSearch(false)});
 let scope='all';
 const SCOPE_NAME={all:'全部',mat:'材料',mod:'改造'};
