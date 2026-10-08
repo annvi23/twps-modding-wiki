@@ -205,7 +205,9 @@ def main(src, dst):
     for p in sorted((src.parent / 'drafts').glob('*.md')):
         md = p.read_text(encoding='utf8')
         tags = re.findall(r'`([^`]+)`', md.split('tags:')[-1]) if 'tags:' in md else []
-        cat = next((t for t in tags if t in ('G3', 'VP', 'Mx', '雙頭')), '雙頭')
+        cat = next((t for t in tags if t in ('G3', 'VP', '雙頭') or t.upper() == 'MX'), '雙頭')
+        if cat.upper() == 'MX':
+            cat = 'MX'  # HackMD 上寫 Mx／MX 都行，統一成 MX
         n = parse(md, 'draft-' + p.stem, cat)
         n['draft'] = True
         n['hackmd'] = ''

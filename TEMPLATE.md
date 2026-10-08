@@ -1,6 +1,6 @@
 ---
 title: Taiwan Comssa 2023 ver.
-category: 雙頭            # G3 / VP / Mx / 雙頭 / 材料 / 改筆小知識
+category: 雙頭            # G3 / VP / MX / 雙頭 / 材料 / 改筆小知識
 inventor: Joey
 length_cm: 18.5           # 單位一律 cm，只填數字；範圍寫 [21, 22]
 weight_g: 8.4             # 單位一律 g，只填數字；範圍寫 [15, 16]
