@@ -92,6 +92,7 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .ph{transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
 .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .card:hover .ph,.card:focus-visible .ph{transform:scale(1.04);box-shadow:0 14px 34px -18px rgba(0,0,0,.45);z-index:1}
+.ph .none.hide{visibility:hidden}
 .ph .none{position:absolute;inset:0;display:grid;place-items:center;padding:20px;text-align:center;font:600 clamp(22px,2.6vw,30px)/1.2 var(--sans);letter-spacing:.01em;color:var(--fg)}
 .card .nm{margin-top:12px;font-weight:500;font-size:16px;line-height:1.35}
 .card .mt{margin-top:2px;font:12.5px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
@@ -104,8 +105,8 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .chip{border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:13px;color:var(--muted);text-decoration:none;transition:background .3s var(--ease),border-color .3s var(--ease),color .3s var(--ease)}
 .chip:hover{color:var(--fg);border-color:var(--fg)}
 .chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
-.stagger>*{animation:item-in .45s var(--ease) both;animation-delay:calc(var(--i,0) * 40ms)}
-.results.stagger>*{animation-duration:.3s;animation-delay:calc(var(--i,0) * 25ms)}
+.stagger>*{animation:item-in .8s var(--ease) both;animation-delay:calc(var(--i,0) * 80ms)}
+.results.stagger>*{animation-duration:.45s;animation-delay:calc(var(--i,0) * 40ms)}
 @keyframes item-in{from{opacity:0;transform:translateY(12px)}}
 .list-grid{padding-bottom:72px}
 
@@ -249,7 +250,7 @@ function pic(n){
   const none=`<div class="none">${esc(n.title)}</div>`;
   if(!u) return none;
   // 圖片蓋在筆名上面；圖片失效時隱藏，底下的大字筆名就會露出來
-  return `${none}<img src="${esc(src(u))}" alt="${esc(n.title)}" loading="lazy" onerror="this.remove()">`;
+  return `${none.replace('class="none"','class="none hide"')}<img src="${esc(src(u))}" alt="${esc(n.title)}" loading="lazy" onerror="this.previousElementSibling.classList.remove('hide');this.remove()">`;
 }
 function card(n){
   const mt=n.type==='tutorial'?metaLine(n):(n.type==='material'?esc(n.specs.maker||'材料'):'小技巧');
