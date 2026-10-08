@@ -54,6 +54,9 @@ def build_site():
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             f'{head}\n</head>\n<body>\n{body}\n</body>\n</html>\n')
     (dist / 'index.html').write_text(html, encoding='utf-8')
+    headers = ROOT / 'site' / '_headers'  # Cloudflare Pages：首頁與資料不快取，更新後馬上看到新版
+    if headers.exists():
+        shutil.copy(headers, dist / '_headers')
     assets = ROOT / 'site' / 'assets'
     if assets.exists():
         shutil.copytree(assets, dist / 'assets')
