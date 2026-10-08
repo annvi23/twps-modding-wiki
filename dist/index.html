@@ -53,8 +53,12 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .pop{position:absolute;right:-8px;top:calc(100% + 14px);width:min(380px,calc(100vw - 32px));background:var(--pop);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px -20px rgba(0,0,0,.35);padding:14px;
   /* 開啟：由上往下展開；關閉：由下往上收起。四周留負值，陰影才不會被裁掉 */
   clip-path:inset(-24px -48px 100% -48px);opacity:0;pointer-events:none;visibility:hidden;
-  transition:clip-path .5s var(--ease),opacity .3s var(--ease),visibility 0s .5s}
-.pop.open{clip-path:inset(-24px -48px -64px -48px);opacity:1;pointer-events:auto;visibility:visible;transition:clip-path .5s var(--ease),opacity .25s var(--ease),visibility 0s}
+  transition:clip-path .5s var(--ease) .36s,opacity .2s var(--ease) .66s,visibility 0s .86s}
+.pop.open{clip-path:inset(-24px -48px -64px -48px);opacity:1;pointer-events:auto;visibility:visible;transition:clip-path .5s var(--ease),opacity .2s var(--ease),visibility 0s}
+/* 內容分層：開啟時外框 → 提示文字 → 三個選項 → 輸入框 → 放大鏡 → 結果；關閉時反過來，最後外框才收起 */
+.pop .sq{opacity:0;transition:opacity .2s var(--ease) var(--c,0s)}
+.pop.open .sq{opacity:1;transition:opacity .5s var(--ease) var(--o,0s)}
+.pop .sq.s1{--o:.4s;--c:.3s}.pop .sq.s2{--o:.55s;--c:.24s}.pop .sq.s3{--o:.7s;--c:.18s}.pop .sq.s4{--o:.85s;--c:.12s}.pop .sq.s5{--o:1s;--c:0s}
 .pop-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
 .pop label{display:block;font-size:12px;color:var(--muted);letter-spacing:.04em}
 .scope{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;flex:none}
@@ -137,7 +141,7 @@ html.lock{overflow:hidden}
 .chip:hover{color:var(--fg);border-color:var(--fg)}
 .chip[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
 .stagger>*{animation:item-in .8s var(--ease) both;animation-delay:calc(var(--i,0) * 80ms)}
-.results.stagger>*{animation-name:fade-in;animation-duration:.45s;animation-delay:calc(var(--i,0) * 40ms)}
+.results.stagger>*{animation-name:fade-in;animation-duration:.5s;animation-delay:calc(var(--base,0ms) + var(--i,0) * 70ms)}
 @keyframes item-in{from{opacity:0;transform:translateY(12px)}}
 /* 搜尋結果只淡入、不位移，避免動畫期間撐出捲軸 */
 @keyframes fade-in{from{opacity:0}}
@@ -232,10 +236,13 @@ html.theme-fade body,html.theme-fade body *,html.theme-fade body *::before,html.
 .preview-note{font-size:12px;color:var(--muted);text-align:center;padding:0 16px 24px}
 /* 換頁動畫：舊頁面往上淡出，新頁面從下方淡入；頁首不動 */
 .page-out{animation:pg-out .35s var(--ease) both}
-.page-in{animation:pg-in .85s var(--ease) both}
+.page-in{animation:none}
 @keyframes pg-out{to{opacity:0;transform:translateY(-10px)}}
 @keyframes pg-in{from{opacity:0;transform:translateY(20px)}}
-@media (prefers-reduced-motion:reduce){.page-out,.page-in,.stagger>*{animation:none}}
+/* 進場：標題 → 區塊 → 卡片／步驟，依層級一個一個浮現 */
+.rise{animation:rise .7s var(--ease) both;animation-delay:var(--d,0ms)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+@media (prefers-reduced-motion:reduce){.page-out,.page-in,.stagger>*,.rise{animation:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.nl:hover{transform:none}}
 </style>
 
@@ -253,9 +260,9 @@ html.theme-fade body,html.theme-fade body *,html.theme-fade body *::before,html.
       <span class="search-wrap">
         <button class="nl" id="searchBtn" aria-expanded="false" aria-controls="searchPop" aria-label="搜尋" title="搜尋"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button>
         <div class="pop" id="searchPop" role="dialog" aria-label="搜尋">
-          <div class="pop-head"><label for="q">搜尋筆名、發明者或材料</label><div class="scope" role="radiogroup" aria-label="搜尋範圍"><button type="button" role="radio" data-scope="all" aria-checked="true">全部</button><button type="button" role="radio" data-scope="mat" aria-checked="false">材料</button><button type="button" role="radio" data-scope="mod" aria-checked="false">改造</button></div></div>
-          <form id="qform" class="qrow" role="search"><input id="q" type="search" placeholder="例如 Comssa、Joey、HGG" autocomplete="off" enterkeyhint="search"><button type="submit" class="qgo" aria-label="搜尋全站" title="搜尋全站"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button></form>
-          <div class="results" id="results"></div>
+          <div class="pop-head"><label class="sq s1" for="q">搜尋筆名、發明者或材料</label><div class="scope sq s2" role="radiogroup" aria-label="搜尋範圍"><button type="button" role="radio" data-scope="all" aria-checked="true">全部</button><button type="button" role="radio" data-scope="mat" aria-checked="false">材料</button><button type="button" role="radio" data-scope="mod" aria-checked="false">改造</button></div></div>
+          <form id="qform" class="qrow" role="search"><input class="sq s3" id="q" type="search" placeholder="例如 Comssa、Joey、HGG" autocomplete="off" enterkeyhint="search"><button type="submit" class="qgo sq s4" aria-label="搜尋全站" title="搜尋全站"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button></form>
+          <div class="results sq s5" id="results"></div>
         </div>
       </span>
     </nav>
@@ -294,8 +301,8 @@ const metaLine=n=>`${measure(n.specs,'length','cm')||'-- cm'} · ${measure(n.spe
 const NOIMG='<div class="noimg"><i class="l"></i><i class="d"></i></div>';
 function pic(n){
   if(!n.cover) return NOIMG;
-  // 照片蓋在預設圖上面；照片失效時移除，底下的預設圖就會露出來
-  return `${NOIMG}<img src="${esc(src(n.cover))}" alt="${esc(n.title)}" loading="lazy" onerror="this.remove()">`;
+  // 有照片就不載入預設圖；照片失效時才換成預設圖
+  return `<img src="${esc(src(n.cover))}" alt="${esc(n.title)}" loading="lazy" onerror="this.outerHTML=NOIMG">`;
 }
 function card(n){
   const mt=n.type==='tutorial'?metaLine(n):(n.type==='material'?esc(n.specs.maker||'材料'):'小技巧');
@@ -306,10 +313,12 @@ function pageEnd(title){
   const q=title?'有這支筆的照片，或想看其他改筆的教學？':'想看的改筆還沒有教學？';
   return `<div class="page-end"><p>${q}</p><div class="acts"><a class="btn" href="${WISH_FORM}" target="_blank" rel="noopener">許願教學</a><a class="btn" href="${mail}">寄信投稿照片</a></div></div>`;
 }
-function stagger(el){
+function stagger(el,opt={}){
   if(!el) return;
   el.classList.remove('stagger');
-  [...el.children].forEach((c,i)=>c.style.setProperty('--i',Math.min(i,14)));
+  const kids=[...el.children],n=Math.min(kids.length,14);
+  kids.forEach((c,i)=>{const k=Math.min(i,13);c.style.setProperty('--i',opt.reverse?Math.max(0,Math.min(kids.length,14)-1-k):k)});
+  el.style.setProperty('--base',(opt.base||0)+'ms');
   void el.offsetWidth;el.classList.add('stagger');
 }
 function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
@@ -361,7 +370,7 @@ function home(){
     band('雙頭',fill6('雙頭'),more('雙頭'),true)+
     band('G3',fill6('G3'),more('G3'),false)+
     band('VP / Mx',fill6('VP / Mx'),more('VP / Mx'),true)+
-    `<section class="band"><div class="wrap"><div class="band-head"><h2>許願教學</h2></div><div class="wish"><p>想看的改筆還沒有教學？填表單告訴我們筆名和參考資料；有改筆照片也歡迎寄信投稿。</p><div class="acts"><a class="btn" href="${WISH_FORM}" target="_blank" rel="noopener">許願教學</a><a class="btn" href="${mailto('[投稿照片] ',PHOTO_BODY)}">寄信投稿照片</a></div></div></div></section>`;
+    `<section class="band"><div class="wrap"><div class="band-head"><h2>許願教學</h2></div><div class="wish"><p>想看的改筆還沒有教學？填表單告訴我們筆名和參考資料<br>有改筆照片也歡迎寄信投稿。</p><div class="acts"><a class="btn" href="${WISH_FORM}" target="_blank" rel="noopener">許願教學</a><a class="btn" href="${mailto('[投稿照片] ',PHOTO_BODY)}">寄信投稿照片</a></div></div></div></section>`;
   carousel(document.getElementById('recent'),recent.length);
 }
 
@@ -494,6 +503,26 @@ function route(){
   app.classList.remove('page-in');app.classList.add('page-out');
   window.__pg=setTimeout(()=>{render();app.classList.remove('page-out');void app.offsetWidth;app.classList.add('page-in')},350);
 }
+const LEVELS=[
+  ['.crumb','h1','.page-head','.chips','.list-tools','.band-head','.sec>h2','.fb-box>h2'],
+  ['.hero','.data','.viewport','.grid','.mats','.steps','.md','.video','.wish','.fb-grid','.page-end','.art-foot'],
+  ['.card','.step','.mat','.fb-box','.btn','.data>div','.more']
+];
+function enter(root){
+  let t=0;const seen=new Set();
+  LEVELS.forEach((sels,lv)=>{
+    let idx=0;const per=new Map();
+    root.querySelectorAll(sels.join(',')).forEach(el=>{
+      if(seen.has(el)) return;seen.add(el);
+      let d;
+      if(lv<2){d=t+idx*60;idx++}
+      else{const par=el.parentElement;const j=per.get(par)||0;per.set(par,j+1);d=t+Math.min(j,9)*55}
+      el.style.setProperty('--d',d+'ms');el.classList.add('rise');
+    });
+    t+=lv<2?Math.min(idx,8)*60+100:0;
+  });
+}
+app.addEventListener('animationend',e=>{if(e.target.classList.contains('rise')){e.target.classList.remove('rise');e.target.style.removeProperty('--d')}});
 function render(keepScroll){
   if(carouselStop){carouselStop();carouselStop=null}
   openSearch(false);
@@ -506,7 +535,7 @@ function render(keepScroll){
   else if(h.startsWith('q-')){const m=h.slice(2).match(/^(all|mat|mod)-(.*)$/);listPage('search',decodeURIComponent(m?m[2]:h.slice(2)),m?m[1]:'all')}
   else if(h.startsWith('tutorials')) listPage('tutorials',h.includes('-')?decodeURIComponent(h.slice(10).replace(/_/g,'%')):'');
   else home();
-  if(!keepScroll) window.scrollTo(0,0);
+  if(!keepScroll){window.scrollTo(0,0);if(!matchMedia('(prefers-reduced-motion: reduce)').matches) enter(app)}
 }
 
 /* 搜尋小視窗 */
@@ -540,16 +569,20 @@ function doSearch(animate,instant){
   else{
     const hits=findNotes(k,scope);
     res.innerHTML=hits.length?hits.map(n=>`<a href="#n-${n.id}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join(''):'<div class="empty">找不到符合的筆記。</div>';
-    if(animate) stagger(res);
   }
   fitResults();
-  // 結果區高度改變時（切換類型、輸入文字、結果變空）用動畫過渡，搜尋框跟著平順伸縮
   const h1=res.getBoundingClientRect().height;
-  if(!instant&&pop.classList.contains('open')&&Math.abs(h1-h0)>1&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const shrink=h1<h0-1,grow=h1>h0+1,rows=Math.min(res.children.length,14);
+  // 切換類型：變少 → 文字先由下往上逐行淡入，接著外框往上縮；變多 → 外框先展開，再逐行淡入
+  if(animate&&!reduce&&k) stagger(res,{reverse:shrink,base:grow?450:0});
+  if(!instant&&!reduce&&pop.classList.contains('open')&&(shrink||grow)){
+    const wait=animate&&shrink?rows*70+500:0;
     res.style.overflowY='hidden';
-    resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:450,easing:'cubic-bezier(.2,.7,.2,1)'});
-    const done=()=>{if(resAnim===a){resAnim=null;res.style.overflowY=''}};const a=resAnim;
-    a.onfinish=done;a.oncancel=()=>{if(resAnim===null||resAnim===a)res.style.overflowY=''};setTimeout(()=>{if(resAnim===a){a.cancel();resAnim=null;res.style.overflowY=''}},800);
+    const a=resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:500,delay:wait,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'});
+    const done=()=>{if(resAnim===a){resAnim=null;a.cancel();res.style.overflowY=''}};
+    a.onfinish=done;
+    setTimeout(done,wait+1000);
   }
 }
 q.oninput=()=>doSearch(false);
