@@ -510,18 +510,17 @@ const LEVELS=[
 ];
 function enter(root){
   // 標題層先依序出現；區塊與卡片緊接在標題之後開始，不等標題播完
-  const seen=new Set();let t=0;
+  const seen=new Set();const t=220; // 所有頁面共用同一組時間（以大分類頁為準）
   LEVELS.forEach((sels,lv)=>{
     let idx=0;const per=new Map();
     root.querySelectorAll(sels.join(',')).forEach(el=>{
       if(seen.has(el)) return;seen.add(el);
       let d;
-      if(lv===0){d=Math.min(idx,6)*45;idx++}
+      if(lv===0){d=Math.min(idx,3)*45;idx++}
       else if(lv===1){d=t+Math.min(idx,6)*40;idx++}
       else{const par=el.parentElement;const j=per.get(par)||0;per.set(par,j+1);d=t+Math.min(j,9)*40}
       el.style.setProperty('--d',d+'ms');el.classList.add('rise');
     });
-    if(lv===0) t=Math.min(idx,6)*45+40;
   });
 }
 app.addEventListener('animationend',e=>{if(e.target.classList.contains('rise')){e.target.classList.remove('rise');e.target.style.removeProperty('--d')}});
@@ -563,22 +562,32 @@ function fitResults(){
   document.documentElement.classList.toggle('lock',pop.classList.contains('open')&&res.scrollHeight>res.clientHeight+1);
 }
 let resAnim=null;
+const EMPTY_HTML='<div class="empty">找不到符合的筆記。</div>';
+const hitsHtml=hits=>hits.map(n=>`<a href="#n-${n.id}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join('');
 function doSearch(animate,instant){
   const k=q.value.trim();
   const h0=res.getBoundingClientRect().height;
   if(resAnim){resAnim.cancel();resAnim=null}
-  if(!k){res.innerHTML=''}
-  else{
-    const hits=findNotes(k,scope);
-    res.innerHTML=hits.length?hits.map(n=>`<a href="#n-${n.id}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join(''):'<div class="empty">找不到符合的筆記。</div>';
-  }
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const can=!instant&&!reduce&&pop.classList.contains('open');
+  const hits=k?findNotes(k,scope):[];
+  const oldHTML=res.innerHTML;
+  res.innerHTML=!k?'':hits.length?hitsHtml(hits):EMPTY_HTML;
   fitResults();
   const h1=res.getBoundingClientRect().height;
-  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const shrink=h1<h0-1,grow=h1>h0+1,rows=Math.min(res.children.length,14);
-  // 切換類型：變少 → 文字先由下往上逐行淡入，接著外框往上縮；變多 → 外框先展開，再逐行淡入
+  // 切到「找不到」：舊內容留著，外框先往上縮，縮完文字才淡入
+  if(can&&animate&&k&&!hits.length&&shrink&&oldHTML){
+    const msg=res.innerHTML;res.innerHTML=oldHTML;fitResults();
+    res.style.overflowY='hidden';
+    const a=resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:380,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'});
+    let fin=false;const done=()=>{if(fin||resAnim!==a)return;fin=true;resAnim=null;a.cancel();res.innerHTML=msg;res.style.overflowY='';fitResults();stagger(res)};
+    a.onfinish=done;setTimeout(done,1200);
+    return;
+  }
+  // 其他切換：變少 → 文字先由下往上逐行淡入，接著外框往上縮；變多 → 外框先展開，再逐行淡入
   if(animate&&!reduce&&k) stagger(res,{reverse:shrink,base:grow?280:0});
-  if(!instant&&!reduce&&pop.classList.contains('open')&&(shrink||grow)){
+  if(can&&(shrink||grow)){
     const wait=animate&&shrink?rows*45+160:0;
     res.style.overflowY='hidden';
     const a=resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:380,delay:wait,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'});
