@@ -55,8 +55,8 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .pop .sq{opacity:0;transform:translateY(8px);transition:opacity .35s var(--ease) var(--c,0s),transform .35s var(--ease) var(--c,0s)}
 .pop.open .sq{opacity:1;transform:none;transition:opacity .45s var(--ease) var(--o,0s),transform .45s var(--ease) var(--o,0s)}
 /* 放大鏡按鈕：進場用的 transition 不能蓋掉顏色變化，hover 時底色與文字要淡入淡出 */
-.pop .qgo.sq{transition:opacity .15s var(--ease) var(--c,0s),transform .15s var(--ease) var(--c,0s),background .8s var(--ease),color .8s var(--ease)}
-.pop.open .qgo.sq{transition:opacity .45s var(--ease) var(--o,0s),transform .45s var(--ease) var(--o,0s),background .8s var(--ease),color .8s var(--ease)}
+.pop .qgo.sq{transition:opacity .35s var(--ease) var(--c,0s),transform .35s var(--ease) var(--c,0s),color .8s var(--ease),border-color .8s var(--ease)}
+.pop.open .qgo.sq{transition:opacity .45s var(--ease) var(--o,0s),transform .45s var(--ease) var(--o,0s),color .8s var(--ease),border-color .8s var(--ease)}
 .pop .sq.s1{--o:.1s;--c:.28s}.pop .sq.s2{--o:.18s;--c:.21s}.pop .sq.s3{--o:.26s;--c:.14s}.pop .sq.s4{--o:.34s;--c:.07s}.pop .sq.s5{--o:.42s;--c:0s}
 .pop-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
 .pop label{display:block;font-size:12px;color:var(--muted);letter-spacing:.04em}
@@ -68,8 +68,9 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .scope button:hover{color:var(--fg)}
 .scope button[aria-checked="true"]{color:var(--bg)}
 .qrow{display:flex;gap:10px;align-items:center}
-.qgo{flex:none;width:34px;height:34px;border:1px solid var(--fg);border-radius:999px;display:grid;place-items:center;transition:background .2s,color .2s}
-.qgo:hover{background:var(--fg);color:var(--bg)}
+/* 與排序、分類等按鈕統一：淡灰外框、灰色圖示，滑過時外框與圖示變主文字色 */
+.qgo{flex:none;width:34px;height:34px;border:1px solid var(--line);color:var(--muted);border-radius:999px;display:grid;place-items:center}
+.qgo:hover{color:var(--fg);border-color:var(--fg)}
 .pop input{flex:1;min-width:0;width:100%;font:500 16px var(--sans);color:var(--fg);background:transparent;border:0;padding:6px 0;outline:none}
 .pop input::placeholder{color:var(--muted);font-weight:400;opacity:1;transition:opacity .45s var(--ease)}
 .pop input.fading::placeholder,.pop input.ph0::placeholder{opacity:0;transition:none}
