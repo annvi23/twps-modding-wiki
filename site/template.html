@@ -72,10 +72,13 @@ nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13
 .pop input[type=search]::-webkit-search-cancel-button,.pop input[type=search]::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
 .qin{position:relative;flex:1;min-width:0;display:block}
 .qin input{padding-right:26px}
-.qclear{position:absolute;right:0;top:50%;width:22px;height:22px;margin-top:-11px;display:grid;place-items:center;color:var(--muted);opacity:0;pointer-events:none;transition:opacity .25s var(--ease),color .25s var(--ease)}
+.qclear{position:absolute;right:0;top:50%;width:22px;height:22px;margin-top:-11px;display:grid;place-items:center;color:var(--muted);opacity:0;transform:translateX(8px);pointer-events:none;transition:opacity .45s var(--ease),transform 0s .45s,color .25s var(--ease)}
 .qclear .ic{width:15px;height:15px}
 .qclear:hover{color:var(--fg)}
-.qrow.has .qclear{opacity:1;pointer-events:auto}
+.qrow.has .qclear{opacity:1;transform:none;pointer-events:auto;transition:opacity .45s var(--ease),transform .45s var(--ease),color .25s var(--ease)}
+/* 按叉叉清除：輸入的文字先淡出，再清空 */
+.pop input{transition:color .3s var(--ease)}
+.pop input.fading{color:transparent}
 .results{margin-top:8px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
 .results::-webkit-scrollbar{display:none}
 /* 自製捲軸：內容先出現，捲軸再從右側往左小幅移入並淡入 */
@@ -627,9 +630,15 @@ function doSearch(animate,instant){
   scheduleSb(instant?550:animate?(grow?280:0)+(shrink?rows*45+160:0)+rowsShown*45+150:150,animate||instant);
 }
 const qrow=document.getElementById('qform');
-const syncClear=()=>qrow.classList.toggle('has',q.value.length>0);
+const syncClear=()=>{if(q.classList.contains('fading')){clearTimeout(window.__qc);q.classList.remove('fading')}qrow.classList.toggle('has',q.value.length>0)};
 q.addEventListener('input',syncClear);
-document.getElementById('qclear').onclick=()=>{q.value='';syncClear();doSearch(false);q.focus()};
+document.getElementById('qclear').onclick=()=>{
+  q.focus();
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){q.value='';syncClear();doSearch(false);return}
+  q.classList.add('fading');qrow.classList.remove('has');
+  clearTimeout(window.__qc);
+  window.__qc=setTimeout(()=>{q.value='';q.classList.remove('fading');doSearch(false)},300);
+};
 q.oninput=()=>doSearch(false);
 res.onclick=e=>{if(e.target.closest('a'))openSearch(false)};
 
