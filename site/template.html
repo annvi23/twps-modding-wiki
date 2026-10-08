@@ -155,6 +155,7 @@ html.lock{overflow:hidden}
 .mat .p{color:var(--muted)}
 .mat .q{font-family:var(--mono);white-space:nowrap}
 .mat small{display:block;color:var(--muted);font-size:12px}
+.mat-notes{margin-top:14px;color:var(--muted);font-size:13px;line-height:1.7}.mat-notes p{margin:0}
 .steps{display:flex;flex-direction:column;gap:clamp(44px,6vw,64px)}
 .imgs{display:grid;gap:10px}
 /* 內頁照片：寬度撐滿內容欄，高度依原比例，整張完整顯示 */
@@ -434,7 +435,7 @@ function article(n){
     h+=`<div class="sec"><h2>用到這個材料的改筆</h2>${uses.length?`<div class="grid">${uses.slice(0,6).map(card).join('')}</div>`:'<p class="md" style="color:var(--muted)">目前還沒有。</p>'}</div>`;
   }
   if(n.materials.length){
-    h+=`<div class="sec"><h2>所需材料</h2><div class="mats">${n.materials.map(m=>`<div class="mat"><div>${esc(m.name)}${m.part?` <span class="p">（${esc(m.part)}）</span>`:''}${m.note?`<small>${esc(m.note)}</small>`:''}</div><div class="q">${esc(m.qty)}</div></div>`).join('')}</div>${n.materials_image?`<div style="margin-top:20px">${stepImgs([n.materials_image],'材料合照')}</div>`:''}</div>`;
+    h+=`<div class="sec"><h2>所需材料</h2><div class="mats">${n.materials.map(m=>`<div class="mat"><div>${esc(m.name)}${m.part?` <span class="p">（${esc(m.part)}）</span>`:''}${m.note?`<small>${esc(m.note)}</small>`:''}</div><div class="q">${esc(m.qty)}</div></div>`).join('')}</div>${(n.materials_notes||[]).length?`<div class="mat-notes">${n.materials_notes.map(x=>`<p>註：${esc(x)}</p>`).join('')}</div>`:''}${n.materials_image?`<div style="margin-top:20px">${stepImgs([n.materials_image],'材料合照')}</div>`:''}</div>`;
   }
   if(n.steps.length){
     h+=`<div class="sec"><h2>教學</h2><div class="steps">${n.steps.map(st=>{

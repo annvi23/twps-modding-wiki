@@ -127,6 +127,10 @@ def parse(md, nid, category):
                     if ln.startswith(('<img', '![')):
                         note['materials_image'] = (re.search(r'(?:src="|\()\s*([^")\s]+)', ln) or [None, ''])[1]
                     continue
+                if re.match(r'^註\s*[:：]', ln):
+                    # 「註：…」是整份材料的備註，不是一項材料
+                    note.setdefault('materials_notes', []).append(re.sub(r'^註\s*[:：]\s*', '', ln))
+                    continue
                 mm = re.match(r'^(.*?)\s*(?:[（(]([^）)]*)[）)])?\s*(?:[:：]\s*|\s+x\s*)(.+)$', ln)
                 if mm:
                     note['materials'].append({'name': mm.group(1).strip(' *'), 'part': (mm.group(2) or '').strip(),
