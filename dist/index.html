@@ -22,7 +22,7 @@
   --r:4px; --max:1240px; --ease:cubic-bezier(.16,1,.3,1);
 }
 :root[data-theme="dark"]{
-  --bg:#101010; --band:#171717; --fg:#ebebeb; --muted:#8c8c8c; --line:#2c2c2c; --hint:#5c5c5c; --ph:#1d1d1d; --pop:#1a1a1a; --pill:#b9b9b9; --dk:1; color-scheme:dark}
+  --bg:#101010; --band:#171717; --fg:#ebebeb; --muted:#8c8c8c; --line:#2c2c2c; --hint:#5c5c5c; --ph:#1d1d1d; --pop:#1a1a1a; --pill:#cccccc; --dk:1; color-scheme:dark}
 *{box-sizing:border-box}
 /* 日文內容（lang="ja"）改用 Zen Kaku Gothic New */
 :lang(ja){font-family:var(--sans-ja)}
@@ -155,18 +155,12 @@ html.lock{overflow:hidden}
 .chips-bg{position:absolute;left:0;top:2px;bottom:2px;width:0;border-radius:999px;background:var(--pill);transition:transform .45s var(--ease),width .45s var(--ease);pointer-events:none}
 .chips.noanim .chips-bg{transition:none}
 /* 排序下拉選單 */
-.dd{position:relative}
-.dd-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 14px;transition:color .25s,border-color .25s}
-.dd-btn b{font-weight:500;color:var(--fg)}
-.dd-btn:hover,.dd.open .dd-btn{color:var(--fg);border-color:var(--fg)}
-.dd-btn .caret{width:12px;height:12px;transition:transform .3s var(--ease)}
-.dd.open .caret{transform:rotate(180deg)}
-.dd-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:20;min-width:140px;background:var(--pop);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px -20px rgba(0,0,0,.35);padding:6px;display:grid;
-  opacity:0;transform:translateY(-6px) scale(.97);transform-origin:top right;pointer-events:none;visibility:hidden;transition:opacity .25s var(--ease),transform .25s var(--ease),visibility .25s}
-.dd.open .dd-menu{opacity:1;transform:none;pointer-events:auto;visibility:visible}
-.dd-menu button{text-align:left;font-size:13px;padding:7px 10px;border-radius:5px;color:var(--muted)}
-.dd-menu button:hover{background:var(--band);color:var(--fg)}
-.dd-menu button[aria-selected="true"]{color:var(--fg);font-weight:500}
+.sorter{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chips.sortseg .chip{font-size:13px}
+.dir-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 14px 5px 12px;transition:color .25s var(--ease),border-color .25s var(--ease)}
+.dir-btn:hover{color:var(--fg);border-color:var(--fg)}
+.dir-btn .ic{width:13px;height:13px;transition:transform .4s var(--ease)}
+.dir-btn[data-dir="asc"] .ic{transform:rotate(180deg)}
 .chip{position:relative;z-index:1;border-radius:999px;padding:4px 14px;font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .3s var(--ease)}
 .chip:hover{color:var(--fg)}
 .chip[aria-pressed="true"]{color:var(--bg)}
@@ -416,28 +410,52 @@ function listPage(kind,cat,sc='all'){
     list=cat==='全部'?tutorials:tutorials.filter(n=>groupOf(n)===cat);
     chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / Mx'].map(k=>`<a class="chip" href="#tutorials-${slug(k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
   }
-  const sortBar=`<div class="dd" id="sortDd"><button type="button" class="dd-btn" aria-haspopup="listbox" aria-expanded="false">排序：<b>${SORT_NAME[listSort]}</b><svg class="ic caret" viewBox="0 0 256 256" aria-hidden="true"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg></button><div class="dd-menu" role="listbox" aria-label="排序">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" role="option" data-sort="${k}" aria-selected="${k===listSort}">${v}</button>`).join('')}</div></div>`;
+  const ARROW='<svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M205.66,149.66l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L120,196.69V40a8,8,0,0,1,16,0V196.69l58.34-58.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
+  const sortBar=`<div class="sorter"><div class="chips sortseg" id="sortSeg" role="group" aria-label="排序方式">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" class="chip" data-sort="${k}" aria-pressed="${k===listSort}">${v}</button>`).join('')}</div><button type="button" class="dir-btn" id="dirBtn" data-dir="${sortDir[listSort]}">${ARROW}<span>${DIR_NAME[sortDir[listSort]]}</span></button></div>`;
   app.innerHTML=`<div class="wrap"><div class="page-head"><h1>${title}</h1><p>${desc}</p></div><div class="list-tools">${chips||'<div></div>'}${sortBar}</div><div class="grid" id="listGrid">${sortList(list).map(card).join('')}</div>${pageEnd('')}<div style="height:72px"></div></div>`;
-  const dd=document.getElementById('sortDd'),ddBtn=dd.querySelector('.dd-btn');
-  const ddOpen=o=>{dd.classList.toggle('open',o);ddBtn.setAttribute('aria-expanded',o)};
-  ddBtn.onclick=e=>{e.stopPropagation();ddOpen(!dd.classList.contains('open'))};
-  dd.querySelectorAll('[data-sort]').forEach(b=>b.onclick=e=>{
-    e.stopPropagation();ddOpen(false);
-    if(b.dataset.sort===listSort) return;
-    listSort=b.dataset.sort;try{localStorage.setItem('twps-sort',listSort)}catch(e){}
-    dd.querySelectorAll('[data-sort]').forEach(x=>x.setAttribute('aria-selected',x===b));
-    ddBtn.querySelector('b').textContent=SORT_NAME[listSort];
+  const seg=document.getElementById('sortSeg'),dirBtn=document.getElementById('dirBtn');
+  const fillSeg=()=>{
+    let bg=seg.querySelector('.chips-bg');if(!bg){bg=document.createElement('i');bg.className='chips-bg';bg.setAttribute('aria-hidden','true');seg.prepend(bg)}
+    return bg;
+  };
+  const placeSeg=instant=>{
+    const bg=fillSeg(),on=seg.querySelector('[aria-pressed="true"]');
+    if(instant)seg.classList.add('noanim');
+    bg.style.width=on.offsetWidth+'px';bg.style.transform=`translateX(${on.offsetLeft}px)`;
+    if(instant){void bg.offsetWidth;seg.classList.remove('noanim')}
+  };
+  placeSeg(true);
+  const repaint=()=>{
+    dirBtn.dataset.dir=sortDir[listSort];dirBtn.querySelector('span').textContent=DIR_NAME[sortDir[listSort]];
     const g=document.getElementById('listGrid');g.innerHTML=sortList(list).map(card).join('');
     if(!matchMedia('(prefers-reduced-motion: reduce)').matches) stagger(g);
+  };
+  seg.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{
+    if(b.dataset.sort===listSort) return;
+    listSort=b.dataset.sort;try{localStorage.setItem('twps-sort',listSort)}catch(e){}
+    seg.querySelectorAll('[data-sort]').forEach(x=>x.setAttribute('aria-pressed',x===b));
+    placeSeg(false);repaint();
   });
+  dirBtn.onclick=()=>{
+    sortDir[listSort]=sortDir[listSort]==='desc'?'asc':'desc';
+    try{localStorage.setItem('twps-sortdir',JSON.stringify(sortDir))}catch(e){}
+    repaint();
+  };
 }
-const SORT_NAME={updated:'更新時間',name:'名稱'};
+const SORT_NAME={updated:'時間',name:'名稱'};
+// 正序＝由小到大（舊到新、A 到 Z）；倒序＝由大到小（新到舊、Z 到 A）。時間預設倒序（最新在前），名稱預設正序
+const DIR_NAME={asc:'正序',desc:'倒序'};
+const sortDir={updated:'desc',name:'asc'};
+try{const d=JSON.parse(localStorage.getItem('twps-sortdir')||'{}');['updated','name'].forEach(k=>{if(d[k]==='asc'||d[k]==='desc')sortDir[k]=d[k]})}catch(e){}
 let listSort='updated';
 try{const s=localStorage.getItem('twps-sort');if(SORT_NAME[s])listSort=s}catch(e){}
 const collator=new Intl.Collator('zh-Hant',{numeric:true,sensitivity:'base'});
 function sortList(list){
   const latin=s=>/^[\x00-\x7f]/.test(s)?0:1; // 英數筆名排在中文前面
-  return [...list].sort(listSort==='name'?(a,b)=>latin(a.title)-latin(b.title)||collator.compare(a.title,b.title):(a,b)=>(b.updated||b.created||0)-(a.updated||a.created||0));
+  const t=n=>n.updated||n.created||0;
+  const cmp=listSort==='name'?(a,b)=>latin(a.title)-latin(b.title)||collator.compare(a.title,b.title):(a,b)=>t(a)-t(b);
+  const sign=sortDir[listSort]==='desc'?-1:1;
+  return [...list].sort((a,b)=>sign*cmp(a,b));
 }
 
 function mdText(t){
@@ -557,7 +575,7 @@ app.addEventListener('animationend',e=>{if(e.target.classList.contains('rise')){
 // 分類按鈕：和搜尋框的範圍選項一樣，深灰底色在選項之間滑動（換頁重繪時從上一次的位置滑過去）
 let chipPrev=null;
 function setupChips(){
-  const box=app.querySelector('.chips');
+  const box=app.querySelector('.chips:not(.sortseg)');
   if(!box){chipPrev=null;return}
   const on=box.querySelector('[aria-pressed="true"]');if(!on) return;
   const bg=document.createElement('i');bg.className='chips-bg';bg.setAttribute('aria-hidden','true');box.prepend(bg);
