@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-<title>TWPS 改筆百科</title>
-<link rel="canonical" href="https://twps-modding-wiki.pages.dev/">
+<title>紡 TSUMUGI</title>
+<link rel="canonical" href="https://tsumugi-works.pages.dev/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="TWPS 改筆百科">
+<meta property="og:site_name" content="紡 TSUMUGI">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:title" content="TWPS 改筆百科">
-<meta property="og:description" content="臺灣轉筆論壇改筆百科：改筆教學、材料介紹與改筆小技巧。">
-<meta property="og:url" content="https://twps-modding-wiki.pages.dev/">
+<meta property="og:title" content="紡 TSUMUGI">
+<meta property="og:description" content="紡 TSUMUGI：轉筆改筆教學、材料介紹與小技巧的非官方整理。">
+<meta property="og:url" content="https://tsumugi-works.pages.dev/">
 <meta name="twitter:card" content="summary">
 <script>try{var t=localStorage.getItem('twps-theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t}catch(e){}</script>
-<meta name="description" content="臺灣轉筆論壇改筆百科：改筆教學、材料介紹與改筆小技巧。">
+<meta name="description" content="紡 TSUMUGI：轉筆改筆教學、材料介紹與小技巧的非官方整理。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
@@ -44,7 +44,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;paddin
 /* header：細線只畫在內容寬度內 */
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
 .top-in{height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
-.logo{font-weight:600;font-size:15px;letter-spacing:.04em;text-decoration:none;white-space:nowrap}
+.logo{font-weight:600;font-size:15px;letter-spacing:.08em;text-decoration:none;white-space:nowrap}
+.logo-k{font-family:var(--sans-ja);font-weight:700;font-size:1.25em;letter-spacing:0;margin-right:2px}
 nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13px;letter-spacing:.08em}
 .nl{position:relative;display:inline-block;text-decoration:none;color:var(--muted);padding:6px 2px;transition:color .25s var(--ease),transform .25s var(--ease);transform-origin:center bottom}
 .nl{z-index:0}
@@ -151,8 +152,8 @@ html.lock{overflow:hidden}
 /* 沒有照片時的預設圖：淺色／深色主題各一張，切換主題時跟著背景淡入淡出 */
 .noimg{position:absolute;inset:0}
 .noimg i{position:absolute;inset:0;background:center/cover no-repeat}
-.noimg .l{background-image:url(assets/noimg-light.jpg)}
-.noimg .d{background-image:url(assets/noimg-dark.jpg);opacity:var(--dk)}
+.noimg .l{background-image:url(/assets/noimg-light.jpg)}
+.noimg .d{background-image:url(/assets/noimg-dark.jpg);opacity:var(--dk)}
 .hero .noimg{position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden}
 .card .nm{margin-top:12px;font-weight:500;font-size:16px;line-height:1.35}
 .card .mt{margin-top:2px;font:12.5px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
@@ -291,11 +292,11 @@ html.theme-fade body,html.theme-fade body *,html.theme-fade body *::before,html.
 
 <header class="top">
   <div class="wrap"><div class="top-in">
-    <a class="logo" href="#home">TWPS 改筆百科</a>
+    <a class="logo" href="/"><span class="logo-k" lang="ja">紡</span> TSUMUGI</a>
     <nav class="main" aria-label="主選單">
-      <a class="nl" href="#tips" data-nav="tips">小技巧</a>
-      <a class="nl" href="#materials" data-nav="materials">材料介紹</a>
-      <a class="nl" href="#tutorials" data-nav="tutorials">改筆教學</a>
+      <a class="nl" href="/tips/" data-nav="tips">小技巧</a>
+      <a class="nl" href="/materials/" data-nav="materials">材料介紹</a>
+      <a class="nl" href="/mods/" data-nav="tutorials">改筆教學</a>
       <span class="search-wrap">
         <button class="nl" id="searchBtn" aria-expanded="false" aria-controls="searchPop" aria-label="搜尋" title="搜尋"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button>
         <div class="pop" id="searchPop" role="dialog" aria-label="搜尋">
@@ -308,12 +309,12 @@ html.theme-fade body,html.theme-fade body *,html.theme-fade body *::before,html.
   </div></div>
 </header>
 
-<main id="app"><nav class="sr-only" aria-label="全部筆記"><h1>TWPS 改筆百科</h1><h2>改筆小知識</h2><ul><li><a href="/n/p7vpjQZdS16xGgokNhD9fA/">玩轉筆不可不知的各零件名稱！專用筆構造名稱</a></li><li><a href="/n/hAV9msC7RtqRWXxGuCPbzQ/">Insert/Outsert資源</a></li></ul><h2>材料介紹</h2><ul><li><a href="/n/W162IulNQqG-fe3D7nQDvg/">G-line</a></li><li><a href="/n/KOfwdYHQSVWRxebXu1I_ZA/">DONG-A Comssa</a></li><li><a href="/n/NtNtFdBrS2ioEge3Jjvu9g/">無印良品六角筆</a></li><li><a href="/n/NWbf3tp6SdGPkftxZKlvsA/">Japen 15th R.S.V.P</a></li><li><a href="/n/qfn69njoSJKQgqfTHAy_AA/">RSVP Moonz</a></li><li><a href="/n/-nQ37H8TRR2UqjDzT7LawQ/">IG-UNITE comssa</a></li><li><a href="/n/2u_-VuTgRcWvszSV3xbEDw/">Kaco Green Pure</a></li><li><a href="/n/3LJhVj5YR_KnRkOow9sgRw/">Zebra Tect 2way</a></li><li><a href="/n/wTH-MOvUQw-dHMJne0uD4Q/">優點 700n螢光筆</a></li></ul><h2>改筆教學</h2><ul><li><a href="/n/Z2xb3WMjS0CBy8Ue5IuxYg/">ceNti G3 mod</a></li><li><a href="/n/2mX57y-lSdOEJj26QUyF2A/">Iful g3 mod</a></li><li><a href="/n/oXa_OxLJQviOV3MpreuGpg/">Eban G3 mod</a></li><li><a href="/n/8IUF0izwQMyzBW8AqjbREg/">Iteza G3 mod</a></li><li><a href="/n/T6MGWdzXQcG_luRdwEdghA/">Vaing*2</a></li><li><a href="/n/4AUWTIWqQty6haBbkjyqQw/">K7 Hybrid</a></li><li><a href="/n/Waz2hE09RvaqFpTuMfYDfA/">Watto g3 mod</a></li><li><a href="/n/WN4x7BvTRWmCjhvW_2_CcA/">Nowaly G-3 mod</a></li><li><a href="/n/bIfXVNVpRBmf6QPbKTy1Xg/">Lemon G3</a></li><li><a href="/n/JpUie3a3Qaqn1tVDJSZLXA/">esaya G3</a></li><li><a href="/n/FDsfWe3eQNGpzr0gqLLT7Q/">Shadix g3</a></li><li><a href="/n/VCUzncTbT9m_ALve3DHLfA/">Reamtea G3 V2</a></li><li><a href="/n/Z27-UX6OTTCwnD2QGMncSA/">under&quot;Mebius&quot;</a></li><li><a href="/n/Nd3LRHe4SV2579qMCedkrg/">AITU&#x27;s MX Extend</a></li><li><a href="/n/Ecah6OufRUK74npanFvByg/">Goat flexible MX</a></li><li><a href="/n/r-5MVBUjSESILF7l2mkNDw/">F.G.S.</a></li><li><a href="/n/msNk1GYpQEqe4aWXrh9ovQ/">Sunburst MX</a></li><li><a href="/n/W0bqWExnQ9OHei6JVO2-tg/">Moonz MX</a></li><li><a href="/n/bMmUv9HaRZSpQWApL6kaPw/">Colorgel MX</a></li><li><a href="/n/8IiaQfo6Q7eNIwIB8T2lgQ/">Coffeelucky MX</a></li><li><a href="/n/NrkPDT2xRVCKuVVMa-LeoQ/">Everchix comssa mod</a></li><li><a href="/n/XMxgIrPKQ0eUhPBNUqMVjA/">700N x1213</a></li><li><a href="/n/R1xljcsiSRKo8S4asHyfdw/">NECTALIOS</a></li><li><a href="/n/xXjw-VrfRZS4yKyrWrQLpw/">Aimo kt</a></li><li><a href="/n/O0RadL32QRiPPkAJtfA_Lg/">NzDC</a></li><li><a href="/n/aaLNe6L_T7aMx-5WaKx1dQ/">Shadix KT</a></li><li><a href="/n/FMi6DGQ5SP-D2icMhB36OA/">Supawit DC</a></li><li><a href="/n/VFgKJD-oRNSc1AVNM2IPWw/">Dr.BT</a></li><li><a href="/n/xFXDdcGRTcyVptL8n_aKBQ/">AnpEn mod</a></li><li><a href="/n/SZcrinRcTw2Q5Hkd4RGt_g/">FUKROU BT</a></li><li><a href="/n/dNjecI5uTTqACfbo7SfrVw/">Fly mod (大眾版)</a></li><li><a href="/n/PozCj6hSQfupfOyJtj8WyQ/">i.suk emboss V3</a></li><li><a href="/n/p9Nce1fTTcy35h-Ibk0NOQ/">Slofis Colors mod</a></li><li><a href="/n/l2-XpCKMR6Ohx1y0XHFajw/">Eban Memory DC</a></li><li><a href="/n/flAZBLgqTQCwkj26vNG7Fw/">JoeyStic</a></li><li><a href="/n/l8iCCx-WTkS8G2NsCCXSQw/">Taiwan Comssa 2023 ver.</a></li><li><a href="/n/X36-g6PTSl2jSp9omAnQDA/">Joey&#x27;s 700N mod</a></li><li><a href="/n/aNeaU3GwS5WL8DNmJp6NGw/">Nanafushi BT</a></li><li><a href="/n/VrRgKwQuSKGP0YVMXpKhNg/">Charcoal Latte</a></li><li><a href="/n/sm0orxIgS7mD61Ehbw6LWA/">GioGear</a></li><li><a href="/n/3bM2vSk9QwuXDcgefpKqJQ/">Neptunus</a></li></ul></nav></main>
+<main id="app"><div class="sr-only"><h1>紡 TSUMUGI</h1><h2>小技巧</h2><ul><li><a href="/tips/pen-parts-names/">玩轉筆不可不知的各零件名稱！專用筆構造名稱</a></li><li><a href="/tips/insert-outsert/">Insert/Outsert資源</a></li></ul><h2>材料介紹</h2><ul><li><a href="/materials/g-line/">G-line</a></li><li><a href="/materials/dong-a-comssa/">DONG-A Comssa</a></li><li><a href="/materials/muji-hexagonal-pen/">無印良品六角筆</a></li><li><a href="/materials/japen-15th-rsvp/">Japen 15th R.S.V.P</a></li><li><a href="/materials/rsvp-moonz/">RSVP Moonz</a></li><li><a href="/materials/ig-unite-comssa/">IG-UNITE comssa</a></li><li><a href="/materials/kaco-green-pure/">Kaco Green Pure</a></li><li><a href="/materials/zebra-tect-2way/">Zebra Tect 2way</a></li><li><a href="/materials/700n-highlighter/">優點 700n螢光筆</a></li></ul><h2>改筆教學</h2><ul><li><a href="/mods/centi-g3-mod/">ceNti G3 mod</a></li><li><a href="/mods/iful-g3-mod/">Iful g3 mod</a></li><li><a href="/mods/eban-g3-mod/">Eban G3 mod</a></li><li><a href="/mods/iteza-g3-mod/">Iteza G3 mod</a></li><li><a href="/mods/vaing-2/">Vaing*2</a></li><li><a href="/mods/k7-hybrid/">K7 Hybrid</a></li><li><a href="/mods/watto-g3-mod/">Watto g3 mod</a></li><li><a href="/mods/nowaly-g-3-mod/">Nowaly G-3 mod</a></li><li><a href="/mods/lemon-g3/">Lemon G3</a></li><li><a href="/mods/esaya-g3/">esaya G3</a></li><li><a href="/mods/shadix-g3/">Shadix g3</a></li><li><a href="/mods/reamtea-g3-v2/">Reamtea G3 V2</a></li><li><a href="/mods/under-mebius/">under&quot;Mebius&quot;</a></li><li><a href="/mods/aitus-mx-extend/">AITU&#x27;s MX Extend</a></li><li><a href="/mods/goat-flexible-mx/">Goat flexible MX</a></li><li><a href="/mods/fgs/">F.G.S.</a></li><li><a href="/mods/sunburst-mx/">Sunburst MX</a></li><li><a href="/mods/moonz-mx/">Moonz MX</a></li><li><a href="/mods/colorgel-mx/">Colorgel MX</a></li><li><a href="/mods/coffeelucky-mx/">Coffeelucky MX</a></li><li><a href="/mods/everchix-comssa-mod/">Everchix comssa mod</a></li><li><a href="/mods/700n-x1213/">700N x1213</a></li><li><a href="/mods/nectalios/">NECTALIOS</a></li><li><a href="/mods/aimo-kt/">Aimo kt</a></li><li><a href="/mods/nzdc/">NzDC</a></li><li><a href="/mods/shadix-kt/">Shadix KT</a></li><li><a href="/mods/supawit-dc/">Supawit DC</a></li><li><a href="/mods/dr-bt/">Dr.BT</a></li><li><a href="/mods/anpen-mod/">AnpEn mod</a></li><li><a href="/mods/fukrou-bt/">FUKROU BT</a></li><li><a href="/mods/fly-mod/">Fly mod (大眾版)</a></li><li><a href="/mods/isuk-emboss-v3/">i.suk emboss V3</a></li><li><a href="/mods/slofis-colors-mod/">Slofis Colors mod</a></li><li><a href="/mods/eban-memory-dc/">Eban Memory DC</a></li><li><a href="/mods/joeystic/">JoeyStic</a></li><li><a href="/mods/taiwan-comssa-2023-ver/">Taiwan Comssa 2023 ver.</a></li><li><a href="/mods/joeys-700n-mod/">Joey&#x27;s 700N mod</a></li><li><a href="/mods/nanafushi-bt/">Nanafushi BT</a></li><li><a href="/mods/charcoal-latte/">Charcoal Latte</a></li><li><a href="/mods/giogear/">GioGear</a></li><li><a href="/mods/neptunus/">Neptunus</a></li></ul></div></main>
 
 <footer class="site">
   <div class="wrap"><div class="foot-in">
-    <a class="logo" href="#home">TWPS 改筆百科</a>
-    <div class="foot-r"><a class="foot-link" href="#feedback">許願教學・投稿照片</a><small>由 taco 整理更新 · 資料來源 HackMD TWPS改筆百科</small><button class="theme" id="themeBtn" aria-label="切換為深色模式" title="切換深淺色"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d=""></path></svg></button></div>
+    <a class="logo" href="/"><span class="logo-k" lang="ja">紡</span> TSUMUGI</a>
+    <div class="foot-r"><a class="foot-link" href="/wish/">許願教學・投稿照片</a><small>非官方整理 · 由 taco 整理更新 · 部分內容整理自 TWPS 改筆百科 HackMD 團隊筆記，版權歸原作者</small><button class="theme" id="themeBtn" aria-label="切換為深色模式" title="切換深淺色"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d=""></path></svg></button></div>
   </div></div>
 </footer>
 
@@ -322,12 +323,61 @@ html.theme-fade body,html.theme-fade body *,html.theme-fade body *::before,html.
 const WISH_FORM='https://docs.google.com/forms/d/e/1FAIpQLSdhOYlV0A6aklc5xuOcDVcETCh7rAbMlsa3gQDfQDbqO0iuXA/viewform';
 const PHOTO_MAIL='tacotwps@gmail.com';
 const mailto=(subject,body)=>`mailto:${PHOTO_MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-const PHOTO_BODY='筆名：\n圖片所有者（要標註的名字）：\n\n我同意 TWPS 改筆百科使用這些照片，並標註我為圖片所有者。\n\n（請把照片加在附件）';
+const PHOTO_BODY='筆名：\n圖片所有者（要標註的名字）：\n\n我同意 紡 TSUMUGI 使用這些照片，並標註我為圖片所有者。\n\n（請把照片加在附件）';
 let NOTES=[],IMGS={},RECENT=[],byId={},tutorials=[];
 const app=document.getElementById('app');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const groupOf=n=>(n.category==='VP'||/^mx$/i.test(n.category))?'VP / MX':n.category;
-const slug=k=>encodeURIComponent(k).replace(/%/g,'_');
+const SITE_NAME='紡 TSUMUGI';
+// 網址設計：/mods/（改筆教學）、/mods/dual/ 等分類、/mods/<筆名>/、/materials/、/tips/、/search/?q=、/wish/
+// 內部仍用原本的頁面代號（home、tips、tutorials-雙頭、n-<id>、q-all-關鍵字…），只在進出網址時轉換
+const CAT_SLUG={'雙頭':'dual','G3':'g3','VP / MX':'vp-mx'};
+const SECTION={tutorial:'mods',material:'materials',knowledge:'tips'};
+let bySlug={};
+const notePath=n=>`/${SECTION[n.type]||'tips'}/${n.slug||n.id}/`;
+function keyPath(h){
+  if(!h||h==='home') return '/';
+  if(h==='tips'||h==='materials') return `/${h}/`;
+  if(h==='feedback') return '/wish/';
+  if(h==='tutorials') return '/mods/';
+  if(h.startsWith('tutorials-')){const c=h.slice(10);return CAT_SLUG[c]?`/mods/${CAT_SLUG[c]}/`:'/mods/'}
+  if(h.startsWith('q-')){const m=h.slice(2).match(/^(all|mat|mod)-([\s\S]*)$/);const sc=m?m[1]:'all',k=m?m[2]:h.slice(2);return '/search/?q='+encodeURIComponent(k)+(sc!=='all'?'&in='+sc:'')}
+  if(h.startsWith('n-')&&byId[h.slice(2)]) return notePath(byId[h.slice(2)]);
+  return '/';
+}
+function curKey(){
+  const seg=location.pathname.split('/').filter(s=>s&&s!=='index.html').map(decodeURIComponent);
+  if(!seg.length) return 'home';
+  const [a,b]=seg;
+  if(a==='search'){const u=new URLSearchParams(location.search),sc=u.get('in');return `q-${sc==='mat'||sc==='mod'?sc:'all'}-${u.get('q')||''}`}
+  if(a==='wish') return 'feedback';
+  if(a==='n'&&b&&byId[b]) return 'n-'+b;
+  if(!SECTION_KEYS.includes(a)) return 'home';
+  if(!b) return a==='mods'?'tutorials':a;
+  if(a==='mods'){const c=Object.keys(CAT_SLUG).find(k=>CAT_SLUG[k]===b.toLowerCase());if(c) return 'tutorials-'+c}
+  const n=bySlug[a+'/'+b.toLowerCase()];return n?'n-'+n.id:'home';
+}
+const SECTION_KEYS=['mods','materials','tips'];
+// 舊網址（#n-<id>、#tutorials-…、#q-…）轉成新路徑
+function legacyHash(){
+  let h=location.hash.slice(1);if(!h) return;
+  try{h=decodeURIComponent(h)}catch(e){}
+  if(h.startsWith('tutorials-')){let c=h.slice(10);try{c=decodeURIComponent(c.replace(/_/g,'%'))}catch(e){}h='tutorials-'+c.replace(/mx/i,'MX')}
+  const ok=/^(home|tips|materials|tutorials|feedback)$/.test(h)||/^(tutorials-|q-|n-)/.test(h);
+  if(ok) history.replaceState(null,'',keyPath(h));
+}
+function go(path){
+  if(path===location.pathname+location.search) return;
+  history.pushState(null,'',path);route();
+}
+// 站內連結改用 pushState 換頁（不重新載入），保留換頁動畫
+document.addEventListener('click',e=>{
+  if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+  const a=e.target.closest('a[href]');if(!a||a.target||a.hasAttribute('download')) return;
+  const u=new URL(a.href,location.href);
+  if(u.origin!==location.origin||/\.[a-z0-9]{2,4}$/i.test(u.pathname)) return;
+  e.preventDefault();go(u.pathname+u.search);
+},true);
 const src=u=>IMGS[u]||u;
 
 function measure(s,key,unit){
@@ -345,7 +395,7 @@ function pic(n){
 }
 function card(n){
   const mt=n.type==='tutorial'?metaLine(n):(n.type==='material'?esc(n.specs.maker||'材料'):'小技巧');
-  return `<a class="card" href="#n-${n.id}"><div class="ph">${pic(n)}</div><div class="nm">${esc(n.title)}</div><div class="mt">${mt}</div></a>`;
+  return `<a class="card" href="${notePath(n)}"><div class="ph">${pic(n)}</div><div class="nm">${esc(n.title)}</div><div class="mt">${mt}</div></a>`;
 }
 function pageEnd(title){
   const mail=title?mailto(`[投稿照片] ${title}`,PHOTO_BODY.replace('筆名：',`筆名：${title}`)):mailto('[投稿照片] ',PHOTO_BODY);
@@ -403,7 +453,7 @@ function home(){
     return list;
   };
   const g=k=>tutorials.filter(n=>groupOf(n)===k);
-  const more=k=>`<a class="more" href="#tutorials-${slug(k)}">全部 ${g(k).length} 篇</a>`;
+  const more=k=>`<a class="more" href="${keyPath('tutorials-'+k)}">全部 ${g(k).length} 篇</a>`;
   app.innerHTML=
     `<section class="recent" id="recent"><div class="wrap"><div class="band-head"><h2>最近更新</h2><div class="arrows"><button class="arrow prev" aria-label="上一篇"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg></button><button class="arrow next" aria-label="下一篇"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg></button></div></div><div class="viewport"><div class="rail">${[...recent,...recent.slice(0,3)].map((n,i)=>card(n).replace('<a ',i>=recent.length?'<a tabindex="-1" aria-hidden="true" ':'<a ')).join('')}</div></div></div></section>`+
     band('雙頭',fill6('雙頭'),more('雙頭'),true)+
@@ -416,14 +466,14 @@ function home(){
 function listPage(kind,cat,sc='all'){
   let title,desc,list,chips='';
   if(kind==='search'){title=`搜尋「${esc(cat)}」`;list=findNotes(cat,sc);
-    chips=`<div class="chips" role="group" aria-label="搜尋範圍">${['all','mat','mod'].map(k=>`<a class="chip" href="#q-${k}-${encodeURIComponent(cat)}" aria-pressed="${k===sc}">${SCOPE_NAME[k]}</a>`).join('')}</div>`;desc=list.length?`找到 ${list.length} 篇`:'找不到符合的筆記，試試筆名或材料名稱的一部分';}
+    chips=`<div class="chips" role="group" aria-label="搜尋範圍">${['all','mat','mod'].map(k=>`<a class="chip" href="${keyPath(`q-${k}-${cat}`)}" aria-pressed="${k===sc}">${SCOPE_NAME[k]}</a>`).join('')}</div>`;desc=list.length?`找到 ${list.length} 篇`:'找不到符合的筆記，試試筆名或材料名稱的一部分';}
   else if(kind==='tips'){title='小技巧';desc='改筆常用名詞與資源';list=NOTES.filter(n=>n.type==='knowledge')}
   else if(kind==='materials'){title='材料介紹';desc='常被拿來改造的原廠筆';list=NOTES.filter(n=>n.type==='material')}
   else{
     title='改筆教學';desc=`共 ${tutorials.length} 篇`;
     cat=(cat||'全部').replace(/mx/i,'MX'); // 舊連結的 Mx 也能對應到 MX
     list=cat==='全部'?tutorials:tutorials.filter(n=>groupOf(n)===cat);
-    chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / MX'].map(k=>`<a class="chip" href="#tutorials-${slug(k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
+    chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / MX'].map(k=>`<a class="chip" href="${keyPath(k==='全部'?'tutorials':'tutorials-'+k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
   }
   const ARROW='<svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M205.66,149.66l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L120,196.69V40a8,8,0,0,1,16,0V196.69l58.34-58.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
   const sortBar=`<div class="sorter"><div class="chips sortseg" id="sortSeg" role="group" aria-label="排序方式">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" class="chip" data-sort="${k}" aria-pressed="${k===listSort}">${v}</button>`).join('')}</div><button type="button" class="dir-btn" id="dirBtn" data-dir="${sortDir[listSort]}">${ARROW}<span class="lab">${labelHtml(DIR_NAME[listSort][sortDir[listSort]])}</span></button></div>`;
@@ -493,9 +543,9 @@ function sortList(list){
 
 function mdText(t){
   t=(t||'').replace(/\{%\s*youtube\s+([\w-]+)\s*%\}/g,'[YouTube 影片](https://www.youtube.com/watch?v=$1)');
-  t=t.replace(/\]\((?:https:\/\/hackmd\.io)?\/([A-Za-z0-9_-]{20,24})(?:\?\w*)?\)/g,(m,id)=>byId[id]?`](#n-${id})`:`](https://hackmd.io/${id})`);
+  t=t.replace(/\]\((?:https:\/\/hackmd\.io)?\/([A-Za-z0-9_-]{20,24})(?:\?\w*)?\)/g,(m,id)=>byId[id]?`](${notePath(byId[id])})`:`](https://hackmd.io/${id})`);
   const r=new marked.Renderer();
-  r.link=(href,title,txt)=>`<a href="${esc(href)}"${href.startsWith('#')?'':' target="_blank" rel="noopener"'}>${txt}</a>`;
+  r.link=(href,title,txt)=>`<a href="${esc(href)}"${/^[#/]/.test(href)?'':' target="_blank" rel="noopener"'}>${txt}</a>`;
   r.image=(href,title,alt)=>`<img src="${esc(src(href))}" alt="${esc(alt)}" loading="lazy">`;
   return marked.parse(t,{renderer:r,breaks:true});
 }
@@ -511,7 +561,7 @@ function stepImgs(urls,alt){
 
 function article(n){
   const s=n.specs;
-  const crumb=n.type==='tutorial'?`<a href="#tutorials">改筆教學</a> / <a href="#tutorials-${slug(groupOf(n))}">${esc(groupOf(n))}</a>`:n.type==='material'?`<a href="#materials">材料介紹</a>`:`<a href="#tips">小技巧</a>`;
+  const crumb=n.type==='tutorial'?`<a href="/mods/">改筆教學</a> / <a href="${keyPath('tutorials-'+groupOf(n))}">${esc(groupOf(n))}</a>`:n.type==='material'?`<a href="/materials/">材料介紹</a>`:`<a href="/tips/">小技巧</a>`;
   let h=`<div class="crumb">${crumb}</div><h1>${esc(n.title)}</h1>`;
   h+=n.cover?`<div class="hero"><img src="${esc(src(n.cover))}" alt="${esc(n.title)}" onerror="this.outerHTML=NOIMG"></div>`:`<div class="hero">${NOIMG}</div>`;
   const dl=[];
@@ -560,23 +610,23 @@ function article(n){
   }
   h+=`<div class="art-foot">${n.credit?`<span>圖片所有者：${esc(n.credit)}</span>`:''}</div>`;
   app.innerHTML=`<div class="wrap"><article class="article">${h}</article></div>`;
-  document.title=`${n.title} | TWPS 改筆百科`;
+  document.title=`${n.title} | ${SITE_NAME}`;
 }
 
 function feedback(){
   app.innerHTML=`<div class="wrap"><div class="fb"><h1>許願教學・投稿照片</h1><p>想看哪支筆的教學，或手上有改筆照片可以分享，都歡迎告訴我們。</p>
   <div class="fb-grid">
     <div class="fb-box"><h2>許願教學</h2><p>填寫想看的筆名和參考資料，不需要登入。</p><ul><li>筆名（必填）</li><li>分類與參考影片、貼文或原作者</li></ul><a class="btn" href="${WISH_FORM}" target="_blank" rel="noopener">填寫許願表單</a></div>
-    <div class="fb-box"><h2>投稿照片</h2><p>把照片寄到下面的信箱，信裡寫上筆名和要標註的圖片所有者。</p><div class="mail">${PHOTO_MAIL}</div><ul><li>照片會在整理後放上對應的教學頁</li><li>寄出即表示同意 TWPS 改筆百科使用並標註你為圖片所有者</li></ul><a class="btn" href="${mailto('[投稿照片] ',PHOTO_BODY)}">寄信投稿</a></div>
+    <div class="fb-box"><h2>投稿照片</h2><p>把照片寄到下面的信箱，信裡寫上筆名和要標註的圖片所有者。</p><div class="mail">${PHOTO_MAIL}</div><ul><li>照片會在整理後放上對應的教學頁</li><li>寄出即表示同意 紡 TSUMUGI 使用並標註你為圖片所有者</li></ul><a class="btn" href="${mailto('[投稿照片] ',PHOTO_BODY)}">寄信投稿</a></div>
   </div></div></div>`;
-  document.title='許願教學・投稿照片 | TWPS 改筆百科';
+  document.title='許願教學・投稿照片 | '+SITE_NAME;
 }
 
 let firstRender=true,lastHash='';
 const pageKind=h=>h.startsWith('tutorials')?'tutorials':h.startsWith('q-')?'q:'+h.slice(2).replace(/^(all|mat|mod)-/,''):h;
 function route(){
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const h=location.hash.slice(1)||'home', same=!firstRender&&pageKind(h)===pageKind(lastHash);
+  const h=curKey(), same=!firstRender&&pageKind(h)===pageKind(lastHash);
   lastHash=h;
   if(same){const y=scrollY;render(true);scrollTo(0,y);if(!reduce)stagger(app.querySelector('.grid'));return}
   if(firstRender||reduce){firstRender=false;render();return}
@@ -612,7 +662,7 @@ function setupChips(){
   if(!box){chipPrev=null;return}
   const on=box.querySelector('[aria-pressed="true"]');if(!on) return;
   const bg=document.createElement('i');bg.className='chips-bg';bg.setAttribute('aria-hidden','true');box.prepend(bg);
-  const key=location.hash.startsWith('#q-')?'q':'t';
+  const key=curKey().startsWith('q-')?'q':'t';
   const place=()=>{bg.style.width=on.offsetWidth+'px';bg.style.transform=`translateX(${on.offsetLeft}px)`};
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(chipPrev&&chipPrev.key===key&&!reduce){
@@ -640,8 +690,8 @@ mxObs.observe(document.getElementById('searchPop'),{childList:true,subtree:true}
 function render(keepScroll){
   if(carouselStop){carouselStop();carouselStop=null}
   openSearch(false);
-  const h=location.hash.slice(1)||'home';
-  document.title='TWPS 改筆百科';
+  const h=curKey();
+  document.title=SITE_NAME;
   document.querySelectorAll('[data-nav]').forEach(a=>{h.startsWith(a.dataset.nav)?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
   if(h.startsWith('n-')&&byId[h.slice(2)]) article(byId[h.slice(2)]);
   else if(h==='tips'||h==='materials') listPage(h);
@@ -677,7 +727,7 @@ function moveScopeBg(instant){
 document.querySelectorAll('.scope button').forEach(b=>b.onclick=()=>{scope=b.dataset.scope;document.querySelectorAll('.scope button').forEach(x=>x.setAttribute('aria-checked',x===b));moveScopeBg();doSearch(true);q.focus()});
 moveScopeBg(true);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>moveScopeBg(true));addEventListener('resize',()=>moveScopeBg(true));
 const findNotes=(k,s='all')=>{k=k.trim().toLowerCase();return k?NOTES.filter(n=>inScope(n,s)&&[n.title,n.specs.inventor,n.specs.alias,n.category,n.tags.join(' '),n.materials.map(m=>m.name).join(' ')].join(' ').toLowerCase().includes(k)):[]};
-document.getElementById('qform').onsubmit=e=>{e.preventDefault();const k=q.value.trim();if(!k)return;openSearch(false);location.hash='q-'+scope+'-'+encodeURIComponent(k)};
+document.getElementById('qform').onsubmit=e=>{e.preventDefault();const k=q.value.trim();if(!k)return;openSearch(false);go(keyPath('q-'+scope+'-'+k))};
 function fitResults(){
   const c=res.children;
   res.style.maxHeight=c.length>8?(c[8].offsetTop-c[0].offsetTop)+'px':'';
@@ -695,7 +745,7 @@ function updateSb(){
 }
 function scheduleSb(delay,hideNow){clearTimeout(sbTimer);if(hideNow)sbar.classList.remove('on');sbTimer=setTimeout(()=>{updateSb();if(pop.classList.contains('open')&&res.scrollHeight>res.clientHeight+1)sbar.classList.add('on')},delay)}
 res.addEventListener('scroll',updateSb);
-const hitsHtml=hits=>hits.map(n=>`<a href="#n-${n.id}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join('');
+const hitsHtml=hits=>hits.map(n=>`<a href="${notePath(n)}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join('');
 function doSearch(animate,instant){
   const k=q.value.trim();
   const hits=k?findNotes(k,scope):[];
@@ -781,11 +831,13 @@ tb.onclick=()=>{const t=isDark()?'light':'dark';const el=document.documentElemen
 paint();
 
 async function boot(){
-  const D=window.INLINE_DATA||await (await fetch('data.json',{cache:'no-cache'})).json();
+  const D=window.INLINE_DATA||await (await fetch('/data.json',{cache:'no-cache'})).json();
   NOTES=D.notes;IMGS=D.imgs||{};RECENT=D.recent;
   byId=Object.fromEntries(NOTES.map(n=>[n.id,n]));
   tutorials=NOTES.filter(n=>n.type==='tutorial');
-  window.addEventListener('hashchange',route);
+  bySlug=Object.fromEntries(NOTES.map(n=>[`${SECTION[n.type]||'tips'}/${(n.slug||n.id).toLowerCase()}`,n]));
+  legacyHash();
+  window.addEventListener('popstate',route);
   route();
 }
 boot();

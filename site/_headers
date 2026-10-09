@@ -5,7 +5,15 @@
 /data.json
   Cache-Control: no-cache
 
-/n/*
+/mods/*
+  Cache-Control: no-cache
+/materials/*
+  Cache-Control: no-cache
+/tips/*
+  Cache-Control: no-cache
+/search/*
+  Cache-Control: no-cache
+/wish/*
   Cache-Control: no-cache
 
 /sitemap.xml

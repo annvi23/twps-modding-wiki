@@ -47,18 +47,23 @@ def build_site():
     dist.mkdir(exist_ok=True)
     for p in dist.iterdir():  # 只清內容，不刪資料夾本身（本機預覽伺服器可能正在用）
         shutil.rmtree(p) if p.is_dir() else p.unlink()
+    import seo
+    saved_p, over_p = ROOT / 'content' / 'slugs.json', ROOT / 'site' / 'slugs.json'
+    saved = json.loads(saved_p.read_text(encoding='utf-8')) if saved_p.exists() else {}
+    overrides = {k: v for k, v in json.loads(over_p.read_text(encoding='utf-8')).items() if not k.startswith('_')} if over_p.exists() else {}
+    slugs = seo.assign_slugs(notes, saved, overrides)
+    saved_p.write_text(json.dumps({**saved, **slugs}, ensure_ascii=False, indent=1, sort_keys=True), encoding='utf-8')  # 網址一旦產生就固定
     (dist / 'data.json').write_text(json.dumps({'notes': notes, 'recent': recent}, ensure_ascii=False), encoding='utf-8')
     head, body = split_template()
     body = body.replace('<!--PREVIEW_NOTE-->', '')
     html = ('<!doctype html>\n<html lang="zh-Hant">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             f'{head}\n</head>\n<body>\n{body}\n</body>\n</html>\n')
-    import seo
-    (dist / 'index.html').write_text(seo.home_page(html, notes), encoding='utf-8')
-    for n in notes:  # 每篇筆記一份給搜尋引擎讀的靜態頁
-        d = dist / 'n' / n['id']
+    for path, page in seo.all_pages(html, notes).items():  # 每個網址一份給搜尋引擎讀的靜態頁
+        d = dist / path.strip('/')
         d.mkdir(parents=True, exist_ok=True)
-        (d / 'index.html').write_text(seo.note_page(html, n), encoding='utf-8')
+        (d / 'index.html').write_text(page, encoding='utf-8')
+    (dist / '_redirects').write_text(seo.redirects(notes), encoding='utf-8')
     (dist / 'sitemap.xml').write_text(seo.sitemap(notes), encoding='utf-8')
     (dist / 'robots.txt').write_text(seo.robots(), encoding='utf-8')
     headers = ROOT / 'site' / '_headers'  # Cloudflare Pages：首頁與資料不快取，更新後馬上看到新版

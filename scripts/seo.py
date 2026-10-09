@@ -1,16 +1,30 @@
-"""產生搜尋引擎用的靜態頁面：每篇筆記 /n/<id>/、sitemap.xml、robots.txt。
+"""產生搜尋引擎用的靜態頁面、sitemap.xml、robots.txt、_redirects。
 
 網站本體是單頁 App（內容靠 JavaScript 畫出來），搜尋引擎很難讀。
-這裡替每篇筆記另外輸出一份「內容已寫在 HTML 裡」的頁面：
-  - 有自己的網址、標題、描述、分享預覽（og:*）、canonical
-  - 內文以視覺隱藏的方式放在頁面裡（給爬蟲讀）
-  - 真人打開時，頁面會把網址改成 /#n-<id>，由原本的 App 接手畫出完整介面
+這裡替每個網址另外輸出一份「內容已寫在 HTML 裡」的頁面：
+  - /mods/<筆名>/、/materials/<名稱>/、/tips/<名稱>/ 每篇一頁；/mods/、/mods/dual/ 等列表頁也各一頁
+  - 有自己的標題、描述、分享預覽（og:*）、canonical
+  - 內文以視覺隱藏的方式放在頁面裡（給爬蟲讀），真人打開時由 App 接手畫出完整介面
 """
-import datetime, html, json, re
+import datetime, html, json, re, unicodedata
 
-SITE_URL = 'https://twps-modding-wiki.pages.dev'
-SITE_NAME = 'TWPS 改筆百科'
-DEFAULT_DESC = '臺灣轉筆論壇改筆百科：改筆教學、材料介紹與改筆小技巧。'
+SITE_URL = 'https://tsumugi-works.pages.dev'
+SITE_NAME = '紡 TSUMUGI'
+DEFAULT_DESC = '紡 TSUMUGI：轉筆改筆教學、材料介紹與小技巧的非官方整理。'
+SECTION = {'tutorial': 'mods', 'material': 'materials', 'knowledge': 'tips'}
+CAT_SLUG = {'雙頭': 'dual', 'G3': 'g3', 'VP / MX': 'vp-mx'}
+LISTS = [  # (路徑, 標題, 說明, 篩選)
+    ('/mods/', '改筆教學', '轉筆改筆教學全集：雙頭、G3、VP / MX 改筆的材料與步驟。', lambda n: n['type'] == 'tutorial'),
+    ('/mods/dual/', '雙頭改筆教學', '雙頭改筆教學：材料、步驟與數據。', lambda n: n['type'] == 'tutorial' and group_of(n) == '雙頭'),
+    ('/mods/g3/', 'G3 改筆教學', '以 Pilot G3 為基礎的改筆教學：材料、步驟與數據。', lambda n: n['type'] == 'tutorial' and group_of(n) == 'G3'),
+    ('/mods/vp-mx/', 'VP / MX 改筆教學', '以 Pentel RSVP 為基礎的 VP、MX 改筆教學：材料、步驟與數據。', lambda n: n['type'] == 'tutorial' and group_of(n) == 'VP / MX'),
+    ('/materials/', '材料介紹', '常被拿來改造的原廠筆與材料介紹。', lambda n: n['type'] == 'material'),
+    ('/tips/', '小技巧', '改筆常用名詞與資源。', lambda n: n['type'] == 'knowledge'),
+    ('/wish/', '許願教學・投稿照片', '想看的改筆還沒有教學？填表單許願，或寄信投稿改筆照片。', lambda n: False),
+    ('/search/', '搜尋', '搜尋筆名、發明者或材料。', lambda n: False),
+]
+
+PATHS = {}  # 筆記 id → 網址路徑（由 assign_slugs 填入）
 
 
 def esc(s):
@@ -22,10 +36,34 @@ def group_of(n):
     return 'VP / MX' if c == 'VP' or c.upper() == 'MX' else c
 
 
+def slugify(t):
+    t = unicodedata.normalize('NFKC', t).lower().replace('’', '').replace("'", '')
+    t = re.sub(r'\([^)]*[^\x00-\x7f][^)]*\)', '', t)  # 括號裡的中文說明不放進網址
+    return re.sub(r'[^a-z0-9]+', '-', t).strip('-')
+
+
+def assign_slugs(notes, saved, overrides):
+    """每篇筆記一個固定的網址代稱。已經用過的代稱會記在 content/slugs.json，之後改標題也不會變，避免連結失效。"""
+    used = {}
+    for n in notes:
+        sec = SECTION.get(n['type'], 'tips')
+        s = overrides.get(n['id']) or saved.get(n['id']) or slugify(n['title']) or n['id'].lower()
+        if s in CAT_SLUG.values() and sec == 'mods':
+            s += '-mod'
+        base, i = s, 2
+        while used.get((sec, s)) not in (None, n['id']):
+            s, i = f'{base}-{i}', i + 1
+        used[(sec, s)] = n['id']
+        n['slug'] = s
+        PATHS[n['id']] = f'/{sec}/{s}/'
+    return {n['id']: n['slug'] for n in notes}
+
+
 def inline_md(t):
     t = esc(t)
     t = re.sub(r'!\[[^\]]*\]\((https?://[^)\s]+)[^)]*\)', r'<img src="\1" alt="" loading="lazy">', t)
-    t = re.sub(r'\[([^\]]+)\]\(/([^)\s?]+)[^)]*\)', lambda m: f'<a href="/n/{m.group(2)}/">{m.group(1)}</a>', t)
+    t = re.sub(r'\[([^\]]+)\]\((?:https://hackmd\.io)?/([A-Za-z0-9_-]{20,24})[^)]*\)',
+               lambda m: f'<a href="{PATHS[m.group(2)]}">{m.group(1)}</a>' if m.group(2) in PATHS else m.group(1), t)
     t = re.sub(r'\[([^\]]+)\]\((https?://[^)\s]+)\)', r'<a href="\2" rel="noopener">\1</a>', t)
     t = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', t)
     return t
@@ -103,10 +141,11 @@ def article_html(n):
     return ''.join(h)
 
 
-def head_extras(n=None, url=SITE_URL + '/'):
-    title = f'{n["title"]} | {SITE_NAME}' if n else SITE_NAME
-    desc = describe(n) if n else DEFAULT_DESC
-    img = (n or {}).get('cover') or ''
+def link_list(ns):
+    return '<ul>' + ''.join(f'<li><a href="{PATHS[n["id"]]}">{esc(n["title"])}</a></li>' for n in ns) + '</ul>'
+
+
+def head_extras(title, desc, url, img='', n=None):
     og = [('og:type', 'article' if n else 'website'), ('og:site_name', SITE_NAME), ('og:locale', 'zh_TW'),
           ('og:title', title), ('og:description', desc), ('og:url', url)]
     if img:
@@ -125,40 +164,51 @@ def head_extras(n=None, url=SITE_URL + '/'):
         if n.get('credit'):
             ld['author'] = {'@type': 'Person', 'name': n['credit']}
         out.append('<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False).replace('</', '<\\/') + '</script>')
-    return title, desc, '\n'.join(out)
+    return '\n'.join(out)
 
 
-def note_page(index_html, n):
-    url = f'{SITE_URL}/n/{n["id"]}/'
-    title, desc, extras = head_extras(n, url)
-    page = re.sub(r'<title>.*?</title>', lambda m: f'<title>{esc(title)}</title>', index_html, count=1, flags=re.S)
-    page = re.sub(r'<meta name="description" content="[^"]*">', lambda m: f'<meta name="description" content="{esc(desc)}">', page, count=1)
-    # base 讓相對路徑（data.json、assets）在 /n/<id>/ 底下也指到網站根目錄；replaceState 讓真人看到 App 的網址
-    inject = ('<base href="/">\n' + extras +
-              f'\n<script>try{{history.replaceState(null,"","/#n-{n["id"]}")}}catch(e){{}}</script>')
-    page = page.replace('</title>', '</title>\n' + inject, 1)
-    page = page.replace('<main id="app"></main>', f'<main id="app"><div class="sr-only">{article_html(n)}</div></main>', 1)
-    return page
+def page(index_html, path, title, desc, hidden_html, img='', n=None):
+    url = SITE_URL + path
+    full_title = f'{title} | {SITE_NAME}' if title else SITE_NAME
+    p = re.sub(r'<title>.*?</title>', lambda m: f'<title>{esc(full_title)}</title>', index_html, count=1, flags=re.S)
+    p = re.sub(r'<meta name="description" content="[^"]*">', lambda m: f'<meta name="description" content="{esc(desc)}">', p, count=1)
+    p = p.replace('</title>', '</title>\n' + head_extras(full_title, desc, url, img, n), 1)
+    return p.replace('<main id="app"></main>', f'<main id="app"><div class="sr-only">{hidden_html}</div></main>', 1)
 
 
-def home_page(index_html, notes):
-    title, desc, extras = head_extras(None, SITE_URL + '/')
-    page = index_html.replace('</title>', '</title>\n' + extras, 1)
+def all_pages(index_html, notes):
+    """回傳 {路徑: html}。"""
+    out = {}
     groups = {}
     for n in notes:
-        groups.setdefault({'tutorial': '改筆教學', 'material': '材料介紹'}.get(n['type'], '改筆小知識'), []).append(n)
-    nav = ''.join(f'<h2>{esc(g)}</h2><ul>' + ''.join(f'<li><a href="/n/{n["id"]}/">{esc(n["title"])}</a></li>' for n in ns) + '</ul>'
-                  for g, ns in groups.items())
-    return page.replace('<main id="app"></main>', f'<main id="app"><nav class="sr-only" aria-label="全部筆記"><h1>{SITE_NAME}</h1>{nav}</nav></main>', 1)
+        groups.setdefault({'tutorial': '改筆教學', 'material': '材料介紹'}.get(n['type'], '小技巧'), []).append(n)
+    home_nav = f'<h1>{SITE_NAME}</h1>' + ''.join(f'<h2>{esc(g)}</h2>{link_list(ns)}' for g, ns in groups.items())
+    out['/'] = page(index_html, '/', '', DEFAULT_DESC, home_nav)
+    for path, title, desc, keep in LISTS:
+        ns = [n for n in notes if keep(n)]
+        out[path] = page(index_html, path, title, desc, f'<h1>{esc(title)}</h1><p>{esc(desc)}</p>' + (link_list(ns) if ns else ''))
+    for n in notes:
+        out[PATHS[n['id']]] = page(index_html, PATHS[n['id']], n['title'], describe(n), article_html(n), n.get('cover') or '', n)
+    return out
 
 
 def sitemap(notes):
     def day(ms):
         return datetime.datetime.fromtimestamp(ms / 1000, datetime.timezone.utc).strftime('%Y-%m-%d') if ms else ''
-    latest = max((n.get('updated') or 0 for n in notes), default=0)
-    urls = [(SITE_URL + '/', day(latest))] + [(f'{SITE_URL}/n/{n["id"]}/', day(n.get('updated') or n.get('created'))) for n in notes]
-    body = ''.join(f'<url><loc>{esc(u)}</loc>' + (f'<lastmod>{d}</lastmod>' if d else '') + '</url>' for u, d in urls)
+    latest = day(max((n.get('updated') or 0 for n in notes), default=0))
+    urls = [('/', latest)] + [(p, latest) for p, *_ in LISTS if p not in ('/search/', '/wish/')]
+    urls += [(PATHS[n['id']], day(n.get('updated') or n.get('created'))) for n in notes]
+    body = ''.join(f'<url><loc>{esc(SITE_URL + u)}</loc>' + (f'<lastmod>{d}</lastmod>' if d else '') + '</url>' for u, d in urls)
     return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + body + '</urlset>\n'
+
+
+def redirects(notes):
+    """舊網址 /n/<id>/ 轉到新網址（Cloudflare Pages 的 _redirects）。"""
+    lines = []
+    for n in notes:
+        lines.append(f'/n/{n["id"]}/ {PATHS[n["id"]]} 301')
+        lines.append(f'/n/{n["id"]} {PATHS[n["id"]]} 301')
+    return '\n'.join(lines) + '\n'
 
 
 def robots():

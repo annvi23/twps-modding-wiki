@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>700N x1213 | 紡 TSUMUGI</title>
+<link rel="canonical" href="https://tsumugi-works.pages.dev/mods/700n-x1213/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="紡 TSUMUGI">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="700N x1213 | 紡 TSUMUGI">
+<meta property="og:description" content="700N x1213 改筆教學（雙頭）。長度 22.8 cm、重量 16 g。材料：700N、700N、sp10、Signo DX、Signo DX。">
+<meta property="og:url" content="https://tsumugi-works.pages.dev/mods/700n-x1213/">
+<meta property="og:image" content="https://i.imgur.com/9XlDIxG.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "700N x1213", "description": "700N x1213 改筆教學（雙頭）。長度 22.8 cm、重量 16 g。材料：700N、700N、sp10、Signo DX、Signo DX。", "inLanguage": "zh-Hant", "mainEntityOfPage": "https://tsumugi-works.pages.dev/mods/700n-x1213/", "publisher": {"@type": "Organization", "name": "紡 TSUMUGI"}, "image": "https://i.imgur.com/9XlDIxG.jpg", "dateModified": "2026-10-08", "author": {"@type": "Person", "name": "Herenz"}}</script>
+<script>try{var t=localStorage.getItem('twps-theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t}catch(e){}</script>
+<meta name="description" content="700N x1213 改筆教學（雙頭）。長度 22.8 cm、重量 16 g。材料：700N、700N、sp10、Signo DX、Signo DX。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<style>
+/* Layout: 黑白兩色的圖庫式百科。頁首、內頁、頁尾之間用內縮的細橫線分隔（psherenz）；
+   首頁先是緩慢輪播的「最近更新」，再依分類分帶，每帶 6 張 4:3 卡片；單篇教學為單欄長頁，大圖在上、文字在下。 */
+:root{
+  --bg:#fafafa; --band:#f1f1f0; --fg:#151515; --muted:#6c6c6c; --line:#d9d9d9; --hint:#a9a9a9; --ph:#e7e7e6; --pop:#ffffff; --dk:0;
+  --sans:"Roboto","Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"Roboto","Noto Sans TC",system-ui,sans-serif;
+  --sans-ja:"Roboto","Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif; /* 數字也用 Roboto，靠 tabular-nums 對齊 */
+  --r:4px; --max:1240px; --ease:cubic-bezier(.16,1,.3,1);
+}
+:root[data-theme="dark"]{
+  --bg:#101010; --band:#171717; --fg:#ebebeb; --muted:#8c8c8c; --line:#2c2c2c; --hint:#5c5c5c; --ph:#1d1d1d; --pop:#1a1a1a; --dk:1; color-scheme:dark}
+*{box-sizing:border-box}
+/* 日文內容（lang="ja"）改用 Zen Kaku Gothic New */
+:lang(ja){font-family:var(--sans-ja)}
+body{margin:0;font-variant-numeric:tabular-nums;background:var(--bg);color:var(--fg);font:15px/1.75 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+:focus-visible{outline:1.5px solid var(--fg);outline-offset:3px}
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+.rule{border:0;border-top:1px solid var(--line);margin:0}
+
+/* header：細線只畫在內容寬度內 */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.top-in{height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
+.logo{font-weight:600;font-size:15px;letter-spacing:.08em;text-decoration:none;white-space:nowrap}
+.logo-k{font-family:var(--sans-ja);font-weight:700;font-size:1.25em;letter-spacing:0;margin-right:2px}
+nav.main{display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);font-size:13px;letter-spacing:.08em}
+.nl{position:relative;display:inline-block;text-decoration:none;color:var(--muted);padding:6px 2px;transition:color .25s var(--ease),transform .25s var(--ease);transform-origin:center bottom}
+.nl{z-index:0}
+.nl::after{content:"";position:absolute;z-index:-1;left:-8px;right:-8px;top:0;bottom:0;background:var(--fg);border-radius:4px;opacity:0;transform:scale(.92);transition:opacity .3s var(--ease),transform .3s var(--ease);pointer-events:none}
+.nl[aria-current="page"]{color:var(--fg)}
+.nl:hover,.nl:focus-visible{color:var(--fg);transform:scale(1.1)}
+.nl:hover::after,.nl:focus-visible::after{opacity:.09;transform:none}
+.ic{width:1.15em;height:1.15em;fill:currentColor;display:block}
+#searchBtn{display:inline-grid;place-items:center;padding:6px 4px}
+#searchBtn::after{left:50%;right:auto;top:50%;bottom:auto;width:34px;height:34px;margin:-17px 0 0 -17px}
+@media (max-width:600px){nav.main{gap:10px;font-size:12px;letter-spacing:.04em}.logo{font-size:13.5px}.nl::after{left:-5px;right:-5px}}
+
+/* 搜尋小視窗 */
+.search-wrap{position:relative}
+.pop{position:absolute;right:-8px;top:calc(100% + 14px);width:min(380px,calc(100vw - 32px));background:var(--pop);border:1px solid var(--line);border-radius:8px;box-shadow:0 18px 50px -20px rgba(0,0,0,.35);padding:14px;
+  /* 開啟：由上往下展開；關閉：由下往上收起。四周留負值，陰影才不會被裁掉 */
+  clip-path:inset(-24px -48px 100% -48px);opacity:0;pointer-events:none;visibility:hidden;
+  transition:clip-path .4s var(--ease) .3s,opacity .15s var(--ease) .6s,visibility 0s .8s}
+.pop.open{clip-path:inset(-24px -48px -64px -48px);opacity:1;pointer-events:auto;visibility:visible;transition:clip-path .4s var(--ease),opacity .15s var(--ease),visibility 0s}
+/* 內容分層：開啟時外框 → 提示文字 → 三個選項 → 輸入框 → 放大鏡 → 結果；關閉時反過來，最後外框才收起 */
+.pop .sq{opacity:0;transform:translateY(8px);transition:opacity .35s var(--ease) var(--c,0s),transform .35s var(--ease) var(--c,0s)}
+.pop.open .sq{opacity:1;transform:none;transition:opacity .45s var(--ease) var(--o,0s),transform .45s var(--ease) var(--o,0s)}
+/* 放大鏡按鈕：進場用的 transition 不能蓋掉顏色變化，hover 時底色與文字要淡入淡出 */
+.pop .qgo.sq{transition:opacity .35s var(--ease) var(--c,0s),transform .35s var(--ease) var(--c,0s),background .8s var(--ease),color .8s var(--ease),border-color .8s var(--ease)}
+.pop.open .qgo.sq{transition:opacity .45s var(--ease) var(--o,0s),transform .45s var(--ease) var(--o,0s),background .8s var(--ease),color .8s var(--ease),border-color .8s var(--ease)}
+.pop .sq.s1{--o:.1s;--c:.28s}.pop .sq.s2{--o:.18s;--c:.21s}.pop .sq.s3{--o:.26s;--c:.14s}.pop .sq.s4{--o:.34s;--c:.07s}.pop .sq.s5{--o:.42s;--c:0s}
+.pop-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.pop label{display:block;font-size:12px;color:var(--muted);letter-spacing:.04em}
+.scope{position:relative;display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;flex:none}
+.scope-bg{position:absolute;left:0;top:2px;bottom:2px;width:0;border-radius:999px;background:var(--fg);transition:transform .45s var(--ease),width .45s var(--ease);pointer-events:none}
+.scope.ready .scope-bg{will-change:transform,width}
+.scope.noanim .scope-bg{transition:none}
+.scope button{position:relative;z-index:1;font-size:12px;padding:3px 10px;border-radius:999px;color:var(--muted);transition:color .3s var(--ease)}
+.scope button:hover{color:var(--fg)}
+.scope button[aria-checked="true"]{color:var(--bg)}
+.qrow{display:flex;gap:10px;align-items:center}
+/* 與排序、分類等按鈕統一：淡灰外框、灰色圖示，滑過時外框與圖示變主文字色 */
+.qgo{flex:none;width:34px;height:34px;border:1px solid var(--line);color:var(--muted);background:transparent;border-radius:999px;display:grid;place-items:center}
+/* 確認搜尋：滑過時底色慢慢填滿（漸變），圖示反白 */
+.qgo:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.pop input{flex:1;min-width:0;width:100%;font:500 16px var(--sans);color:var(--fg);background:transparent;border:0;padding:6px 0;outline:none}
+.pop input::placeholder{color:var(--muted);font-weight:400;opacity:1;transition:opacity .45s var(--ease)}
+.pop input.fading::placeholder,.pop input.ph0::placeholder{opacity:0;transition:none}
+/* 清除鈕：隱藏瀏覽器內建的叉叉，改用和搜尋、主題切換同款的中性色線條 icon，有文字時才淡入 */
+.pop input[type=search]::-webkit-search-cancel-button,.pop input[type=search]::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
+.qin{position:relative;flex:1;min-width:0;display:block}
+/* 底線：開啟時從左畫到右（類似 AE Trim Path），關閉時從左收到右 */
+.qin::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--fg);transform:scaleX(0);transform-origin:right;transition:transform .35s var(--ease) .1s}
+.pop.open .qin::after{transform:scaleX(1);transform-origin:left;transition:transform .7s var(--ease) .35s}
+.qin input{padding-right:26px}
+.qclear{position:absolute;right:0;top:50%;width:22px;height:22px;margin-top:-11px;display:grid;place-items:center;color:var(--muted);opacity:0;pointer-events:none;transition:color .25s var(--ease)}
+.qclear .ic{width:15px;height:15px}
+.qclear:hover{color:var(--fg)}
+.qrow.has .qclear{opacity:1;pointer-events:auto}
+/* 按叉叉清除：輸入的文字先淡出，再清空 */
+.pop input{transition:color .3s var(--ease)}
+.pop input.fading{color:transparent}
+.results{margin-top:8px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.results::-webkit-scrollbar{display:none}
+/* 自製捲軸：內容先出現，捲軸再從右側往左小幅移入並淡入 */
+.rwrap{position:relative}
+/* 淡出時留在原地，淡完才把位置重設回右側；進場時才有由右往左的位移 */
+.rsb{position:absolute;right:-10px;width:4px;opacity:0;transform:translateX(10px);pointer-events:none;transition:opacity .35s var(--ease),transform 0s .35s}
+.rsb.on{opacity:1;transform:none;transition:opacity .4s var(--ease),transform .4s var(--ease)}
+.rsb i{display:block;width:100%;border-radius:3px;background:var(--hint)}
+html{scrollbar-gutter:stable}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+html.lock{overflow:hidden}
+.results a{display:flex;justify-content:space-between;gap:12px;padding:8px 4px;text-decoration:none;border-radius:4px;font-size:14px}
+.results a:hover,.results a:focus-visible{background:var(--band)}
+.results .k{color:var(--muted);font:12px var(--mono);white-space:nowrap}
+.results .empty{color:var(--muted);font-size:13px;padding:8px 4px}
+
+/* 最近更新輪播 */
+.recent{padding-block:clamp(36px,5vw,56px) clamp(40px,6vw,64px)}
+.recent h2,.band h2{font:600 clamp(20px,2.4vw,26px)/1.2 var(--sans);margin:0}
+.recent .band-head{margin-bottom:22px}
+.arrows{display:flex;gap:8px}
+.arrow{width:38px;height:38px;border:1px solid var(--line);border-radius:999px;display:grid;place-items:center;color:var(--fg);transition:background .25s var(--ease),color .25s var(--ease),border-color .25s}
+.arrow:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.arrow:active{transform:scale(.94)}
+.viewport{overflow:hidden;padding:12px;margin:-12px}
+.rail{--per:3;--gap:clamp(14px,2vw,24px);display:flex;gap:var(--gap);transition:transform .7s var(--ease);will-change:transform}
+.rail .card{flex:0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per))}
+@media (max-width:860px){.rail{--per:2}}
+@media (max-width:520px){.rail{--per:1}}
+
+/* 分類帶 */
+.band{padding-block:clamp(40px,6vw,72px)}
+.band.alt{background:var(--band)}
+.band-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px}
+.more{font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap}
+.more:hover{color:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,24px) clamp(14px,2vw,24px)}
+@media (max-width:860px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.grid{grid-template-columns:minmax(0,1fr)}}
+
+/* 卡片：預設 4:3 填滿，滑過時改成完整顯示整支筆 */
+.card{display:block;text-decoration:none;min-width:0}
+.ph{position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:var(--r);background:var(--ph);max-width:100%}
+.ph{transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.card:hover .ph,.card:focus-visible .ph{transform:scale(1.04);box-shadow:0 14px 34px -18px rgba(0,0,0,.45);z-index:1}
+/* 沒有照片時的預設圖：淺色／深色主題各一張，切換主題時跟著背景淡入淡出 */
+.noimg{position:absolute;inset:0}
+.noimg i{position:absolute;inset:0;background:center/cover no-repeat}
+.noimg .l{background-image:url(/assets/noimg-light.jpg)}
+.noimg .d{background-image:url(/assets/noimg-dark.jpg);opacity:var(--dk)}
+.hero .noimg{position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden}
+.card .nm{margin-top:12px;font-weight:500;font-size:16px;line-height:1.35}
+.card .mt{margin-top:2px;font:12.5px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* 列表頁 */
+.page-head{padding-block:clamp(36px,5vw,56px) 4px}
+.page-head h1{font:600 clamp(28px,4vw,40px)/1.15 var(--sans);margin:0}
+.page-head p{color:var(--muted);margin:8px 0 0}
+.list-tools{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin:22px 0 28px}
+.chips{position:relative;display:inline-flex;max-width:100%;border:1px solid var(--line);border-radius:999px;padding:2px;margin:0}
+.chips-bg{position:absolute;left:0;top:2px;bottom:2px;width:0;border-radius:999px;background:var(--fg);transition:transform .45s var(--ease),width .45s var(--ease);pointer-events:none}
+.chips.noanim .chips-bg{transition:none}
+/* 排序下拉選單 */
+.sorter{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chips.sortseg .chip{font-size:13px}
+.dir-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 14px 5px 12px;transition:color .25s var(--ease),border-color .25s var(--ease)}
+.dir-btn:hover{color:var(--fg);border-color:var(--fg)}
+.dir-btn .ic{width:13px;height:13px;transition:transform .4s var(--ease)}
+.lab{display:inline-flex}
+.lab .ch{position:relative;display:inline-block;white-space:pre;width:1em;text-align:center}
+.lab .ch .o{display:inline-block;width:100%;text-align:center}
+.lab .ch .ab{position:absolute;left:0;top:0;width:100%;text-align:center;display:inline-block}
+.dir-btn[data-dir="asc"] .ic{transform:rotate(180deg)}
+.chip{position:relative;z-index:1;border-radius:999px;padding:4px 14px;font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap;transition:color .3s var(--ease)}
+.chip:hover{color:var(--fg)}
+.chip[aria-pressed="true"]{color:var(--bg)}
+.stagger>*{animation:item-in .8s var(--ease) both;animation-delay:calc(var(--i,0) * 80ms)}
+.results.stagger>*{animation-name:fade-in;animation-duration:.4s;animation-delay:calc(var(--base,0ms) + var(--i,0) * 45ms)}
+@keyframes item-in{from{opacity:0;transform:translateY(12px)}}
+/* 搜尋結果只淡入、不位移，避免動畫期間撐出捲軸 */
+@keyframes fade-in{from{opacity:0}}
+.list-grid{padding-bottom:72px}
+
+/* 單篇 */
+.article{max-width:820px;margin:0 auto;padding-block:clamp(28px,4vw,48px) 72px}
+.crumb{font-size:13px;color:var(--muted)}
+.crumb a{text-decoration:none}.crumb a:hover{color:var(--fg)}
+.article h1{font:600 clamp(30px,5vw,48px)/1.12 var(--sans);margin:10px 0 24px;text-wrap:balance}
+.data{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:22px 28px;padding:24px 0 28px;border-bottom:1px solid var(--line);margin:0}
+.data dt{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.data dd{margin:2px 0 0;font-size:16px;font-weight:500;min-width:0;overflow-wrap:anywhere}
+.data dd.big{font:500 clamp(24px,3.2vw,32px)/1.1 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.data .wide{grid-column:span 2}
+@media (max-width:520px){.data .wide{grid-column:auto}}
+.na-num{color:var(--muted)}
+.data dd.na{color:var(--muted);font-weight:400;font-size:15px}
+.sec{margin-top:clamp(40px,6vw,64px)}
+.sec>h2{font:600 20px/1.3 var(--sans);margin:0 0 18px}
+.mats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 40px}
+@media (max-width:620px){.mats{grid-template-columns:minmax(0,1fr)}}
+.mat{display:flex;justify-content:space-between;gap:16px;min-width:0}
+.mat .p{color:var(--muted)}
+.mat .q{font-family:var(--mono);white-space:nowrap}
+.mat small{display:block;color:var(--muted);font-size:12px}
+.mat-notes{margin-top:14px;color:var(--muted);font-size:13px;line-height:1.7}.mat-notes p{margin:0}
+.steps{display:flex;flex-direction:column;gap:clamp(44px,6vw,64px)}
+.imgs{display:grid;gap:10px}
+/* 內頁照片：寬度撐滿內容欄，高度依原比例，整張完整顯示 */
+.hero img,.imgs img{width:100%;height:auto;border-radius:var(--r);display:block;background:var(--ph)}
+.missing{aspect-ratio:16/9;border-radius:var(--r);background:var(--ph);display:grid;place-items:center;color:var(--muted);font-size:13px;text-decoration:none}
+.step h3{font:600 17px/1.4 var(--sans);margin:0 0 6px}
+.step .imgs{margin-top:16px}
+.step h3 span{color:var(--muted);font-weight:500;margin-right:10px}
+/* 文字維持易讀寬度；含照片的段落撐滿內容欄，和步驟照片同寬 */
+.md>*{max-width:68ch}
+.md>p:has(img){max-width:none}
+.md p{margin:0 0 10px}.md p:last-child{margin:0}
+.md ul,.md ol{padding-left:1.2em;margin:6px 0}
+.md img{width:100%;height:auto;border-radius:var(--r);margin:10px 0;display:block}
+.md table{border-collapse:collapse;margin:12px 0;font-size:14px}
+.md td,.md th{border:1px solid var(--line);padding:6px 12px;text-align:left}
+.video{position:relative;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:var(--ph);margin-top:10px}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vids{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.btn{display:inline-block;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:7px 18px;text-decoration:none;font-size:14px;transition:color .3s var(--ease),border-color .3s var(--ease)}
+.btn:hover{color:var(--fg);border-color:var(--fg)}
+.btn:active{transform:translateY(1px)}
+.art-foot{margin-top:56px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 24px}
+
+/* footer：與內頁之間同樣用內縮細線 */
+.foot-in{padding-block:32px 44px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.foot-in small{color:var(--muted);font-size:13px}
+.foot-r{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.foot-r>*{font-size:13px;line-height:20px}
+.foot-link{text-decoration:none;color:var(--fg);transition:color .2s}
+.foot-link:hover{color:var(--muted)}
+.fb{max-width:820px;margin:0 auto;padding-block:clamp(36px,5vw,56px) 80px}
+.fb h1{font:600 clamp(28px,4vw,40px)/1.15 var(--sans);margin:0 0 10px}
+.fb>p{color:var(--muted);margin:0 0 36px}
+.fb-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:640px){.fb-grid{grid-template-columns:minmax(0,1fr)}}
+.fb-grid{gap:clamp(32px,5vw,56px)!important}
+.fb-box{display:flex;flex-direction:column;gap:12px;min-width:0}
+.fb-box h2{font:600 19px/1.3 var(--sans);margin:0}
+.fb-box p,.fb-box li{color:var(--muted);font-size:14px;margin:0}
+.fb-box ul{margin:0;padding-left:1.1em;display:grid;gap:4px}
+.fb-box .btn{align-self:flex-start;margin-top:auto}
+.mail{font-family:var(--mono);font-size:13px;user-select:all;overflow-wrap:anywhere}
+/* 內頁最尾巴：許願與投稿（不加外框） */
+.page-end{margin-top:clamp(64px,8vw,96px);display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between}
+.page-end p{margin:0;font:500 clamp(17px,2vw,20px)/1.4 var(--sans)}
+.page-end .acts,.wish .acts{display:flex;flex-wrap:wrap;gap:10px}
+.wish{display:flex;flex-wrap:wrap;gap:18px 32px;align-items:center;justify-content:space-between}
+.wish p{margin:0;max-width:52ch;color:var(--muted)}
+.theme{width:36px;height:36px;border:1px solid var(--line);border-radius:999px;display:grid;place-items:center;color:var(--muted);transition:color .25s,border-color .25s,background .25s}
+.theme:hover{color:var(--bg);background:var(--fg);border-color:var(--fg)}
+.theme .ic{width:17px;height:17px}
+/* 切換深淺色：先變背景（0.45 秒），0.2 秒後文字接著變色 */
+@property --bg{syntax:'<color>';inherits:true;initial-value:#fafafa}
+@property --band{syntax:'<color>';inherits:true;initial-value:#f1f1f0}
+@property --ph{syntax:'<color>';inherits:true;initial-value:#e7e7e6}
+@property --pop{syntax:'<color>';inherits:true;initial-value:#ffffff}
+@property --line{syntax:'<color>';inherits:true;initial-value:#d9d9d9}
+@property --hint{syntax:'<color>';inherits:true;initial-value:#a9a9a9}
+@property --fg{syntax:'<color>';inherits:true;initial-value:#151515}
+@property --muted{syntax:'<color>';inherits:true;initial-value:#6c6c6c}
+@property --dk{syntax:'<number>';inherits:true;initial-value:0}
+html.theme-fade{transition:--bg .45s ease,--band .45s ease,--ph .45s ease,--pop .45s ease,--line .45s ease,--hint .45s ease,--dk .45s ease,--fg .3s ease .2s,--muted .3s ease .2s}
+html.theme-fade body,html.theme-fade body *,html.theme-fade body *::before,html.theme-fade body *::after{transition:none!important}
+.preview-note{font-size:12px;color:var(--muted);text-align:center;padding:0 16px 24px}
+/* 換頁動畫：舊頁面往上淡出，新頁面從下方淡入；頁首不動 */
+.page-out{animation:pg-out .35s var(--ease) both}
+.page-in{animation:none}
+@keyframes pg-out{to{opacity:0;transform:translateY(-10px)}}
+@keyframes pg-in{from{opacity:0;transform:translateY(20px)}}
+/* 進場：標題 → 區塊 → 卡片／步驟，依層級一個一個浮現 */
+.rise{animation:rise .55s var(--ease) both;animation-delay:var(--d,0ms)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+@media (prefers-reduced-motion:reduce){.page-out,.page-in,.stagger>*,.rise{animation:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.nl:hover{transform:none}}
+</style>
+
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap"><div class="top-in">
+    <a class="logo" href="/"><span class="logo-k" lang="ja">紡</span> TSUMUGI</a>
+    <nav class="main" aria-label="主選單">
+      <a class="nl" href="/tips/" data-nav="tips">小技巧</a>
+      <a class="nl" href="/materials/" data-nav="materials">材料介紹</a>
+      <a class="nl" href="/mods/" data-nav="tutorials">改筆教學</a>
+      <span class="search-wrap">
+        <button class="nl" id="searchBtn" aria-expanded="false" aria-controls="searchPop" aria-label="搜尋" title="搜尋"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button>
+        <div class="pop" id="searchPop" role="dialog" aria-label="搜尋">
+          <div class="pop-head"><label class="sq s1" for="q">搜尋筆名、發明者或材料</label><div class="scope sq s2" role="radiogroup" aria-label="搜尋範圍"><i class="scope-bg" aria-hidden="true"></i><button type="button" role="radio" data-scope="all" aria-checked="true">全部</button><button type="button" role="radio" data-scope="mat" aria-checked="false">材料</button><button type="button" role="radio" data-scope="mod" aria-checked="false">改造</button></div></div>
+          <form id="qform" class="qrow" role="search"><span class="qin sq s3"><input id="q" type="search" placeholder="想找甚麼呢？" autocomplete="off" enterkeyhint="search"><button type="button" class="qclear" id="qclear" aria-label="清除" title="清除" tabindex="-1"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg></button></span><button type="submit" class="qgo sq s4" aria-label="搜尋全站" title="搜尋全站"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></svg></button></form>
+          <div class="rwrap sq s5"><div class="results" id="results"></div><div class="rsb" id="rsb" aria-hidden="true"><i></i></div></div>
+        </div>
+      </span>
+    </nav>
+  </div></div>
+</header>
+
+<main id="app"><div class="sr-only"><article><h1>700N x1213</h1><img src="https://i.imgur.com/9XlDIxG.jpg" alt="700N x1213"><dl><dt>長度</dt><dd>22.8 cm</dd><dt>重量</dt><dd>16 g</dd><dt>發明者</dt><dd>x1213</dd><dt>Insert</dt><dd>否</dd></dl><h2>所需材料</h2><ul><li>700N（桿子）：1</li><li>700N（蓋子）：2</li><li>sp10（蓋子）：2</li><li>Signo DX（膠）：1</li><li>Signo DX（嘴）：2</li></ul><h2>教學</h2><h3>步驟一</h3><p>將700N桿子進行去漆<br><img src="https://i.imgur.com/8NuaKBM.jpg" alt="" loading="lazy"></p><h3>步驟二</h3><p>將UM151膠切半<br>註：圖中所使用的是UM153進行代替<br><img src="https://i.imgur.com/82aBn7G.jpg" alt="" loading="lazy"></p><h3>步驟三</h3><p>將sp10的蓋子進行爆夾<br><img src="https://i.imgur.com/BT54f0D.jpg" alt="" loading="lazy"></p><h3>步驟四</h3><p>根據此圖順序將各部件組合起來<br>註：建議在圖中紅色箭頭所指處加上適量雙面膠進行固定<br><img src="https://i.imgur.com/M0Q1Nmj.jpg" alt="" loading="lazy"></p><h3>步驟五</h3><p>然後就完成了<br><img src="https://i.imgur.com/9XlDIxG.jpg" alt="" loading="lazy"></p><h2>影片</h2><p><a href="https://www.youtube.com/watch?v=NpFgDPyWJZk" rel="noopener">YouTube 影片</a></p><p>圖片所有者：Herenz</p></article></div></main>
+
+<footer class="site">
+  <div class="wrap"><div class="foot-in">
+    <a class="logo" href="/"><span class="logo-k" lang="ja">紡</span> TSUMUGI</a>
+    <div class="foot-r"><a class="foot-link" href="/wish/">許願教學・投稿照片</a><small>非官方整理 · 由 taco 整理更新 · 部分內容整理自 TWPS 改筆百科 HackMD 團隊筆記，版權歸原作者</small><button class="theme" id="themeBtn" aria-label="切換為深色模式" title="切換深淺色"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d=""></path></svg></button></div>
+  </div></div>
+</footer>
+
+
+<script>
+const WISH_FORM='https://docs.google.com/forms/d/e/1FAIpQLSdhOYlV0A6aklc5xuOcDVcETCh7rAbMlsa3gQDfQDbqO0iuXA/viewform';
+const PHOTO_MAIL='tacotwps@gmail.com';
+const mailto=(subject,body)=>`mailto:${PHOTO_MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const PHOTO_BODY='筆名：\n圖片所有者（要標註的名字）：\n\n我同意 紡 TSUMUGI 使用這些照片，並標註我為圖片所有者。\n\n（請把照片加在附件）';
+let NOTES=[],IMGS={},RECENT=[],byId={},tutorials=[];
+const app=document.getElementById('app');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const groupOf=n=>(n.category==='VP'||/^mx$/i.test(n.category))?'VP / MX':n.category;
+const SITE_NAME='紡 TSUMUGI';
+// 網址設計：/mods/（改筆教學）、/mods/dual/ 等分類、/mods/<筆名>/、/materials/、/tips/、/search/?q=、/wish/
+// 內部仍用原本的頁面代號（home、tips、tutorials-雙頭、n-<id>、q-all-關鍵字…），只在進出網址時轉換
+const CAT_SLUG={'雙頭':'dual','G3':'g3','VP / MX':'vp-mx'};
+const SECTION={tutorial:'mods',material:'materials',knowledge:'tips'};
+let bySlug={};
+const notePath=n=>`/${SECTION[n.type]||'tips'}/${n.slug||n.id}/`;
+function keyPath(h){
+  if(!h||h==='home') return '/';
+  if(h==='tips'||h==='materials') return `/${h}/`;
+  if(h==='feedback') return '/wish/';
+  if(h==='tutorials') return '/mods/';
+  if(h.startsWith('tutorials-')){const c=h.slice(10);return CAT_SLUG[c]?`/mods/${CAT_SLUG[c]}/`:'/mods/'}
+  if(h.startsWith('q-')){const m=h.slice(2).match(/^(all|mat|mod)-([\s\S]*)$/);const sc=m?m[1]:'all',k=m?m[2]:h.slice(2);return '/search/?q='+encodeURIComponent(k)+(sc!=='all'?'&in='+sc:'')}
+  if(h.startsWith('n-')&&byId[h.slice(2)]) return notePath(byId[h.slice(2)]);
+  return '/';
+}
+function curKey(){
+  const seg=location.pathname.split('/').filter(s=>s&&s!=='index.html').map(decodeURIComponent);
+  if(!seg.length) return 'home';
+  const [a,b]=seg;
+  if(a==='search'){const u=new URLSearchParams(location.search),sc=u.get('in');return `q-${sc==='mat'||sc==='mod'?sc:'all'}-${u.get('q')||''}`}
+  if(a==='wish') return 'feedback';
+  if(a==='n'&&b&&byId[b]) return 'n-'+b;
+  if(!SECTION_KEYS.includes(a)) return 'home';
+  if(!b) return a==='mods'?'tutorials':a;
+  if(a==='mods'){const c=Object.keys(CAT_SLUG).find(k=>CAT_SLUG[k]===b.toLowerCase());if(c) return 'tutorials-'+c}
+  const n=bySlug[a+'/'+b.toLowerCase()];return n?'n-'+n.id:'home';
+}
+const SECTION_KEYS=['mods','materials','tips'];
+// 舊網址（#n-<id>、#tutorials-…、#q-…）轉成新路徑
+function legacyHash(){
+  let h=location.hash.slice(1);if(!h) return;
+  try{h=decodeURIComponent(h)}catch(e){}
+  if(h.startsWith('tutorials-')){let c=h.slice(10);try{c=decodeURIComponent(c.replace(/_/g,'%'))}catch(e){}h='tutorials-'+c.replace(/mx/i,'MX')}
+  const ok=/^(home|tips|materials|tutorials|feedback)$/.test(h)||/^(tutorials-|q-|n-)/.test(h);
+  if(ok) history.replaceState(null,'',keyPath(h));
+}
+function go(path){
+  if(path===location.pathname+location.search) return;
+  history.pushState(null,'',path);route();
+}
+// 站內連結改用 pushState 換頁（不重新載入），保留換頁動畫
+document.addEventListener('click',e=>{
+  if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey) return;
+  const a=e.target.closest('a[href]');if(!a||a.target||a.hasAttribute('download')) return;
+  const u=new URL(a.href,location.href);
+  if(u.origin!==location.origin||/\.[a-z0-9]{2,4}$/i.test(u.pathname)) return;
+  e.preventDefault();go(u.pathname+u.search);
+},true);
+const src=u=>IMGS[u]||u;
+
+function measure(s,key,unit){
+  const r=s[key+'_range'],v=s[`${key}_${unit}`];
+  if(r) return `${r[0]}-${r[1]} ${unit}`;
+  if(v) return `${v} ${unit}`;
+  return '';
+}
+const metaLine=n=>`${measure(n.specs,'length','cm')||'-- cm'} · ${measure(n.specs,'weight','g')||'-- g'}`;
+const NOIMG='<div class="noimg"><i class="l"></i><i class="d"></i></div>';
+function pic(n){
+  if(!n.cover) return NOIMG;
+  // 有照片就不載入預設圖；照片失效時才換成預設圖
+  return `<img src="${esc(src(n.cover))}" alt="${esc(n.title)}" loading="lazy" onerror="this.outerHTML=NOIMG">`;
+}
+function card(n){
+  const mt=n.type==='tutorial'?metaLine(n):(n.type==='material'?esc(n.specs.maker||'材料'):'小技巧');
+  return `<a class="card" href="${notePath(n)}"><div class="ph">${pic(n)}</div><div class="nm">${esc(n.title)}</div><div class="mt">${mt}</div></a>`;
+}
+function pageEnd(title){
+  const mail=title?mailto(`[投稿照片] ${title}`,PHOTO_BODY.replace('筆名：',`筆名：${title}`)):mailto('[投稿照片] ',PHOTO_BODY);
+  const q=title?'有這支筆的照片，或想看其他改筆的教學？':'想看的改筆還沒有教學？';
+  return `<div class="page-end"><p>${q}</p><div class="acts"><a class="btn" href="${WISH_FORM}" target="_blank" rel="noopener">許願教學</a><a class="btn" href="${mail}">寄信投稿照片</a></div></div>`;
+}
+function stagger(el,opt={}){
+  if(!el) return;
+  el.classList.remove('stagger');
+  const kids=[...el.children],n=Math.min(kids.length,14);
+  kids.forEach((c,i)=>{const k=Math.min(i,13);c.style.setProperty('--i',opt.reverse?Math.max(0,Math.min(kids.length,14)-1-k):k)});
+  el.style.setProperty('--base',(opt.base||0)+'ms');
+  void el.offsetWidth;el.classList.add('stagger');
+}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+/* 最近更新：一次顯示三張，每 5 秒往左移一張；左右箭頭可手動切換 */
+let carouselStop=null;
+function carousel(root,count){
+  if(carouselStop) carouselStop();
+  const rail=root.querySelector('.rail');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i=0,timer=0,hover=false;
+  const step=()=>{const c=rail.children;return c.length>1?c[1].offsetLeft-c[0].offsetLeft:0};
+  const place=anim=>{rail.style.transition=anim&&!reduce?'':'none';rail.style.transform=`translateX(${-i*step()}px)`;if(!anim){rail.offsetWidth;rail.style.transition=''}};
+  const go=d=>{
+    if(d<0&&i===0){i=count;place(false)}
+    i+=d;place(true);
+    if(i>=count) setTimeout(()=>{if(i>=count){i-=count;place(false)}},720);
+  };
+  const restart=()=>{clearInterval(timer);timer=setInterval(()=>{if(!hover&&!document.hidden&&!pop.classList.contains('open'))go(1)},5000)};
+  root.querySelector('.prev').onclick=()=>{go(-1);restart()};
+  root.querySelector('.next').onclick=()=>{go(1);restart()};
+  rail.addEventListener('pointerenter',()=>hover=true);rail.addEventListener('pointerleave',()=>hover=false);
+  const onResize=()=>place(false);addEventListener('resize',onResize);
+  restart();
+  carouselStop=()=>{clearInterval(timer);removeEventListener('resize',onResize)};
+}
+
+function home(){
+  const recent=RECENT.map(id=>byId[id]).filter(Boolean);
+  const band=(title,list,link,alt)=>`<section class="band${alt?' alt':''}"><div class="wrap"><div class="band-head"><h2>${title}</h2>${link}</div><div class="grid">${list.map(card).join('')}</div></div></section>`;
+  const related={'VP / MX':n=>n.tags.some(t=>/^(vp|mx)$/i.test(t))||/r\.?s\.?v\.?p/i.test(n.title),'G3':n=>n.tags.includes('G3'),'雙頭':n=>n.tags.includes('雙頭')};
+  const usedBy=k=>{
+    const names=tutorials.filter(n=>groupOf(n)===k).flatMap(n=>n.materials.map(m=>m.name.toLowerCase()));
+    return m=>[m.title,m.specs.alias||'',m.specs.name||''].flatMap(s=>s.split(/[、,]/)).map(s=>s.trim().toLowerCase().replace(/[-\s]/g,'')).filter(s=>s.length>2).some(s=>names.some(x=>x.replace(/[-\s]/g,'').includes(s)));
+  };
+  const fill6=k=>{
+    const list=shuffle(tutorials.filter(n=>groupOf(n)===k)).slice(0,6);
+    if(list.length<6){
+      const mats=NOTES.filter(n=>n.type==='material');
+      const pick=[...mats.filter(related[k]),...mats.filter(usedBy(k))].filter((v,i,a)=>a.indexOf(v)===i);
+      list.push(...pick.slice(0,6-list.length));
+    }
+    return list;
+  };
+  const g=k=>tutorials.filter(n=>groupOf(n)===k);
+  const more=k=>`<a class="more" href="${keyPath('tutorials-'+k)}">全部 ${g(k).length} 篇</a>`;
+  app.innerHTML=
+    `<section class="recent" id="recent"><div class="wrap"><div class="band-head"><h2>最近更新</h2><div class="arrows"><button class="arrow prev" aria-label="上一篇"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg></button><button class="arrow next" aria-label="下一篇"><svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg></button></div></div><div class="viewport"><div class="rail">${[...recent,...recent.slice(0,3)].map((n,i)=>card(n).replace('<a ',i>=recent.length?'<a tabindex="-1" aria-hidden="true" ':'<a ')).join('')}</div></div></div></section>`+
+    band('雙頭',fill6('雙頭'),more('雙頭'),true)+
+    band('G3',fill6('G3'),more('G3'),false)+
+    band('VP / MX',fill6('VP / MX'),more('VP / MX'),true)+
+    `<section class="band"><div class="wrap"><div class="band-head"><h2>許願教學</h2></div><div class="wish"><p>想看的改筆還沒有教學？填表單告訴我們筆名和參考資料<br>有改筆照片也歡迎寄信投稿。</p><div class="acts"><a class="btn" href="${WISH_FORM}" target="_blank" rel="noopener">許願教學</a><a class="btn" href="${mailto('[投稿照片] ',PHOTO_BODY)}">寄信投稿照片</a></div></div></div></section>`;
+  carousel(document.getElementById('recent'),recent.length);
+}
+
+function listPage(kind,cat,sc='all'){
+  let title,desc,list,chips='';
+  if(kind==='search'){title=`搜尋「${esc(cat)}」`;list=findNotes(cat,sc);
+    chips=`<div class="chips" role="group" aria-label="搜尋範圍">${['all','mat','mod'].map(k=>`<a class="chip" href="${keyPath(`q-${k}-${cat}`)}" aria-pressed="${k===sc}">${SCOPE_NAME[k]}</a>`).join('')}</div>`;desc=list.length?`找到 ${list.length} 篇`:'找不到符合的筆記，試試筆名或材料名稱的一部分';}
+  else if(kind==='tips'){title='小技巧';desc='改筆常用名詞與資源';list=NOTES.filter(n=>n.type==='knowledge')}
+  else if(kind==='materials'){title='材料介紹';desc='常被拿來改造的原廠筆';list=NOTES.filter(n=>n.type==='material')}
+  else{
+    title='改筆教學';desc=`共 ${tutorials.length} 篇`;
+    cat=(cat||'全部').replace(/mx/i,'MX'); // 舊連結的 Mx 也能對應到 MX
+    list=cat==='全部'?tutorials:tutorials.filter(n=>groupOf(n)===cat);
+    chips=`<div class="chips" role="group" aria-label="分類">${['全部','雙頭','G3','VP / MX'].map(k=>`<a class="chip" href="${keyPath(k==='全部'?'tutorials':'tutorials-'+k)}" aria-pressed="${k===cat}">${k}</a>`).join('')}</div>`;
+  }
+  const ARROW='<svg class="ic" viewBox="0 0 256 256" aria-hidden="true"><path d="M205.66,149.66l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L120,196.69V40a8,8,0,0,1,16,0V196.69l58.34-58.35a8,8,0,0,1,11.32,11.32Z"/></svg>';
+  const sortBar=`<div class="sorter"><div class="chips sortseg" id="sortSeg" role="group" aria-label="排序方式">${Object.entries(SORT_NAME).map(([k,v])=>`<button type="button" class="chip" data-sort="${k}" aria-pressed="${k===listSort}">${v}</button>`).join('')}</div><button type="button" class="dir-btn" id="dirBtn" data-dir="${sortDir[listSort]}">${ARROW}<span class="lab">${labelHtml(DIR_NAME[listSort][sortDir[listSort]])}</span></button></div>`;
+  app.innerHTML=`<div class="wrap"><div class="page-head"><h1>${title}</h1><p>${desc}</p></div><div class="list-tools">${chips||'<div></div>'}${sortBar}</div><div class="grid" id="listGrid">${sortList(list).map(card).join('')}</div>${pageEnd('')}<div style="height:72px"></div></div>`;
+  const seg=document.getElementById('sortSeg'),dirBtn=document.getElementById('dirBtn');let lastSortKey=listSort;
+  const fillSeg=()=>{
+    let bg=seg.querySelector('.chips-bg');if(!bg){bg=document.createElement('i');bg.className='chips-bg';bg.setAttribute('aria-hidden','true');seg.prepend(bg)}
+    return bg;
+  };
+  const placeSeg=instant=>{
+    const bg=fillSeg(),on=seg.querySelector('[aria-pressed="true"]');
+    if(instant)seg.classList.add('noanim');
+    bg.style.width=on.offsetWidth+'px';bg.style.transform=`translateX(${on.offsetLeft}px)`;
+    if(instant){void bg.offsetWidth;seg.classList.remove('noanim')}
+  };
+  placeSeg(true);
+  const repaint=()=>{
+    dirBtn.dataset.dir=sortDir[listSort];swapLabel(dirBtn.querySelector('.lab'),DIR_NAME[listSort][sortDir[listSort]],listSort===lastSortKey);lastSortKey=listSort;
+    const g=document.getElementById('listGrid');g.innerHTML=sortList(list).map(card).join('');
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches) stagger(g);
+  };
+  seg.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{
+    if(b.dataset.sort===listSort) return;
+    listSort=b.dataset.sort;try{localStorage.setItem('twps-sort',listSort)}catch(e){}
+    seg.querySelectorAll('[data-sort]').forEach(x=>x.setAttribute('aria-pressed',x===b));
+    placeSeg(false);repaint();
+  });
+  dirBtn.onclick=()=>{
+    sortDir[listSort]=sortDir[listSort]==='desc'?'asc':'desc';
+    try{localStorage.setItem('twps-sortdir',JSON.stringify(sortDir))}catch(e){}
+    repaint();
+  };
+}
+const SORT_NAME={updated:'時間',name:'名稱'};
+// 按鈕直接顯示目前的排列：時間「新到舊／舊到新」、名稱「A-Z／Z-A」。時間預設新到舊，名稱預設 A-Z
+const labelHtml=t=>[...t].map(c=>`<span class="ch"><span class="o">${esc(c)}</span></span>`).join('');
+// 方向按鈕的文字切換：第一個字往下淡出、新字從上往下淡入；最後一個字往上淡出、新字從下往上淡入，中間不動
+function swapLabel(lab,text,animate=true){
+  const chars=[...text],cur=[...lab.querySelectorAll('.ch')];
+  // 上一輪動畫還沒結束就直接定格到它的目標文字
+  cur.forEach(el=>{if(el.dataset.t){el.getAnimations({subtree:true}).forEach(a=>a.cancel());el.innerHTML=`<span class="o">${esc(el.dataset.t)}</span>`;delete el.dataset.t}});
+  if(!animate||cur.length!==chars.length||matchMedia('(prefers-reduced-motion:reduce)').matches){lab.innerHTML=labelHtml(text);return}
+  cur.forEach((el,i)=>{
+    const next=chars[i],old=el.querySelector('.o');if(old.textContent===next) return;
+    const dy=i===chars.length-1?-1:1; // 最後一個字往上，其餘往下
+    const nw=document.createElement('span');nw.className='ab';nw.textContent=next;el.appendChild(nw);el.dataset.t=next;
+    const ease='cubic-bezier(.16,1,.3,1)';
+    const o=old.animate([{opacity:1,transform:'none'},{opacity:0,transform:`translateY(${dy*8}px)`}],{duration:600,easing:ease,fill:'forwards'});
+    nw.animate([{opacity:0,transform:`translateY(${-dy*8}px)`},{opacity:1,transform:'none'}],{duration:600,easing:ease,fill:'forwards'});
+    const fin=()=>{if(el.dataset.t===next){el.getAnimations({subtree:true}).forEach(a=>a.cancel());el.innerHTML=`<span class="o">${esc(next)}</span>`;delete el.dataset.t}};
+    o.onfinish=fin;setTimeout(fin,750);
+  });
+}
+const DIR_NAME={updated:{asc:'舊到新',desc:'新到舊'},name:{asc:'Ａ－Ｚ',desc:'Ｚ－Ａ'}};
+const sortDir={updated:'desc',name:'asc'};
+try{const d=JSON.parse(localStorage.getItem('twps-sortdir')||'{}');['updated','name'].forEach(k=>{if(d[k]==='asc'||d[k]==='desc')sortDir[k]=d[k]})}catch(e){}
+let listSort='updated';
+try{const s=localStorage.getItem('twps-sort');if(SORT_NAME[s])listSort=s}catch(e){}
+const collator=new Intl.Collator('zh-Hant',{numeric:true,sensitivity:'base'});
+function sortList(list){
+  const latin=s=>/^[\x00-\x7f]/.test(s)?0:1; // 英數筆名排在中文前面
+  const t=n=>n.updated||n.created||0;
+  const cmp=listSort==='name'?(a,b)=>latin(a.title)-latin(b.title)||collator.compare(a.title,b.title):(a,b)=>t(a)-t(b);
+  const sign=sortDir[listSort]==='desc'?-1:1;
+  return [...list].sort((a,b)=>sign*cmp(a,b));
+}
+
+function mdText(t){
+  t=(t||'').replace(/\{%\s*youtube\s+([\w-]+)\s*%\}/g,'[YouTube 影片](https://www.youtube.com/watch?v=$1)');
+  t=t.replace(/\]\((?:https:\/\/hackmd\.io)?\/([A-Za-z0-9_-]{20,24})(?:\?\w*)?\)/g,(m,id)=>byId[id]?`](${notePath(byId[id])})`:`](https://hackmd.io/${id})`);
+  const r=new marked.Renderer();
+  r.link=(href,title,txt)=>`<a href="${esc(href)}"${/^[#/]/.test(href)?'':' target="_blank" rel="noopener"'}>${txt}</a>`;
+  r.image=(href,title,alt)=>`<img src="${esc(src(href))}" alt="${esc(alt)}" loading="lazy">`;
+  return marked.parse(t,{renderer:r,breaks:true});
+}
+function splitImages(md){
+  const imgs=[];const text=(md||'').replace(/!\[[^\]]*\]\(\s*([^)\s]+)\s*\)/g,(m,u)=>{imgs.push(u);return ''}).replace(/\n{3,}/g,'\n\n').trim();
+  return {imgs,text};
+}
+const brokenImg=`this.replaceWith(Object.assign(document.createElement('div'),{className:'missing',textContent:'圖片已失效'}))`;
+function stepImgs(urls,alt){
+  if(!urls.length) return '';
+  return `<div class="imgs">${urls.map(u=>(window.PREVIEW&&!IMGS[u])?`<a class="missing" href="${esc(u)}" target="_blank" rel="noopener">圖片在正式網站顯示</a>`:`<img src="${esc(src(u))}" alt="${esc(alt)}" loading="lazy" onerror="${brokenImg}">`).join('')}</div>`;
+}
+
+function article(n){
+  const s=n.specs;
+  const crumb=n.type==='tutorial'?`<a href="/mods/">改筆教學</a> / <a href="${keyPath('tutorials-'+groupOf(n))}">${esc(groupOf(n))}</a>`:n.type==='material'?`<a href="/materials/">材料介紹</a>`:`<a href="/tips/">小技巧</a>`;
+  let h=`<div class="crumb">${crumb}</div><h1>${esc(n.title)}</h1>`;
+  h+=n.cover?`<div class="hero"><img src="${esc(src(n.cover))}" alt="${esc(n.title)}" onerror="this.outerHTML=NOIMG"></div>`:`<div class="hero">${NOIMG}</div>`;
+  const dl=[];
+  const add=(k,v,big,wide)=>dl.push(`<div${wide?' class="wide"':''}><dt>${k}</dt><dd class="${big?'big':''}${v?'':' na'}">${v||'待補充'}</dd></div>`);
+  if(n.type==='tutorial'){
+    add('長度',measure(s,'length','cm')||'<span class="na-num">-- cm</span>',1);add('重量',measure(s,'weight','g')||'<span class="na-num">-- g</span>',1);
+    add('Insert',esc(s.insert_type==='Outsert'?'Outsert':(s.insert||'')));
+    add('發明者',esc(s.inventor||''));
+    if(s.balance) add('平衡',esc(s.balance));
+    Object.entries(s.other||{}).forEach(([k,v])=>add(esc(k),esc(v)));
+    const so=s.source||{};add('原教學',so.url?`<a href="${esc(so.url)}" target="_blank" rel="noopener">${esc(so.text||'連結')}</a>`:esc(so.text&&so.text!=='待補充'?so.text:''),0,1);
+  } else if(n.type==='material'){
+    add('販售公司',esc(s.maker||''));add('通稱',esc(s.alias||''));
+    if(s.length_cm) add('總長度',measure(s,'length','cm'),1);
+    if(s.weight_g) add('重量',measure(s,'weight','g'),1);
+  }
+  if(dl.length) h+=`<dl class="data">${dl.join('')}</dl>`;
+  if(n.type==='knowledge') h+=`<div class="sec md">${mdText(n.body)}</div>`;
+  if(n.intro) h+=`<div class="sec"><h2>簡介</h2><div class="md">${mdText(n.intro)}</div></div>`;
+  if(n.type==='material'){
+    const key=(s.alias||n.title).split(/[、,]/)[0].toLowerCase().trim();
+    const uses=[...n.examples.map(e=>byId[e.id]).filter(Boolean),...tutorials.filter(t=>t.materials.some(m=>m.name.toLowerCase().includes(key)))].filter((v,i,a)=>a.indexOf(v)===i);
+    h+=`<div class="sec"><h2>用到這個材料的改筆</h2>${uses.length?`<div class="grid">${uses.slice(0,6).map(card).join('')}</div>`:'<p class="md" style="color:var(--muted)">目前還沒有。</p>'}</div>`;
+  }
+  if(n.materials.length){
+    h+=`<div class="sec"><h2>所需材料</h2><div class="mats">${n.materials.map(m=>`<div class="mat"><div>${esc(m.name)}${m.part?` <span class="p">（${esc(m.part)}）</span>`:''}${m.note?`<small>${esc(m.note)}</small>`:''}</div><div class="q">${esc(m.qty)}</div></div>`).join('')}</div>${(n.materials_notes||[]).length?`<div class="mat-notes">${n.materials_notes.map(x=>`<p>註：${esc(x)}</p>`).join('')}</div>`:''}${n.materials_image?`<div style="margin-top:20px">${stepImgs([n.materials_image],'材料合照')}</div>`:''}</div>`;
+  }
+  if(n.steps.length){
+    h+=`<div class="sec"><h2>教學</h2><div class="steps">${n.steps.map(st=>{
+      const {imgs,text}=splitImages(st.md);
+      const num=(st.title.match(/^步驟[一二三四五六七八九十百零\d]+/)||[st.title])[0];
+      const sub=st.title.slice(num.length).trim();
+      return `<div class="step"><h3><span>${esc(num)}</span>${esc(sub)}</h3>${text?`<div class="md">${mdText(text)}</div>`:''}${stepImgs(imgs,st.title)}</div>`;
+    }).join('')}</div></div>`;
+  }
+  const order=['補充','作者的話','編者心得'];
+  [...n.extras].sort((a,b)=>order.indexOf(a.title)-order.indexOf(b.title)).forEach(e=>{
+    h+=`<div class="sec"><h2>${esc(e.title)}</h2><div class="md">${mdText(e.md.replace(/^####\s*(.+)$/gm,'**$1**'))}</div></div>`;
+  });
+  const v=n.video;
+  if(v.youtube.length||v.links.length){
+    h+=`<div class="sec"><h2>影片</h2>${v.caption?`<p class="md" style="margin:0">${esc(v.caption)}</p>`:''}`;
+    h+=v.youtube.map(id=>window.PREVIEW?`<div class="vids"><a class="btn" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">在 YouTube 觀看</a></div>`:`<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${id}" title="${esc(n.title)} 影片" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`).join('');
+    if(v.links.length) h+=`<div class="vids">${v.links.map(l=>`<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.text||'影片連結')}</a>`).join('')}</div>`;
+    h+='</div>';
+  }
+  h+=`<div class="art-foot">${n.credit?`<span>圖片所有者：${esc(n.credit)}</span>`:''}</div>`;
+  app.innerHTML=`<div class="wrap"><article class="article">${h}</article></div>`;
+  document.title=`${n.title} | ${SITE_NAME}`;
+}
+
+function feedback(){
+  app.innerHTML=`<div class="wrap"><div class="fb"><h1>許願教學・投稿照片</h1><p>想看哪支筆的教學，或手上有改筆照片可以分享，都歡迎告訴我們。</p>
+  <div class="fb-grid">
+    <div class="fb-box"><h2>許願教學</h2><p>填寫想看的筆名和參考資料，不需要登入。</p><ul><li>筆名（必填）</li><li>分類與參考影片、貼文或原作者</li></ul><a class="btn" href="${WISH_FORM}" target="_blank" rel="noopener">填寫許願表單</a></div>
+    <div class="fb-box"><h2>投稿照片</h2><p>把照片寄到下面的信箱，信裡寫上筆名和要標註的圖片所有者。</p><div class="mail">${PHOTO_MAIL}</div><ul><li>照片會在整理後放上對應的教學頁</li><li>寄出即表示同意 紡 TSUMUGI 使用並標註你為圖片所有者</li></ul><a class="btn" href="${mailto('[投稿照片] ',PHOTO_BODY)}">寄信投稿</a></div>
+  </div></div></div>`;
+  document.title='許願教學・投稿照片 | '+SITE_NAME;
+}
+
+let firstRender=true,lastHash='';
+const pageKind=h=>h.startsWith('tutorials')?'tutorials':h.startsWith('q-')?'q:'+h.slice(2).replace(/^(all|mat|mod)-/,''):h;
+function route(){
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const h=curKey(), same=!firstRender&&pageKind(h)===pageKind(lastHash);
+  lastHash=h;
+  if(same){const y=scrollY;render(true);scrollTo(0,y);if(!reduce)stagger(app.querySelector('.grid'));return}
+  if(firstRender||reduce){firstRender=false;render();return}
+  clearTimeout(window.__pg);
+  app.classList.remove('page-in');app.classList.add('page-out');
+  window.__pg=setTimeout(()=>{render();app.classList.remove('page-out');void app.offsetWidth;app.classList.add('page-in')},350);
+}
+const LEVELS=[
+  ['.crumb','h1','.page-head','.chips','.list-tools','.band-head','.sec>h2','.fb-box>h2'],
+  ['.hero','.data','.viewport','.grid','.mats','.steps','.md','.video','.wish','.fb-grid','.page-end','.art-foot'],
+  ['.card','.step','.mat','.fb-box','.btn','.data>div','.more']
+];
+function enter(root){
+  // 標題層先依序出現；區塊與卡片緊接在標題之後開始，不等標題播完
+  const seen=new Set();const t=220; // 所有頁面共用同一組時間（以大分類頁為準）
+  LEVELS.forEach((sels,lv)=>{
+    let idx=0;const per=new Map();
+    root.querySelectorAll(sels.join(',')).forEach(el=>{
+      if(seen.has(el)) return;seen.add(el);
+      let d;
+      if(lv===0){d=Math.min(idx,3)*45;idx++}
+      else if(lv===1){d=t+Math.min(idx,6)*40;idx++}
+      else{const par=el.parentElement;const j=per.get(par)||0;per.set(par,j+1);d=t+Math.min(j,9)*40}
+      el.style.setProperty('--d',d+'ms');el.classList.add('rise');
+    });
+  });
+}
+app.addEventListener('animationend',e=>{if(e.target.classList.contains('rise')){e.target.classList.remove('rise');e.target.style.removeProperty('--d')}});
+// 分類按鈕：和搜尋框的範圍選項一樣，深灰底色在選項之間滑動（換頁重繪時從上一次的位置滑過去）
+let chipPrev=null;
+function setupChips(){
+  const box=app.querySelector('.chips:not(.sortseg)');
+  if(!box){chipPrev=null;return}
+  const on=box.querySelector('[aria-pressed="true"]');if(!on) return;
+  const bg=document.createElement('i');bg.className='chips-bg';bg.setAttribute('aria-hidden','true');box.prepend(bg);
+  const key=curKey().startsWith('q-')?'q':'t';
+  const place=()=>{bg.style.width=on.offsetWidth+'px';bg.style.transform=`translateX(${on.offsetLeft}px)`};
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(chipPrev&&chipPrev.key===key&&!reduce){
+    box.classList.add('noanim');bg.style.width=chipPrev.w+'px';bg.style.transform=`translateX(${chipPrev.x}px)`;
+    void bg.offsetWidth;box.classList.remove('noanim');
+    requestAnimationFrame(()=>requestAnimationFrame(place));
+  } else place();
+  chipPrev={key,x:on.offsetLeft,w:on.offsetWidth};
+  if(document.fonts&&document.fonts.status==='loading') document.fonts.ready.then(()=>{if(bg.isConnected){box.classList.add('noanim');place();void bg.offsetWidth;box.classList.remove('noanim')}});
+}
+// 網站上所有「MX」寫法統一成兩個大寫：只處理畫面上的文字節點，不動網址與屬性
+const MX_RE=/\bmx\b/gi;
+function fixMX(root){
+  if(!root) return;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement&&/^(SCRIPT|STYLE|TEXTAREA)$/.test(n.parentElement.tagName)?NodeFilter.FILTER_REJECT:(MX_RE.lastIndex=0,MX_RE.test(n.nodeValue))?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT});
+  const list=[];while(w.nextNode())list.push(w.currentNode);
+  list.forEach(n=>{n.nodeValue=n.nodeValue.replace(MX_RE,'MX')});
+}
+const mxObs=new MutationObserver(ms=>{
+  ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)fixMX(n);else if(n.nodeType===3&&n.parentElement){fixMX(n.parentElement)}}));
+  if(/\bmx\b/i.test(document.title)) document.title=document.title.replace(MX_RE,'MX');
+});
+mxObs.observe(document.getElementById('app'),{childList:true,subtree:true});
+mxObs.observe(document.getElementById('searchPop'),{childList:true,subtree:true});
+function render(keepScroll){
+  if(carouselStop){carouselStop();carouselStop=null}
+  openSearch(false);
+  const h=curKey();
+  document.title=SITE_NAME;
+  document.querySelectorAll('[data-nav]').forEach(a=>{h.startsWith(a.dataset.nav)?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
+  if(h.startsWith('n-')&&byId[h.slice(2)]) article(byId[h.slice(2)]);
+  else if(h==='tips'||h==='materials') listPage(h);
+  else if(h==='feedback') feedback();
+  else if(h.startsWith('q-')){const m=h.slice(2).match(/^(all|mat|mod)-(.*)$/);listPage('search',decodeURIComponent(m?m[2]:h.slice(2)),m?m[1]:'all')}
+  else if(h.startsWith('tutorials')) listPage('tutorials',h.includes('-')?decodeURIComponent(h.slice(10).replace(/_/g,'%')):'');
+  else home();
+  setupChips();
+  if(!keepScroll){window.scrollTo(0,0);if(!matchMedia('(prefers-reduced-motion: reduce)').matches) enter(app)}
+}
+
+/* 搜尋小視窗 */
+const pop=document.getElementById('searchPop'),q=document.getElementById('q'),res=document.getElementById('results'),sb=document.getElementById('searchBtn');
+function openSearch(open){pop.classList.toggle('open',open);if(!open){document.documentElement.classList.remove('lock');clearTimeout(sbTimer);sbar.classList.remove('on')}sb.setAttribute('aria-expanded',open);if(open){moveScopeBg(true);requestAnimationFrame(()=>q.focus());doSearch(false,true)}}
+sb.onclick=e=>{e.stopPropagation();openSearch(!pop.classList.contains('open'))};
+pop.onclick=e=>e.stopPropagation();
+// 在搜尋框內按下滑鼠、拖曳選字後在框外放開，也會觸發 click；只有「按下」和「放開」都在框外才關閉
+let downInPop=false;
+document.addEventListener('pointerdown',e=>{downInPop=!!e.target.closest('#searchPop,#searchBtn')},true);
+document.addEventListener('click',()=>{if(downInPop){downInPop=false;return}openSearch(false)});
+document.addEventListener('click',()=>document.querySelectorAll('.dd.open').forEach(d=>{d.classList.remove('open');d.querySelector('.dd-btn').setAttribute('aria-expanded','false')}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')openSearch(false)});
+let scope='all';
+const SCOPE_NAME={all:'全部',mat:'材料',mod:'改造'};
+const inScope=(n,s)=>s==='mat'?n.type==='material':s==='mod'?n.type==='tutorial':true;
+const scopeEl=document.querySelector('.scope'),scopeBg=scopeEl.querySelector('.scope-bg');
+function moveScopeBg(instant){
+  const b=scopeEl.querySelector('[aria-checked="true"]');if(!b||!b.offsetWidth) return;
+  if(instant){scopeEl.classList.add('noanim');}
+  scopeBg.style.width=b.offsetWidth+'px';scopeBg.style.transform=`translateX(${b.offsetLeft}px)`;
+  if(instant){void scopeBg.offsetWidth;scopeEl.classList.remove('noanim')}
+}
+document.querySelectorAll('.scope button').forEach(b=>b.onclick=()=>{scope=b.dataset.scope;document.querySelectorAll('.scope button').forEach(x=>x.setAttribute('aria-checked',x===b));moveScopeBg();doSearch(true);q.focus()});
+moveScopeBg(true);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>moveScopeBg(true));addEventListener('resize',()=>moveScopeBg(true));
+const findNotes=(k,s='all')=>{k=k.trim().toLowerCase();return k?NOTES.filter(n=>inScope(n,s)&&[n.title,n.specs.inventor,n.specs.alias,n.category,n.tags.join(' '),n.materials.map(m=>m.name).join(' ')].join(' ').toLowerCase().includes(k)):[]};
+document.getElementById('qform').onsubmit=e=>{e.preventDefault();const k=q.value.trim();if(!k)return;openSearch(false);go(keyPath('q-'+scope+'-'+k))};
+function fitResults(){
+  const c=res.children;
+  res.style.maxHeight=c.length>8?(c[8].offsetTop-c[0].offsetTop)+'px':'';
+  document.documentElement.classList.toggle('lock',pop.classList.contains('open')&&res.scrollHeight>res.clientHeight+1);
+}
+let resAnim=null,emptyPending=false;
+const EMPTY_HTML='<div class="empty">找不到符合的筆記</div>';
+const sbar=document.getElementById('rsb'),sbThumb=sbar.firstElementChild;let sbTimer=0;
+function updateSb(){
+  const sh=res.scrollHeight,ch=res.clientHeight;
+  if(!pop.classList.contains('open')||sh<=ch+1){sbar.classList.remove('on');return}
+  const th=Math.max(24,ch*ch/sh);
+  sbar.style.top=res.offsetTop+'px';sbar.style.height=ch+'px';
+  sbThumb.style.height=th+'px';sbThumb.style.transform=`translateY(${res.scrollTop/(sh-ch)*(ch-th)}px)`;
+}
+function scheduleSb(delay,hideNow){clearTimeout(sbTimer);if(hideNow)sbar.classList.remove('on');sbTimer=setTimeout(()=>{updateSb();if(pop.classList.contains('open')&&res.scrollHeight>res.clientHeight+1)sbar.classList.add('on')},delay)}
+res.addEventListener('scroll',updateSb);
+const hitsHtml=hits=>hits.map(n=>`<a href="${notePath(n)}"><span>${esc(n.title)}</span><span class="k">${n.type==='tutorial'?esc(groupOf(n)):(n.type==='material'?'材料':'小技巧')}</span></a>`).join('');
+function doSearch(animate,instant){
+  const k=q.value.trim();
+  const hits=k?findNotes(k,scope):[];
+  // 結果跟畫面上一樣（例如一直輸入都找不到）就不要重新播動畫，避免文字閃爍
+  const nextHTML=!k?'':hits.length?hitsHtml(hits):EMPTY_HTML;
+  if(!instant&&((emptyPending&&!hits.length&&k)||(!resAnim&&nextHTML===res.innerHTML))) return;
+  emptyPending=false;
+  const h0=res.getBoundingClientRect().height;
+  if(resAnim){resAnim.cancel();resAnim=null}
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const can=!instant&&!reduce&&pop.classList.contains('open');
+  const oldHTML=res.innerHTML;
+  res.innerHTML=nextHTML;
+  fitResults();
+  const h1=res.getBoundingClientRect().height;
+  const shrink=h1<h0-1,grow=h1>h0+1,rows=Math.min(res.children.length,14);
+  // 切到「找不到」：舊內容留著，外框先往上縮，縮完文字才淡入
+  if(can&&animate&&k&&!hits.length&&shrink&&oldHTML){
+    const msg=res.innerHTML;res.innerHTML='';fitResults();
+    res.style.overflowY='hidden';
+    const a=resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:380,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'});
+    // 文字比外框收完的時間早 0.2 秒開始淡入
+    let fin=false,shown=false;emptyPending=true;
+    const show=()=>{if(shown||resAnim!==a)return;shown=true;res.innerHTML=msg;stagger(res)};
+    const done=()=>{if(fin||resAnim!==a)return;show();emptyPending=false;fin=true;resAnim=null;a.cancel();res.style.overflowY='';fitResults()};
+    setTimeout(show,180);a.onfinish=done;setTimeout(done,1200);
+    scheduleSb(0,true);
+    return;
+  }
+  // 其他切換：變少 → 文字先由上往下逐行淡入，接著外框往上縮；變多 → 外框先展開，再逐行淡入
+  if(animate&&!reduce&&k) stagger(res,{base:grow?280:0});
+  if(can&&(shrink||grow)){
+    const wait=animate&&shrink?rows*45+160:0;
+    res.style.overflowY='hidden';
+    const a=resAnim=res.animate([{height:h0+'px'},{height:h1+'px'}],{duration:380,delay:wait,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'});
+    const done=()=>{if(resAnim===a){resAnim=null;a.cancel();res.style.overflowY=''}};
+    a.onfinish=done;
+    setTimeout(done,wait+1000);
+  }
+  // 捲軸最後才出現：等高度動畫與文字淡入都完成
+  const rowsShown=Math.min(res.children.length,8);
+  scheduleSb(instant?550:animate?(grow?280:0)+(shrink?rows*45+160:0)+rowsShown*45+150:150,animate||instant);
+}
+const qrow=document.getElementById('qform');
+const cl=document.getElementById('qclear');let clOn=false,clAnim=null,hadText=false;
+const reduceMo=()=>matchMedia('(prefers-reduced-motion:reduce)').matches;
+function setClear(on){
+  if(on===clOn) return;clOn=on;
+  // 從目前畫面上的狀態接著動，快速刪除再輸入時動畫才不會中斷
+  const cs=getComputedStyle(cl),from=parseFloat(cs.opacity),tx=new DOMMatrixReadOnly(cs.transform).m41;
+  qrow.classList.toggle('has',on);
+  if(clAnim){clAnim.cancel();clAnim=null}
+  if(reduceMo()) return;
+  const kf=on?[{opacity:from,transform:`translateX(${from<1?(tx||8*(1-from)):0}px)`},{opacity:1,transform:'none'}]:[{opacity:from,transform:`translateX(${tx}px)`},{opacity:0,transform:`translateX(${tx}px)`}];
+  clAnim=cl.animate(kf,{duration:450,easing:'cubic-bezier(.16,1,.3,1)'});
+}
+const syncClear=()=>{
+  if(q.classList.contains('fading')){clearTimeout(window.__qc);q.classList.remove('fading')}
+  const has=q.value.length>0;
+  setClear(has);
+  // 文字刪光時，提示文字淡入
+  if(!has&&hadText&&!reduceMo()){q.classList.add('ph0');void q.offsetWidth;q.classList.remove('ph0')}
+  hadText=has;
+};
+q.addEventListener('input',syncClear);
+document.getElementById('qclear').onclick=()=>{
+  q.focus();
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){q.value='';syncClear();doSearch(false);return}
+  q.classList.add('fading');setClear(false);
+  clearTimeout(window.__qc);
+  window.__qc=setTimeout(()=>{q.value='';hadText=false;void q.offsetWidth;q.classList.remove('fading');doSearch(false)},300);
+};
+q.oninput=()=>doSearch(false);
+res.onclick=e=>{if(e.target.closest('a'))openSearch(false)};
+
+/* 黑／白兩種主題：預設白色，使用者切換後記住選擇 */
+const tb=document.getElementById('themeBtn');
+const isDark=()=>document.documentElement.dataset.theme==='dark';
+const ICON={moon:'M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z',sun:'M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z'};
+const paint=()=>{const d=isDark();tb.querySelector('path').setAttribute('d',d?ICON.sun:ICON.moon);tb.setAttribute('aria-label',d?'切換為淺色模式':'切換為深色模式')};
+try{const t=localStorage.getItem('twps-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+tb.onclick=()=>{const t=isDark()?'light':'dark';const el=document.documentElement;el.classList.add('theme-fade');clearTimeout(window.__tf);window.__tf=setTimeout(()=>el.classList.remove('theme-fade'),650);el.dataset.theme=t;try{localStorage.setItem('twps-theme',t)}catch(e){}paint()};
+paint();
+
+async function boot(){
+  const D=window.INLINE_DATA||await (await fetch('/data.json',{cache:'no-cache'})).json();
+  NOTES=D.notes;IMGS=D.imgs||{};RECENT=D.recent;
+  byId=Object.fromEntries(NOTES.map(n=>[n.id,n]));
+  tutorials=NOTES.filter(n=>n.type==='tutorial');
+  bySlug=Object.fromEntries(NOTES.map(n=>[`${SECTION[n.type]||'tips'}/${(n.slug||n.id).toLowerCase()}`,n]));
+  legacyHash();
+  window.addEventListener('popstate',route);
+  route();
+}
+boot();
+</script>
+
+</body>
+</html>
