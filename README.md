@@ -34,3 +34,10 @@ python -m http.server 8000 -d dist
 ## 設定
 
 GitHub repo 的 **Settings → Secrets and variables → Actions** 需要一個 `HACKMD_TOKEN`（HackMD 設定頁的 API token）。沒有也能運作，只是「最近更新」會改用目錄順序。
+
+## 網站
+
+- 名稱：紡 TSUMUGI（非官方整理，部分內容整理自 TWPS 改筆百科 HackMD 團隊筆記）
+- 網址：https://tsumugi-works.pages.dev（Cloudflare Pages 專案 `tsumugi-works`，輸出 `dist/`）
+- 舊網址 twps-modding-wiki.pages.dev：Cloudflare 專案改為輸出 `legacy/`，整站 301 轉到新網址
+- 網址路徑：`/mods/`、`/mods/dual|g3|vp-mx/`、`/mods/<代稱>/`、`/materials/`、`/tips/`、`/search/?q=`、`/wish/`；代稱記在 `content/slugs.json`，中文標題的代稱在 `site/slugs.json` 指定

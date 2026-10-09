@@ -21,7 +21,7 @@ description: 整理一篇改筆教學並上架到 TWPS 改筆百科。使用者�
 **階段二：使用者說「上傳」後才做**
 1. 在總目錄（`SlgLCaoxRb6avBEJNptVlQ`）對應分類最後加 `[筆名](/筆記ID)`，更新「最後更新日期」。
 2. 到 GitHub annvi23/twps-modding-wiki 的 Actions → Sync from HackMD → Run workflow。
-3. 等部署完成後打開 https://twps-modding-wiki.pages.dev 確認新教學出現在「最近更新」。
+3. 等部署完成後打開 https://tsumugi-works.pages.dev 確認新教學出現在「最近更新」。
 
 ## 注意
 - 使用者說過瀏覽器操作不必逐一確認，但上架（加進總目錄）一定要等他說「上傳」。
